@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Ruokalista</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_login">Log in</string>
+    <string name="login_signup">Sign up</string>
+
+    <string name="signup_username">Username</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_createaccount">Create</string>
+    <string name="signup_cancel">Cancel</string>
+    <string name="signup_alertdialog_notsaved">Account not created</string>
+    <string name="signup_alertdialog_confirm">Are you sure that you want to exit? All your changes will be removed</string>
+    <string name="signup_alertdialog_exit">Exit</string>
+    <string name="signup_alertdialog_keepediting">Keep editing</string>
+    <string name="signup_passwordagain">Password again</string>
+    <string name="signup_password_tooshort">Password is too short (min 12 chars)</string>
+    <string name="signup_password_uppercase">Password must have an uppercase character</string>
+    <string name="signup_password_lowercase">Password must have a lowercase character</string>
+    <string name="signup_password_toolong">Password is too long (max 32 chars)</string>
+</resources>

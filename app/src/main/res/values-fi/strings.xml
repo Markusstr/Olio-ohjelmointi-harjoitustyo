@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Ruokalista</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Asetukset</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <string name="login_username">Käyttäjätunnus</string>
+    <string name="login_password">Salasana</string>
+    <string name="login_login">Kirjaudu</string>
+    <string name="login_signup">Luo käyttäjä</string>
+
+    <string name="signup_username">Käyttäjätunnus</string>
+    <string name="signup_password">Salasana</string>
+    <string name="signup_createaccount">Luo tunnus</string>
+    <string name="signup_cancel">Peruuta</string>
+    <string name="signup_alertdialog_confirm">Oletko varma että haluat poistua? Kaikki muutoksesi poistetaan</string>
+    <string name="signup_alertdialog_exit">Poistu</string>
+    <string name="signup_alertdialog_keepediting">Jatka muokkausta</string>
+    <string name="signup_alertdialog_notsaved">Käyttäjätunnusta ei luotu</string>
+    <string name="signup_passwordagain">Salasana uudestaan</string>
+    <string name="signup_password_lowercase">Salasanassa pitää olla pieni kirjain</string>
+    <string name="signup_password_tooshort">Salasana on liian lyhyt (min 12 merkkiä)</string>
+    <string name="signup_password_uppercase">Salasanassa pitää olla iso kirjain</string>
+    <string name="signup_password_toolong">Salasna on liian pitkä (max 32 merkkiä)</string>
+</resources>
