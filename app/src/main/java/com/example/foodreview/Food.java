@@ -5,7 +5,21 @@ public class Food {
     private String id;
     private double price;
 
-    public Food() {
+    public Food(String newName, String newId, double newPrice) {
+        name = newName;
+        id = newId;
+        price = newPrice;
+    }
 
+    public String getFoodName() {
+        return name;
+    }
+
+    public String getFoodId() {
+        return id;
+    }
+
+    public double getFoodPrice() {
+        return price;
     }
 }

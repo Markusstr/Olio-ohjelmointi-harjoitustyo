@@ -7,12 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Asetukset</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_home">Päänäkymä</string>
 
     <string name="login_username">Käyttäjätunnus</string>
     <string name="login_password">Salasana</string>
@@ -32,4 +27,7 @@
     <string name="signup_password_tooshort">Salasana on liian lyhyt (min 12 merkkiä)</string>
     <string name="signup_password_uppercase">Salasanassa pitää olla iso kirjain</string>
     <string name="signup_password_toolong">Salasna on liian pitkä (max 32 merkkiä)</string>
+    <string name="menu_profile">Profiili</string>
+    <string name="university">Yliopisto:</string>
+    <string name="menu_log_out">Kirjaudu ulos</string>
 </resources>
