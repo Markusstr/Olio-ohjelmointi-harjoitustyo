@@ -1,6 +1,5 @@
-package com.example.ruokalista;
+package com.example.foodreview;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -195,16 +194,19 @@ public class SignUpActivity extends AppCompatActivity {
         if (password.getText().toString().length() < 12) {
             message = message.concat(getResources().getString(R.string.signup_password_tooshort) + "\n");
         }
-        /*if (password.getText().toString().length() > 32) {
-            message = message.concat(getResources().getString(R.string.//TODO: signup_password_toolong));
-        }*/
+        if (password.getText().toString().length() > 32) {
+            message = message.concat(getResources().getString(R.string.signup_password_toolong));
+        }
         if (password.getText().toString().equals(password.getText().toString().toLowerCase())) {
             message = message.concat(getResources().getString(R.string.signup_password_uppercase) + "\n");
         }
         if (password.getText().toString().equals(password.getText().toString().toUpperCase())) {
             message = message.concat(getResources().getString(R.string.signup_password_lowercase) + "\n");
         }
+
         //TODO: Check if password contains special letter
+
+        //TODO: Check if password contains numbers
 
         return message;
     }
