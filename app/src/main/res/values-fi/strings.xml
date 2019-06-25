@@ -32,4 +32,8 @@
     <string name="signup_password_tooshort">Salasana on liian lyhyt (min 12 merkkiä)</string>
     <string name="signup_password_uppercase">Salasanassa pitää olla iso kirjain</string>
     <string name="signup_password_toolong">Salasna on liian pitkä (max 32 merkkiä)</string>
+    <string name="signup_password_nonumbers">Salasanassa pitää olla numero</string>
+    <string name="signup_password_notequal">Salasanat eivät ole samoja</string>
+    <string name="signup_password_nospecialchar">Salasanassa pitää olla erikoismerkki</string>
+    <string name="signup_wrongusername">Käyttäjätunnuksen pitää olla vähintään 6 merkin pituinen</string>
 </resources>

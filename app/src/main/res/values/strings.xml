@@ -32,4 +32,8 @@
     <string name="signup_password_uppercase">Password must have an uppercase character</string>
     <string name="signup_password_lowercase">Password must have a lowercase character</string>
     <string name="signup_password_toolong">Password is too long (max 32 chars)</string>
+    <string name="signup_password_nonumbers">Password must have a number</string>
+    <string name="signup_password_notequal">Passwords are not the same</string>
+    <string name="signup_password_nospecialchar">Password must have a special character</string>
+    <string name="signup_wrongusername">Username must be atleast 6 and max 16 characters long</string>
 </resources>
