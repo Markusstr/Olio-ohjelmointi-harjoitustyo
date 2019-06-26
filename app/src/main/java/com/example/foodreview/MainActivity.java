@@ -14,25 +14,36 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    Spinner universities;
+    University university;
+    ArrayAdapter<String> adapterUni;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Starts the log in activity first
         Intent intent = new Intent(this, LogInActivity.class);
         startActivityForResult(intent, 1);
 
-
         setContentView(R.layout.activity_main);
+        university = University.getInstance();
+        universities = findViewById(R.id.universitySpinner);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "gerbiili", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -43,6 +54,20 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        //Creates the list of universities
+        university.newUni("LUT", "LUT"); //TODO TEMPORARY
+        ArrayList<String> uniNames = new ArrayList<>();
+        for (int i = 0; i < university.uniList.size(); i++) {
+            if (!uniNames.contains(university.uniList.get(i).getUniName())) {
+                uniNames.add(university.uniList.get(i).getUniName());
+            }
+        }
+
+        adapterUni = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
+        adapterUni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        universities.setAdapter(adapterUni);
     }
 
     @Override
@@ -72,6 +97,7 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+            //TODO Settings activity
         }
 
         return super.onOptionsItemSelected(item);
@@ -84,17 +110,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            //TODO Handle the main menu action
+        } else if (id == R.id.nav_profile) {
+            //TODO Handle the profile action
+        } else if (id == R.id.nav_log_out) {
+            //TODO Handle logging out
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
