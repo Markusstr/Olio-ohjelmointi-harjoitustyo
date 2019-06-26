@@ -13,16 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.regex.Pattern;
-
 public class SignUpActivity extends AppCompatActivity {
     private EditText username, password, passwordagain;
-    private Button create, cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        final Button create, cancel;
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         passwordagain = findViewById(R.id.passwordagain);
@@ -153,6 +152,8 @@ public class SignUpActivity extends AppCompatActivity {
                 //If the password fulfills all the requirements (error message is empty), we will create new user
                 else {
                     //TODO: Check if user with this username is already created
+
+                    //TODO: SQL database
                     closeActivity(1);
                 }
             }
@@ -231,6 +232,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else {
             setResult(RESULT_OK, intent);
+            intent.putExtra("username", username.getText().toString());
         }
         finish();
     }

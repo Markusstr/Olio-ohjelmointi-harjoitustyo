@@ -36,4 +36,6 @@
     <string name="signup_password_notequal">Passwords are not the same</string>
     <string name="signup_password_nospecialchar">Password must have a special character</string>
     <string name="signup_wrongusername">Username must be atleast 6 and max 16 characters long</string>
+    <string name="login_usercreated1">User</string>
+    <string name="login_usercreated2">created</string>
 </resources>

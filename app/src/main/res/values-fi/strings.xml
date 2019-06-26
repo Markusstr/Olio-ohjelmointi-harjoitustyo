@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ruokalista</string>
+    <string name="app_name">Ruoka-arvostelu</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -36,4 +36,6 @@
     <string name="signup_password_notequal">Salasanat eivät ole samoja</string>
     <string name="signup_password_nospecialchar">Salasanassa pitää olla erikoismerkki</string>
     <string name="signup_wrongusername">Käyttäjätunnuksen pitää olla vähintään 6 ja korkeintaan 16 merkin pituinen</string>
+    <string name="login_usercreated1">Käyttäjä</string>
+    <string name="login_usercreated2">luotu</string>
 </resources>

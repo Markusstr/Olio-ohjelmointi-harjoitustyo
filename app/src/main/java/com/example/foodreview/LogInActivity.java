@@ -9,19 +9,23 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class LogInActivity extends AppCompatActivity {
-    private Button login, signup;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+        final Button login, signup;
+
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: SQL database
                 finish();
             }
         });
@@ -41,11 +45,12 @@ public class LogInActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "User created" /*TODO: User {username} created successfully */, Toast.LENGTH_SHORT).show();
+                assert data != null;
+                Toast.makeText(this, getResources().getString(R.string.login_usercreated1) + " " + data.getStringExtra("username") + " " + getResources().getString(R.string.login_usercreated2), Toast.LENGTH_SHORT).show();
             }
-            else {
-                Toast.makeText(this, "Cancelled" /*TODO: string*/, Toast.LENGTH_SHORT).show();
-            }
+//            else {
+//                Toast.makeText(this, "Cancelled" , Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 }
