@@ -1,6 +1,7 @@
 package com.example.foodreview;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -152,7 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
                 //If the password fulfills all the requirements (error message is empty), we will create new user
                 else {
                     //TODO: Check if user with this username is already created
-                    finish();
+                    closeActivity(1);
                 }
             }
         });
@@ -182,7 +183,7 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             //onClickListener if user clicks exit
                             dialog.cancel();
-                            finish();
+                            closeActivity(-1);
                         }
                     })
                     //Keep editing button doesn't need onClickListener because it just goes back to the activity
@@ -191,7 +192,7 @@ public class SignUpActivity extends AppCompatActivity {
                     .show();
         }
         else {
-            finish();
+            closeActivity(-1);
         }
     }
 
@@ -220,5 +221,19 @@ public class SignUpActivity extends AppCompatActivity {
 
         return message;
     }
+
+    private void closeActivity(int endResult) {
+        Intent intent = new Intent();
+        //Activity can be ended two different ways: user creates new account successfully or user presses cancel
+        //If cancel is pressed endResult equals -1 and activity is ended with RESULT_CANCELLED, otherwise with RESULT_OK
+        if (endResult == -1) {
+            setResult(RESULT_CANCELED, intent);
+        }
+        else {
+            setResult(RESULT_OK, intent);
+        }
+        finish();
+    }
+
 
 }
