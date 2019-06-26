@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "gerbiili", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "gerbiili", Snackbar.LENGTH_LONG) //memes
                         .setAction("Action", null).show();
             }
         });
@@ -114,7 +114,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             //TODO Handle the profile action
         } else if (id == R.id.nav_log_out) {
-            //TODO Handle logging out
+            //TODO Handle logging out properly
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
