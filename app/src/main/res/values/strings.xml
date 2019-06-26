@@ -9,7 +9,6 @@
 
     <string name="menu_home">Main menu</string>
     <string name="menu_profile">Profile</string>
-    <string name="university">University:</string>
     <string name="menu_log_out">Log out</string>
 
     <string name="login_username">Username</string>
@@ -36,4 +35,6 @@
     <string name="signup_wrongusername">Username must be atleast 6 and max 16 characters long</string>
     <string name="login_usercreated1">User</string>
     <string name="login_usercreated2">created</string>
+
+    <string name="university">University:</string>
 </resources>
