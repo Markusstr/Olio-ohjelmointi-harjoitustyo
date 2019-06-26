@@ -29,11 +29,6 @@
     <string name="signup_password_uppercase">Password must have an uppercase character</string>
     <string name="signup_password_lowercase">Password must have a lowercase character</string>
     <string name="signup_password_toolong">Password is too long (max 32 chars)</string>
-<<<<<<<<< Temporary merge branch 1
-    <string name="menu_profile">Profile</string>
-    <string name="university">University:</string>
-    <string name="menu_log_out">Log out</string>
-=========
     <string name="signup_password_nonumbers">Password must have a number</string>
     <string name="signup_password_notequal">Passwords are not the same</string>
     <string name="signup_password_nospecialchar">Password must have a special character</string>
