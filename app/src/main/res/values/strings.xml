@@ -7,12 +7,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_home">Main menu</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_log_out">Log out</string>
 
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
@@ -32,10 +29,17 @@
     <string name="signup_password_uppercase">Password must have an uppercase character</string>
     <string name="signup_password_lowercase">Password must have a lowercase character</string>
     <string name="signup_password_toolong">Password is too long (max 32 chars)</string>
+<<<<<<<<< Temporary merge branch 1
+    <string name="menu_profile">Profile</string>
+    <string name="university">University:</string>
+    <string name="menu_log_out">Log out</string>
+=========
     <string name="signup_password_nonumbers">Password must have a number</string>
     <string name="signup_password_notequal">Passwords are not the same</string>
     <string name="signup_password_nospecialchar">Password must have a special character</string>
     <string name="signup_wrongusername">Username must be atleast 6 and max 16 characters long</string>
     <string name="login_usercreated1">User</string>
     <string name="login_usercreated2">created</string>
+
+    <string name="university">University:</string>
 </resources>
