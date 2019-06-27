@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -26,7 +25,6 @@ public class MainActivity extends AppCompatActivity
     Spinner restaurants;
     University university;
     Restaurant restaurant;
-    ArrayAdapter<String> adapterUni;
     ArrayAdapter<String> adapterRestaurant;
 
     @Override
@@ -58,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
 
 
         //Creates the list of universities
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        adapterUni = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
+        ArrayAdapter<String> adapterUni = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
         adapterUni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         universities.setAdapter(adapterUni);
 
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        adapterRestaurant = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, restaurantNames);
+        adapterRestaurant = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, restaurantNames);
         adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         restaurants.setAdapter(adapterRestaurant);
     }
@@ -107,6 +106,10 @@ public class MainActivity extends AppCompatActivity
             //TODO Handle the main menu action
         } else if (id == R.id.nav_profile) {
             //TODO Handle the profile action
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_log_out) {
             //TODO Handle logging out properly
             Intent intent = new Intent(this, MainActivity.class);
