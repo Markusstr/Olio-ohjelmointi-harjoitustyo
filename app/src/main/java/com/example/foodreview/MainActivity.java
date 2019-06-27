@@ -10,13 +10,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -24,8 +23,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Spinner universities;
+    Spinner restaurants;
     University university;
+    Restaurant restaurant;
     ArrayAdapter<String> adapterUni;
+    ArrayAdapter<String> adapterRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,9 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
         university = University.getInstance();
+        restaurant = Restaurant.getInstance();
         universities = findViewById(R.id.universitySpinner);
+        restaurants = findViewById(R.id.restaurantSpinner);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -68,6 +72,18 @@ public class MainActivity extends AppCompatActivity
         adapterUni = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
         adapterUni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         universities.setAdapter(adapterUni);
+
+        restaurant.newRestaurant("Aalef", "AALEF");
+        ArrayList<String> restaurantNames = new ArrayList<>();
+        for (int i = 0; i < restaurant.restaurantList.size(); i++) {
+            if (!restaurantNames.contains(restaurant.restaurantList.get(i).getRestaurantName())) {
+                restaurantNames.add(restaurant.restaurantList.get(i).getRestaurantName());
+            }
+        }
+
+        adapterRestaurant = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, restaurantNames);
+        adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        restaurants.setAdapter(adapterRestaurant);
     }
 
     @Override
