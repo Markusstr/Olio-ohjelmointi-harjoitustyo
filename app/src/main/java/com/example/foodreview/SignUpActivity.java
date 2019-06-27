@@ -1,7 +1,8 @@
-package com.example.ruokalista;
+package com.example.foodreview;
 
-import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +12,16 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText username, password, passwordagain;
-    private Button create, cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        final Button create, cancel;
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         passwordagain = findViewById(R.id.passwordagain);
@@ -111,12 +112,15 @@ public class SignUpActivity extends AppCompatActivity {
                 String message = passwordCheck();
                 //Print the message to user if it's not empty
                 if (!message.isEmpty()) {
-                    Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(v, message, Snackbar.LENGTH_LONG).show();
                 }
                 else if (!passwordagain.getText().toString().equals(password.getText().toString())) {
-                    //Toast.makeText(SignUpActivity.this, "Salasanat eivät ole samat", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(v, getResources().getString(R.string.signup_password_notequal), Snackbar.LENGTH_LONG).show();
+                    passwordagain.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.error));
+                    passwordagain.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_error, 0);
                 }
-                else if (username.getText().toString().length() < 6) {
+                else if (username.getText().toString().length() < 6 || username.getText().toString().length() > 16) {
+                    Snackbar.make(v, getResources().getString(R.string.signup_wrongusername), Snackbar.LENGTH_LONG).show();
                     username.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.error));
                     username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, R.drawable.ic_error, 0);
                     username.addTextChangedListener(new TextWatcher() {
@@ -132,7 +136,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void afterTextChanged(Editable s) {
-                            if (username.getText().toString().length() < 6) {
+                            if (username.getText().toString().length() < 6 || username.getText().toString().length() > 16) {
                                 username.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.error));
                                 username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, R.drawable.ic_error, 0);
 
@@ -148,7 +152,9 @@ public class SignUpActivity extends AppCompatActivity {
                 //If the password fulfills all the requirements (error message is empty), we will create new user
                 else {
                     //TODO: Check if user with this username is already created
-                    finish();
+
+                    //TODO: SQL database
+                    closeActivity(1);
                 }
             }
         });
@@ -177,7 +183,8 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //onClickListener if user clicks exit
-                            finish();
+                            dialog.cancel();
+                            closeActivity(-1);
                         }
                     })
                     //Keep editing button doesn't need onClickListener because it just goes back to the activity
@@ -186,7 +193,7 @@ public class SignUpActivity extends AppCompatActivity {
                     .show();
         }
         else {
-            finish();
+            closeActivity(-1);
         }
     }
 
@@ -195,18 +202,40 @@ public class SignUpActivity extends AppCompatActivity {
         if (password.getText().toString().length() < 12) {
             message = message.concat(getResources().getString(R.string.signup_password_tooshort) + "\n");
         }
-        /*if (password.getText().toString().length() > 32) {
-            message = message.concat(getResources().getString(R.string.//TODO: signup_password_toolong));
-        }*/
+        if (password.getText().toString().length() > 32) {
+            message = message.concat(getResources().getString(R.string.signup_password_toolong) + "\n");
+        }
         if (password.getText().toString().equals(password.getText().toString().toLowerCase())) {
             message = message.concat(getResources().getString(R.string.signup_password_uppercase) + "\n");
         }
         if (password.getText().toString().equals(password.getText().toString().toUpperCase())) {
             message = message.concat(getResources().getString(R.string.signup_password_lowercase) + "\n");
         }
-        //TODO: Check if password contains special letter
+        if (!password.getText().toString().matches(".*\\d.*")) {
+            message = message.concat(getResources().getString(R.string.signup_password_nonumbers) + "\n");
+        }
+
+//        if (!Pattern.compile("(?=.*[@#$%^&+=])").matcher(password.getText().toString()).matches()) {
+//            message = message.concat(getResources().getString(R.string.signup_password_nospecialchar));
+//        }
+//        TODO: Check if password contains special letter
 
         return message;
     }
+
+    private void closeActivity(int endResult) {
+        Intent intent = new Intent();
+        //Activity can be ended two different ways: user creates new account successfully or user presses cancel
+        //If cancel is pressed endResult equals -1 and activity is ended with RESULT_CANCELLED, otherwise with RESULT_OK
+        if (endResult == -1) {
+            setResult(RESULT_CANCELED, intent);
+        }
+        else {
+            setResult(RESULT_OK, intent);
+            intent.putExtra("username", username.getText().toString());
+        }
+        finish();
+    }
+
 
 }

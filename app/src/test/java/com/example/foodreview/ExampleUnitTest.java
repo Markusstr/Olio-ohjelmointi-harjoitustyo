@@ -1,4 +1,4 @@
-package com.example.ruokalista;
+package com.example.foodreview;
 
 import org.junit.Test;
 

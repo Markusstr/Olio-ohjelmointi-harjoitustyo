@@ -1,18 +1,15 @@
 <resources>
-    <string name="app_name">Ruokalista</string>
+    <string name="app_name">Ruoka-arvostelu</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Ruoka-arvostelu</string>
+    <string name="nav_header_subtitle">Testi käyttäjä</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Asetukset</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_home">Päänäkymä</string>
+    <string name="menu_profile">Profiili</string>
+    <string name="menu_log_out">Kirjaudu ulos</string>
 
     <string name="login_username">Käyttäjätunnus</string>
     <string name="login_password">Salasana</string>
@@ -32,4 +29,12 @@
     <string name="signup_password_tooshort">Salasana on liian lyhyt (min 12 merkkiä)</string>
     <string name="signup_password_uppercase">Salasanassa pitää olla iso kirjain</string>
     <string name="signup_password_toolong">Salasna on liian pitkä (max 32 merkkiä)</string>
+    <string name="signup_password_nonumbers">Salasanassa pitää olla numero</string>
+    <string name="signup_password_notequal">Salasanat eivät ole samoja</string>
+    <string name="signup_password_nospecialchar">Salasanassa pitää olla erikoismerkki</string>
+    <string name="signup_wrongusername">Käyttäjätunnuksen pitää olla vähintään 6 ja korkeintaan 16 merkin pituinen</string>
+    <string name="login_usercreated1">Käyttäjä</string>
+    <string name="login_usercreated2">luotu</string>
+
+    <string name="university">Yliopisto:</string>
 </resources>
