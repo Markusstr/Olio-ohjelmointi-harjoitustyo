@@ -203,7 +203,7 @@ public class SignUpActivity extends AppCompatActivity {
             message = message.concat(getResources().getString(R.string.signup_password_tooshort) + "\n");
         }
         if (password.getText().toString().length() > 32) {
-            message = message.concat(getResources().getString(R.string.signup_password_toolong));
+            message = message.concat(getResources().getString(R.string.signup_password_toolong) + "\n");
         }
         if (password.getText().toString().equals(password.getText().toString().toLowerCase())) {
             message = message.concat(getResources().getString(R.string.signup_password_uppercase) + "\n");
@@ -212,7 +212,7 @@ public class SignUpActivity extends AppCompatActivity {
             message = message.concat(getResources().getString(R.string.signup_password_lowercase) + "\n");
         }
         if (!password.getText().toString().matches(".*\\d.*")) {
-            message = message.concat(getResources().getString(R.string.signup_password_nonumbers));
+            message = message.concat(getResources().getString(R.string.signup_password_nonumbers) + "\n");
         }
 
 //        if (!Pattern.compile("(?=.*[@#$%^&+=])").matcher(password.getText().toString()).matches()) {
