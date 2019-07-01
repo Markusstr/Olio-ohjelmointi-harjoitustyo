@@ -8,11 +8,15 @@ public class Food {
     private double price;
     ArrayList<Food> foodList = new ArrayList<>();
 
+    private static Food food = new Food();
+
+    static Food getInstance() { return food; }
+
     private Food() {
 
     }
 
-    public String getFoodName() {
+    String getFoodName() {
         return name;
     }
 
@@ -20,11 +24,11 @@ public class Food {
         return id;
     }
 
-    public double getFoodPrice() {
+    double getFoodPrice() {
         return price;
     }
 
-    public void newFood(String newName, String newId, double newPrice) {
+    void newFood(String newName, String newId, double newPrice) {
         Food newFood = new Food();
         newFood.name = newName;
         newFood.id = newId;
