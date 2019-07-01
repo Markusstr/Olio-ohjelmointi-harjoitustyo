@@ -164,4 +164,9 @@ public class MainActivity extends AppCompatActivity
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "You clicked " + radapter.getName(position), Toast.LENGTH_SHORT).show();
     }
+
+    public void reviewClick(View view) {
+        Toast.makeText(this, "5/5", Toast.LENGTH_SHORT).show(); //TODO writing a review
+
+    }
 }

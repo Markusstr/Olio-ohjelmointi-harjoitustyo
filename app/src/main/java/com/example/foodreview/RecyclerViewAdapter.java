@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Double> mDataPrices;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private Button mReview;
 
     // data is passed into the constructor
     RecyclerViewAdapter(Context context, List<String> dataNames, List<Double> dataPrices) {
@@ -53,11 +55,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView foodName;
         TextView foodPrice;
+        Button review;
 
         ViewHolder(View itemView) {
             super(itemView);
             foodName = itemView.findViewById(R.id.foodName);
             foodPrice = itemView.findViewById(R.id.foodPrice);
+            review = itemView.findViewById(R.id.reviewButton);
             itemView.setOnClickListener(this);
         }
 
@@ -81,4 +85,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
+
 }
