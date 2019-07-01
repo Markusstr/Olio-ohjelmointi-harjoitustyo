@@ -37,4 +37,7 @@
     <string name="login_usercreated2">created</string>
 
     <string name="university">University:</string>
+    <string name="restaurant">Restaurant:</string>
+    <string name="settings_title">Settings</string>
+    <string name="button_review">Give a review</string>
 </resources>

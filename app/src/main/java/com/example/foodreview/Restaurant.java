@@ -1,12 +1,18 @@
 package com.example.foodreview;
 
+import java.util.ArrayList;
+
 public class Restaurant {
     private String name;
     private String id;
+    ArrayList<Restaurant> restaurantList = new ArrayList<>();
 
-    public Restaurant(String newName, String newId) {
-        name = newName;
-        id = newId;
+    private static Restaurant restaurant = new Restaurant();
+
+    public static Restaurant getInstance() { return restaurant; }
+
+    private Restaurant() {
+
     }
 
     public String getRestaurantName() {
@@ -15,5 +21,12 @@ public class Restaurant {
 
     public String getRestaurantId() {
         return id;
+    }
+
+    public void newRestaurant(String newName, String newId) {
+        Restaurant newRestaurant = new Restaurant();
+        newRestaurant.name = newName;
+        newRestaurant.id = newId;
+        restaurantList.add(newRestaurant);
     }
 }

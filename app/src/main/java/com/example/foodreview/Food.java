@@ -1,17 +1,22 @@
 package com.example.foodreview;
 
+import java.util.ArrayList;
+
 public class Food {
     private String name;
     private String id;
     private double price;
+    ArrayList<Food> foodList = new ArrayList<>();
 
-    public Food(String newName, String newId, double newPrice) {
-        name = newName;
-        id = newId;
-        price = newPrice;
+    private static Food food = new Food();
+
+    static Food getInstance() { return food; }
+
+    private Food() {
+
     }
 
-    public String getFoodName() {
+    String getFoodName() {
         return name;
     }
 
@@ -19,7 +24,15 @@ public class Food {
         return id;
     }
 
-    public double getFoodPrice() {
+    double getFoodPrice() {
         return price;
+    }
+
+    void newFood(String newName, String newId, double newPrice) {
+        Food newFood = new Food();
+        newFood.name = newName;
+        newFood.id = newId;
+        newFood.price = newPrice;
+        foodList.add(newFood);
     }
 }

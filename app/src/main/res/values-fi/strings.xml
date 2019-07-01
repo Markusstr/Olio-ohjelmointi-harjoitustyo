@@ -3,7 +3,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Ruoka-arvostelu</string>
-    <string name="nav_header_subtitle">Testi käyttäjä</string>
+    <string name="nav_header_subtitle">Testikäyttäjä</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Asetukset</string>
 
@@ -37,4 +37,7 @@
     <string name="login_usercreated2">luotu</string>
 
     <string name="university">Yliopisto:</string>
+    <string name="restaurant">Ravintola:</string>
+    <string name="settings_title">Asetukset</string>
+    <string name="button_review">Anna arvostelu</string>
 </resources>
