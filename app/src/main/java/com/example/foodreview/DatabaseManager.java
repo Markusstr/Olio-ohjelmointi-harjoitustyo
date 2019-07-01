@@ -92,6 +92,27 @@ class DatabaseManager {
         return false;
     }
 
+    boolean checkExistance (String username) {
+        databaseCursor = getCursor();
+        databaseCursor.moveToFirst();
+        int length = databaseCursor.getCount();
+
+        if (databaseCursor.getCount() <= 0) {
+            return false;
+        }
+        else {
+
+            for (int x = 0; x < length; x++) {
+                databaseCursor.moveToPosition(x);
+                String dbUserName = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_USERNAME));
+                if (dbUserName.equals(username)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 /*    String getData () {
         return "";
     }*/

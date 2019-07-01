@@ -1,5 +1,6 @@
 package com.example.foodreview;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -12,9 +13,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText username, password, passwordagain;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
         create = findViewById(R.id.create);
         cancel = findViewById(R.id.cancel);
 
+        final DatabaseManager dbmsSU = DatabaseManager.getInstance(context);
 
         passwordagain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -151,7 +155,19 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 //If the password fulfills all the requirements (error message is empty), we will create new user
                 else {
-                    //TODO: Check if user with this username is already created
+                    String newUsername = username.getText().toString().trim();
+                    String newPassword = password.getText().toString().trim();
+                    //Check if user with this username has already been created
+                    if (!dbmsSU.checkExistance(newUsername)) {
+                        dbmsSU.addItem(newUsername, newPassword);
+                    }
+                    else {
+                        Toast.makeText(context, "Unfortunately this username has already been taken. Please choose another one.", Toast.LENGTH_SHORT).show();
+                        //TODO: Color accent when username unavailable
+                        //TODO: Database to ArrayList for faster processing?
+                    }
+
+
 
                     //TODO: SQL database
                     closeActivity(1);
