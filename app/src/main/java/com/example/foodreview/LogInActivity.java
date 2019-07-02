@@ -1,32 +1,50 @@
 package com.example.foodreview;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class LogInActivity extends AppCompatActivity {
 
-
+    Context context;
+    EditText loginText, passwordText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        context = this;
 
         final Button login, signup;
+        final DatabaseManager dbms = DatabaseManager.getInstance(context);
 
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
+        loginText = findViewById(R.id.usernameEditText);
+        passwordText = findViewById(R.id.passwordEditText);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: SQL database
-                finish();
+                String username = loginText.getText().toString().trim();
+                String password = passwordText.getText().toString().trim();
+                if (dbms.searchDatabase(username, password)) {
+                    Intent mainActivityIntent = new Intent();
+                    setResult(RESULT_OK, mainActivityIntent);
+                    mainActivityIntent.putExtra("username",username);
+                    finish();
+
+                }
+                else {
+                    //TODO: Something to indicate failed login.
+                    System.out.println("Not logging in.");
+                }
             }
         });
 

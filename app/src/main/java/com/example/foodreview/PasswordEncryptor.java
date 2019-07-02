@@ -8,6 +8,7 @@ class PasswordEncryptor {
 
     private static PasswordEncryptor instance = null;
 
+    //This class also functions as a singleton.
     private PasswordEncryptor() {}
 
     static PasswordEncryptor getInstance() {
@@ -21,7 +22,7 @@ class PasswordEncryptor {
     }
 
 
-    /* This method takes a string and converts it into hash. Uses SHA-256 algorithm */
+    // This method takes a string and converts it into hash. Uses SHA-256 algorithm and generated salt.
     String encryptor (String password, byte[] salt){
 
         String hashedPassword;
@@ -44,7 +45,7 @@ class PasswordEncryptor {
         return hashedPassword;
     }
 
-    /* This method uses username to generate salt. Salt is added to the hashed password on the method encryptor */
+    // This method uses username to generate salt. Salt is added to the hashed password on the method encryptor
     byte[] getSalt (String username) {
         SecureRandom randomize;
 

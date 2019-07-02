@@ -4,17 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 class DatabaseManager {
 
-    // This class functions as a singleton.
     private static DatabaseManager instance = null;
     private SQLiteDatabase db;
     private PasswordEncryptor encryptor;
     private Cursor databaseCursor;
+    private int index;
 
-
+    // Singleton has a private constructor
     private DatabaseManager(Context context) {
 
         LoginDatabaseHelper fDBHelp = new LoginDatabaseHelper(context);
@@ -22,9 +21,9 @@ class DatabaseManager {
         databaseCursor = getCursor();
         encryptor = PasswordEncryptor.getInstance();
 
-
     }
 
+    // This class functions as a singleton and always returns the same instance
     static DatabaseManager getInstance(Context context) {
         if (instance == null) {
             instance = new DatabaseManager(context);
@@ -36,7 +35,8 @@ class DatabaseManager {
     }
 
 
-    // This method takes username, password and a database hook to insert one new value to the database.
+    // This method takes given username and password to insert one new value to the database.
+    // Does not return anything at the moment. //TODO: Maybe check if the database saves the value properly?
     void addItem(String username, String password) {
 
         byte[] salt = encryptor.getSalt(username);
@@ -49,8 +49,51 @@ class DatabaseManager {
 
         db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
 
+        databaseCursor = getCursor();
     }
 
+    // Method takes given username and password. Uses checkExistance -method to find the index.
+    // Returns true if values match.
+    boolean searchDatabase (String username, String password) {
+
+        databaseCursor = getCursor();
+        if (checkExistance(username)) {
+            //uses class variable to move cursor to the position, where the username was located.
+            // Removes the need for another for -loop.
+            databaseCursor.moveToPosition(index);
+            System.out.println(index);
+            String dbPassWord = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_PASSWORD));
+            byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_SALT));
+            String newHash = encryptor.encryptor(password, thisSalt);
+
+            return newHash.equals(dbPassWord);
+        }
+        else {
+            return false;
+        }
+    }
+
+    // Looks through the arrayList and looks for an existing username. Returns true if a username exists in the Database.
+    // Also sets a class variable index to the position of the located username.
+    boolean checkExistance (String username) {
+        databaseCursor = getCursor();
+        databaseCursor.moveToFirst();
+        int count = databaseCursor.getCount();
+
+        for (int x = 0; x < count; x++) {
+
+            databaseCursor.moveToPosition(x);
+            String dbUserName = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_USERNAME));
+            System.out.println(x);
+            if (dbUserName.equals(username)) {
+                System.out.println(x);
+                index = x;
+                return true;
+            }
+        }
+        return false;
+
+    }
 
     //This method makes a query to get the data from the database. Returns cursor.
     private Cursor getCursor() {
@@ -62,38 +105,4 @@ class DatabaseManager {
                 null,
                 null);
     }
-
-    boolean searchDatabase (String username, String password, Context context) {
-
-        databaseCursor = getCursor();
-        databaseCursor.moveToFirst();
-        int count = databaseCursor.getCount();
-
-        for (int x = 0; x < count; x++) {
-
-            databaseCursor.moveToPosition(x);
-            String dbUserName = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_USERNAME));
-            String dbPassWord = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_PASSWORD));
-
-//            System.out.println(dbUserName+ " " + dbPassWord);
-//            System.out.println(username+ " " + hash);
-
-            if (username.equals(dbUserName)) {
-                byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_SALT));
-                String newHash = encryptor.encryptor(password, thisSalt);
-
-                if (newHash.equals(dbPassWord)) {
-                    Toast toast = (Toast.makeText(context, "Login SUCCESS VITTU SAATANA!!!!", Toast.LENGTH_LONG));
-                    toast.show();
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-/*    String getData () {
-        return "";
-    }*/
-
 }
