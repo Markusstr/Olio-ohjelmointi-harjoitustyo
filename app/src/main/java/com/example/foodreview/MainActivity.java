@@ -189,9 +189,6 @@ public class MainActivity extends AppCompatActivity
         transaction.replace(R.id.reviewFragmentWindow, reviewFragment);
         transaction.commit();
 
-        TextView foodName = findViewById(R.id.foodName);
-        foodName.setText("RUOKAA");
-
     }
 
     public void reviewCancel(View view) {
