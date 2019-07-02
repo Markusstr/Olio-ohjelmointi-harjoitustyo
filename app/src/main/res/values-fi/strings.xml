@@ -39,5 +39,7 @@
     <string name="university">Yliopisto:</string>
     <string name="restaurant">Ravintola:</string>
     <string name="settings_title">Asetukset</string>
+    <string name="profile_title">Profiili</string>
     <string name="button_review">Anna arvostelu</string>
+    <string name="fragment_newreview">Uusi arvostelu</string>
 </resources>

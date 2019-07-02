@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignUpActivity" />
