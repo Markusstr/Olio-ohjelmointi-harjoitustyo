@@ -13,7 +13,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText username, password, passwordagain;
@@ -161,17 +160,31 @@ public class SignUpActivity extends AppCompatActivity {
                     //Check if user with this username has already been created
                     if (!dbmsSU.checkExistance(newUsername)) {
                         dbmsSU.addItem(newUsername, newPassword);
+                        closeActivity(1);
                     }
                     else {
-                        Toast.makeText(context, "Unfortunately this username has already been taken. Please choose another one.", Toast.LENGTH_SHORT).show();
-                        //TODO: Color accent when username unavailable
-                        //TODO: Database to ArrayList for faster processing?
+                        Snackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.signup_usernametaken), Snackbar.LENGTH_LONG).show();
+                        username.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.error));
+                        username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, R.drawable.ic_error, 0);
+                        username.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                username.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.colorAccent));
+                                username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0,0, 0);
+                            }
+                        });
                     }
-
-
-
-                    //TODO: SQL database
-                    closeActivity(1);
+                //TODO: Make create button close keyboard
                 }
             }
         });
