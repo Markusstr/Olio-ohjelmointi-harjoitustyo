@@ -40,4 +40,7 @@
     <string name="restaurant">Ravintola:</string>
     <string name="settings_title">Asetukset</string>
     <string name="button_review">Anna arvostelu</string>
+    <string name="review_title">Anna arvostelu</string>
+    <string name="review_save">Tallenna</string>
+    <string name="review_cancel">Peruuta</string>
 </resources>

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +20,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     Food food;
     ArrayAdapter<String> adapterRestaurant;
     RecyclerViewAdapter radapter;
+    FrameLayout frame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +172,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void reviewClick(View view) {
-        Toast.makeText(this, "5/5", Toast.LENGTH_SHORT).show(); //TODO writing a review
+        Fragment reviewFragment = new ReviewFragment();
+        frame = findViewById(R.id.reviewFragmentWindow);
+        if (frame.getVisibility() == View.INVISIBLE) {
+            frame.setVisibility(View.VISIBLE);
+        } else {
+            frame.setVisibility(View.INVISIBLE);
+        }
 
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.reviewFragmentWindow, reviewFragment);
+        transaction.commit();
+
+        TextView foodName = findViewById(R.id.foodName);
+        foodName.setText("RUOKAA");
+
+    }
+
+    public void reviewCancel(View view) {
+        frame.setVisibility(View.INVISIBLE);
+    }
+
+    public void reviewSave(View view) {
+        frame.setVisibility(View.INVISIBLE);
     }
 }
