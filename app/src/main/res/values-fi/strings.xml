@@ -43,7 +43,5 @@
     <string name="review_title">Anna arvostelu</string>
     <string name="review_save">Tallenna</string>
     <string name="review_cancel">Peruuta</string>
-
     <string name="profile_title">Profiili</string>
-    <string name="fragment_newreview">Uusi arvostelu</string>
 </resources>
