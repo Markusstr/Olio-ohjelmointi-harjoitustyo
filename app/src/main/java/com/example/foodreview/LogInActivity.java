@@ -36,9 +36,11 @@ public class LogInActivity extends AppCompatActivity {
                 String username = loginText.getText().toString().trim();
                 String password = passwordText.getText().toString().trim();
                 if (dbms.searchDatabase(username, password)) {
-                    Intent mainActivityIntent = new Intent();
+                    Intent mainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
                     setResult(RESULT_OK, mainActivityIntent);
                     mainActivityIntent.putExtra("username", username);
+                    mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(mainActivityIntent);
                     finish();
                 }
                 else {
