@@ -7,7 +7,7 @@ class UserIdContract{
     private UserIdContract() {}
 
      static final class newUserId  implements BaseColumns {
-
+        //Contains table names.
         static final String TABLE_NAME = "userIDs";
         static final String COLUMN_USERNAME = "username";
         static final String COLUMN_PASSWORD = "password";
