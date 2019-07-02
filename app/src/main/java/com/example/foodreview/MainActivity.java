@@ -3,6 +3,7 @@ package com.example.foodreview;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity
     FrameLayout frame;
     Fragment reviewFragment;
 
+    private String username;
+    private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,9 @@ public class MainActivity extends AppCompatActivity
         food = Food.getInstance();
         universities = findViewById(R.id.universitySpinner);
         restaurants = findViewById(R.id.restaurantSpinner);
+
+        navigationView = findViewById(R.id.nav_view);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -64,7 +71,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+//        NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -152,6 +159,7 @@ public class MainActivity extends AppCompatActivity
             //TODO Handle the main menu action
         } else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("username", username);
             startActivity(intent);
             //TODO: Intent.putExtra(username)
         } else if (id == R.id.nav_settings) {
@@ -205,5 +213,19 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.detach(reviewFragment);
         transaction.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                username = data.getStringExtra("username");
+                View headerView = navigationView.getHeaderView(0);
+                TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
+                nav_header_username.setText(username);
+            }
+        }
     }
 }

@@ -37,7 +37,7 @@ public class LogInActivity extends AppCompatActivity {
                 if (dbms.searchDatabase(username, password)) {
                     Intent mainActivityIntent = new Intent();
                     setResult(RESULT_OK, mainActivityIntent);
-                    mainActivityIntent.putExtra("username",username);
+                    mainActivityIntent.putExtra("username", username);
                     finish();
                 }
                 else {
