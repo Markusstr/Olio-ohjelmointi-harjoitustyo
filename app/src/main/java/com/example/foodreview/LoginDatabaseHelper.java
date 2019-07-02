@@ -10,10 +10,12 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "DatabaseFood";
     private static final int DATABASE_VERSION = 1;
 
+    // Constructor makes a new database with the arguments given above.
     LoginDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // This method is called when the database has first been created. Creates the Table and attributes.
     @Override
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_USERID_DATABASE = "CREATE TABLE " +
@@ -24,6 +26,7 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_USERID_DATABASE);
     }
 
+    //This method is called only when the database version or database schema is changed.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + newUserId.TABLE_NAME);

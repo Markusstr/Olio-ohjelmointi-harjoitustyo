@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity
     Food food;
     ArrayAdapter<String> adapterRestaurant;
     RecyclerViewAdapter radapter;
+    FrameLayout frame;
+    Fragment reviewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +145,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handles navigation view item clicks
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
@@ -166,11 +172,38 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "You clicked " + radapter.getName(position), Toast.LENGTH_SHORT).show();
+
+        //When the user clicks on a food, it starts a review fragment
+
+        reviewFragment = new ReviewFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("foodName", radapter.getName(position));
+        reviewFragment.setArguments(bundle);
+        frame = findViewById(R.id.reviewFragmentWindow);
+        frame.setVisibility(View.VISIBLE);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.reviewFragmentWindow, reviewFragment);
+        transaction.commit();
     }
 
-    public void reviewClick(View view) {
-        Toast.makeText(this, "5/5", Toast.LENGTH_SHORT).show(); //TODO writing a review
+    public void reviewCancel(View view) {
 
+        //TODO Do not save the review (currently exactly the same as reviewSave)
+
+        frame.setVisibility(View.INVISIBLE);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.detach(reviewFragment);
+        transaction.commit();
+    }
+
+    public void reviewSave(View view) {
+        frame.setVisibility(View.INVISIBLE);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.detach(reviewFragment);
+        transaction.commit();
     }
 }

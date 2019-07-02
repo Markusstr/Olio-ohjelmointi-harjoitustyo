@@ -5,9 +5,13 @@ import java.util.ArrayList;
 public class Review {
     private String id;
     private String review;
-    private int grade;
+    private float grade;
     private String reviewer;
     ArrayList<Review> reviewList = new ArrayList<>();
+
+    private static Review reviewInstance = new Review();
+
+    public static Review getInstance() { return reviewInstance; }
 
     private Review() {
 
@@ -21,7 +25,7 @@ public class Review {
         return id;
     }
 
-    public int getGrade() {
+    public float getGrade() {
         return grade;
     }
 
@@ -29,7 +33,7 @@ public class Review {
         return reviewer;
     }
 
-    public void newReview(String newId, String newReviewText, int newGrade, String newReviewer) {
+    public void newReview(String newId, String newReviewText, float newGrade, String newReviewer) {
         Review newReview = new Review();
         newReview.review = newReviewText;
         newReview.id = newId;
