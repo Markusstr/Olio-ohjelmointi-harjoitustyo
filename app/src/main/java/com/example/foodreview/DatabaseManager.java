@@ -20,7 +20,9 @@ class DatabaseManager {
         db = fDBHelp.getWritableDatabase();
         databaseCursor = getCursor();
         encryptor = PasswordEncryptor.getInstance();
-
+        if (!checkExistance("admin")) {
+            createAdmin();
+        }
     }
 
     // This class functions as a singleton and always returns the same instance
@@ -46,6 +48,7 @@ class DatabaseManager {
         cv.put(UserIdContract.newUserId.COLUMN_USERNAME, username);
         cv.put(UserIdContract.newUserId.COLUMN_PASSWORD, hash);
         cv.put(UserIdContract.newUserId.COLUMN_SALT, salt);
+        cv.put(UserIdContract.newUserId.COLUMN_ADMIN, false);
 
         db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
 
@@ -104,5 +107,19 @@ class DatabaseManager {
                 null,
                 null,
                 null);
+    }
+
+    private void createAdmin() {
+        System.out.println("Admin tallennettu.");
+        encryptor = PasswordEncryptor.getInstance();
+        byte[] salt = encryptor.getSalt("admin");
+        ContentValues cv = new ContentValues();
+        String password = encryptor.encryptor("admin", salt);
+        cv.put(UserIdContract.newUserId.COLUMN_USERNAME, "admin");
+        cv.put(UserIdContract.newUserId.COLUMN_PASSWORD, password);
+        cv.put(UserIdContract.newUserId.COLUMN_SALT, salt);
+        cv.put(UserIdContract.newUserId.COLUMN_ADMIN, true);
+        db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
+        System.out.println("Admin tallennettu.");
     }
 }
