@@ -39,7 +39,6 @@ public class LogInActivity extends AppCompatActivity {
                     setResult(RESULT_OK, mainActivityIntent);
                     mainActivityIntent.putExtra("username",username);
                     finish();
-
                 }
                 else {
                     //TODO: Something to indicate failed login.

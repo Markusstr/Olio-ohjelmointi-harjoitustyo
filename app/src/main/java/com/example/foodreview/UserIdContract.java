@@ -12,6 +12,7 @@ class UserIdContract{
         static final String COLUMN_USERNAME = "username";
         static final String COLUMN_PASSWORD = "password";
         static final String COLUMN_SALT = "salt";
+        static final String COLUMN_ADMIN = "admin";
     }
 
 
