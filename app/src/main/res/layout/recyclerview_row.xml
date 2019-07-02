@@ -20,12 +20,13 @@
         android:layout_height="wrap_content"
         android:textSize="15sp"/>
 
-    <Button
-        android:id="@+id/reviewButton"
+    <TextView
+        android:id="@+id/TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#2196F3"
-        android:onClick="reviewClick"
-        android:text="@string/button_review" />
+        android:background="#2196F3"
+        android:text="@string/button_review"
+        android:textAlignment="center"
+        android:textSize="20sp" />
 
 </LinearLayout>

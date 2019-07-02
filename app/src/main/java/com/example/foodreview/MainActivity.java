@@ -22,7 +22,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     ArrayAdapter<String> adapterRestaurant;
     RecyclerViewAdapter radapter;
     FrameLayout frame;
+    Fragment reviewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handles navigation view item clicks
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
@@ -172,30 +172,38 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "You clicked " + radapter.getName(position), Toast.LENGTH_SHORT).show();
-    }
 
-    public void reviewClick(View view) {
-        Fragment reviewFragment = new ReviewFragment();
+        //When the user clicks on a food, it starts a review fragment
+
+        reviewFragment = new ReviewFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("foodName", radapter.getName(position));
+        reviewFragment.setArguments(bundle);
         frame = findViewById(R.id.reviewFragmentWindow);
-        if (frame.getVisibility() == View.INVISIBLE) {
-            frame.setVisibility(View.VISIBLE);
-        } else {
-            frame.setVisibility(View.INVISIBLE);
-        }
-
+        frame.setVisibility(View.VISIBLE);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.reviewFragmentWindow, reviewFragment);
         transaction.commit();
-
     }
 
     public void reviewCancel(View view) {
+
+        //TODO Do not save the review (currently exactly the same as reviewSave)
+
         frame.setVisibility(View.INVISIBLE);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.detach(reviewFragment);
+        transaction.commit();
     }
 
     public void reviewSave(View view) {
         frame.setVisibility(View.INVISIBLE);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.detach(reviewFragment);
+        transaction.commit();
     }
 }
