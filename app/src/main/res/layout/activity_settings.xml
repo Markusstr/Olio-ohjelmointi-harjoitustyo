@@ -7,8 +7,68 @@
     tools:context=".SettingsActivity">
 
     <include
+        android:id="@+id/profiletoolbar"
         layout="@layout/settings_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/settings_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/profiletoolbar" />
+
+    <!--<EditText-->
+        <!--android:id="@+id/username"-->
+        <!--android:layout_width="245dp"-->
+        <!--android:layout_height="41dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:drawableLeft="@drawable/ic_person"-->
+        <!--android:ems="10"-->
+        <!--android:hint="@string/signup_username"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:maxLines="1"-->
+        <!--android:padding="8dp"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/settings_text1" />-->
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="245dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/ic_lock"
+        android:ems="10"
+        android:hint="@string/signup_password"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="@+id/settings_text1"
+        app:layout_constraintTop_toBottomOf="@+id/settings_text1" />
+
+    <EditText
+        android:id="@+id/passwordagain"
+        android:layout_width="245dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/ic_lock"
+        android:ems="10"
+        android:hint="@string/signup_passwordagain"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordagain" />
 
 </android.support.constraint.ConstraintLayout>
