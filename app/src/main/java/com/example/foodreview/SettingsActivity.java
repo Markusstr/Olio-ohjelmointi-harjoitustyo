@@ -49,7 +49,9 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        if (dbms.isAdmin(username)) {
+            Toast.makeText(context, "Admin on totta.", Toast.LENGTH_SHORT).show();
+        }
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

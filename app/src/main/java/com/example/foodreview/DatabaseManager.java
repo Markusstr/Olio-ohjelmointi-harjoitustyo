@@ -49,7 +49,7 @@ class DatabaseManager {
         cv.put(UserIdContract.newUserId.COLUMN_USERNAME, username);
         cv.put(UserIdContract.newUserId.COLUMN_PASSWORD, hash);
         cv.put(UserIdContract.newUserId.COLUMN_SALT, salt);
-        cv.put(UserIdContract.newUserId.COLUMN_ADMIN, false);
+        cv.put(UserIdContract.newUserId.COLUMN_ADMIN, 0);
 
         db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
 
@@ -118,7 +118,13 @@ class DatabaseManager {
             }
         }
         return false;
+    }
 
+    boolean isAdmin (String username){
+        checkExistance(username);
+        databaseCursor.moveToPosition(index);
+        int data = databaseCursor.getInt(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_ADMIN));
+        return (data == 1);
     }
 
     //This method makes a query to get the data from the database. Returns cursor.
@@ -141,10 +147,7 @@ class DatabaseManager {
         cv.put(UserIdContract.newUserId.COLUMN_USERNAME, "admin");
         cv.put(UserIdContract.newUserId.COLUMN_PASSWORD, password);
         cv.put(UserIdContract.newUserId.COLUMN_SALT, salt);
-        cv.put(UserIdContract.newUserId.COLUMN_ADMIN, true);
+        cv.put(UserIdContract.newUserId.COLUMN_ADMIN, 1);
         db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
     }
-
-
-
 }
