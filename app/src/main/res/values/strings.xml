@@ -53,4 +53,7 @@
     <string name="settings_hint_newpassword">New password</string>
     <string name="settings_hint_newpasswordagain">New password again</string>
     <string name="settings_changepassword">Change password</string>
+    <string name="fragment_foodTitleNameNull">Invalid foodName</string>
+    <string name="ratingCancelled">Rating cancelled</string>
+    <string name="ratingRated">rated</string>
 </resources>

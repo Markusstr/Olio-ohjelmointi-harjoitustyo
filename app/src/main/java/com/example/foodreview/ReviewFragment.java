@@ -26,19 +26,15 @@ public class ReviewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         try {
+            assert getArguments() != null;
             String arg = getArguments().getString("foodName");
             TextView foodTitleName = this.view.findViewById(R.id.foodTitleName);
             ratingBar = this.view.findViewById(R.id.ratingBar);
             foodTitleName.setText(arg);
         } catch (Exception e) {
             TextView foodTitleName = this.view.findViewById(R.id.foodTitleName);
-            foodTitleName.setText("Invalid food name");
+            foodTitleName.setText(R.string.fragment_foodTitleNameNull);
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        System.out.println(ratingBar.getRating());
-    }
 }

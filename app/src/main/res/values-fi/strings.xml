@@ -53,4 +53,7 @@
     <string name="settings_hint_newpassword">Uusi salasana</string>
     <string name="settings_hint_newpasswordagain">Uusi salasana uudestaan</string>
     <string name="settings_changepassword">Vaihda salasana</string>
+    <string name="fragment_foodTitleNameNull">Invaliidi ruuan nimi</string>
+    <string name="ratingCancelled">Arvostelu peruutettu</string>
+    <string name="ratingRated">arvosteltu</string>
 </resources>
