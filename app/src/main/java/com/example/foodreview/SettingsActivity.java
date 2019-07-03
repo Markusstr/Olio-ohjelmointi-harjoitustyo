@@ -55,14 +55,20 @@ public class SettingsActivity extends AppCompatActivity {
                 boolean errorMessages = false;
                 String oldPassword = fieldOldPassword.getText().toString().trim();
 
+                //TODO: Check if these passwords are the same
+                String newPassword = fieldNewPassword.getText().toString().trim();
+                String newPasswordAgain = fieldNewPasswordAgain.getText().toString().trim();
+
                 if (!dbms.searchDatabase(username, oldPassword)) {
                     //TODO: Error message when old password was wrong!
                     Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (errorMessages == false) {
-                    //TODO: Logic application
+                if (!errorMessages) {
+                    if (!dbms.changePassword(username, newPassword)) {
+                        System.out.println("Oops! Something went wrong with saving the password. Try again in a few minutes");
+                    }
                 }
             }
         });

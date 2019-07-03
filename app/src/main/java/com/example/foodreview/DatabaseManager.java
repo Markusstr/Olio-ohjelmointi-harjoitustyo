@@ -58,29 +58,22 @@ class DatabaseManager {
 
     // Takes three strings. Uses username and oldPassword to confirm the user.
     // Updates the password hash using the primary key username as a Where clause.
-    boolean changePassword(String username, String oldPassword, String newPassword) {
+    boolean changePassword(String username, String newPassword) {
 
-        if(searchDatabase(username, oldPassword)) {
+        databaseCursor.moveToPosition(index);
+        byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_SALT));
+        String newHash = encryptor.encryptor(newPassword, thisSalt);
+        ContentValues cv = new ContentValues();
+        cv.put(UserIdContract.newUserId.COLUMN_PASSWORD,newHash);
 
-            databaseCursor.moveToPosition(index);
-            byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_SALT));
-            String newHash = encryptor.encryptor(newPassword, thisSalt);
-            ContentValues cv = new ContentValues();
-            cv.put(UserIdContract.newUserId.COLUMN_PASSWORD,newHash);
+        String whereClause = UserIdContract.newUserId.COLUMN_USERNAME.concat("=?");
+        String[] whereArgs = {username};
 
-            String whereClause = UserIdContract.newUserId.COLUMN_USERNAME.concat("=?");
-            String[] whereArgs = {username};
-
-            if (db.update(UserIdContract.newUserId.TABLE_NAME, cv, whereClause,whereArgs) > 0) {
-                return true;
-            }
-            else {
-                System.out.println("Database update failed!");
-                return false;
-            }
+        if (db.update(UserIdContract.newUserId.TABLE_NAME, cv, whereClause,whereArgs) > 0) {
+            return true;
         }
         else {
-            System.out.println("Wrong password!");
+            System.out.println("Database update failed!");
             return false;
         }
     }
