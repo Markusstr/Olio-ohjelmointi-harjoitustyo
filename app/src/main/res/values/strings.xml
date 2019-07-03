@@ -46,4 +46,6 @@
     <string name="review_cancel">Cancel</string>
     <string name="profile_reviewtext">Own reviews:</string>
     <string name="profile_title">Profile</string>
+    <string name="signup_usernametaken">Unfortunately this username has already been taken. Please choose another one.</string>
+    <string name="login_failed">Wrong username or password</string>
 </resources>

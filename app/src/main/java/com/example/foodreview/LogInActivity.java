@@ -3,6 +3,7 @@ package com.example.foodreview;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,14 +36,16 @@ public class LogInActivity extends AppCompatActivity {
                 String username = loginText.getText().toString().trim();
                 String password = passwordText.getText().toString().trim();
                 if (dbms.searchDatabase(username, password)) {
-                    Intent mainActivityIntent = new Intent();
+                    Intent mainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
                     setResult(RESULT_OK, mainActivityIntent);
                     mainActivityIntent.putExtra("username", username);
+                    mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(mainActivityIntent);
                     finish();
                 }
                 else {
-                    //TODO: Something to indicate failed login.
-                    System.out.println("Not logging in.");
+
+                    Snackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.login_failed), Snackbar.LENGTH_LONG).show();
                 }
             }
         });

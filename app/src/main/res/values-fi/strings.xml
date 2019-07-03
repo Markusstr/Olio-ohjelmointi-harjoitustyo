@@ -46,4 +46,6 @@
     <string name="review_save">Tallenna</string>
     <string name="review_cancel">Peruuta</string>
     <string name="profile_title">Profiili</string>
+    <string name="signup_usernametaken">Valitettavasti tämä käyttäjänimi on jo käytössä. Valitse toinen nimi.</string>
+    <string name="login_failed">Väärä käyttäjätunnus tai salasana</string>
 </resources>

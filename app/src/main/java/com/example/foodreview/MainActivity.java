@@ -3,7 +3,6 @@ package com.example.foodreview;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -48,8 +47,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Starts the log in activity first
-        Intent intent = new Intent(this, LogInActivity.class);
-        startActivityForResult(intent, 1);
+//        Intent intent = new Intent(this, LogInActivity.class);
+//        startActivityForResult(intent, 1);
 
         setContentView(R.layout.activity_main);
         university = University.getInstance();
@@ -59,6 +58,11 @@ public class MainActivity extends AppCompatActivity
         restaurants = findViewById(R.id.restaurantSpinner);
 
         navigationView = findViewById(R.id.nav_view);
+
+        username = getIntent().getStringExtra("username");
+        View headerView = navigationView.getHeaderView(0);
+        TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
+        nav_header_username.setText(username);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -168,7 +172,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_log_out) {
             //TODO Handle logging out properly
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, LogInActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         }
@@ -215,17 +220,17 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                assert data != null;
-                username = data.getStringExtra("username");
-                View headerView = navigationView.getHeaderView(0);
-                TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
-                nav_header_username.setText(username);
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 1) {
+//            if (resultCode == RESULT_OK) {
+//                assert data != null;
+//                username = data.getStringExtra("username");
+//                View headerView = navigationView.getHeaderView(0);
+//                TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
+//                nav_header_username.setText(username);
+//            }
+//        }
+//    }
 }
