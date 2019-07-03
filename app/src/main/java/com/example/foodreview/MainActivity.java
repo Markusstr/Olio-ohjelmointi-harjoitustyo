@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -63,6 +64,13 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
         nav_header_username.setText(username);
+        if (username.equals("admin")) {
+            navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, true);
+//            navigationView.getMenu().setGroupEnabled(R.id.menu_admingroup, false);
+        }
+        else {
+            navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, false);
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -161,6 +169,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             //TODO Handle the main menu action
+        } else if (id == R.id.nav_admin){
+            Intent intent = new Intent(this, AdminActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("username", username);
