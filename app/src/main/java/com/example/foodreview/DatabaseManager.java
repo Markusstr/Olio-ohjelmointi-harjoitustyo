@@ -26,11 +26,12 @@ class DatabaseManager {
     }
 
     // This class functions as a singleton and always returns the same instance
-    static DatabaseManager getInstance(Context context) {
+    static DatabaseManager getInstance(Context newContext) {
         if (instance == null) {
-            instance = new DatabaseManager(context);
+            instance = new DatabaseManager(newContext);
         }
         else {
+
             System.out.println("Instance already exists");
         }
         return instance;
@@ -53,6 +54,35 @@ class DatabaseManager {
         db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
 
         databaseCursor = getCursor();
+    }
+
+    // Takes three strings. Uses username and oldPassword to confirm the user.
+    // Updates the password hash using the primary key username as a Where clause.
+    boolean changePassword(String username, String oldPassword, String newPassword) {
+
+        if(searchDatabase(username, oldPassword)) {
+
+            databaseCursor.moveToPosition(index);
+            byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_SALT));
+            String newHash = encryptor.encryptor(newPassword, thisSalt);
+            ContentValues cv = new ContentValues();
+            cv.put(UserIdContract.newUserId.COLUMN_PASSWORD,newHash);
+
+            String whereClause = UserIdContract.newUserId.COLUMN_USERNAME.concat("=?");
+            String[] whereArgs = {username};
+
+            if (db.update(UserIdContract.newUserId.TABLE_NAME, cv, whereClause,whereArgs) > 0) {
+                return true;
+            }
+            else {
+                System.out.println("Database update failed!");
+                return false;
+            }
+        }
+        else {
+            System.out.println("Wrong password!");
+            return false;
+        }
     }
 
     // Method takes given username and password. Uses checkExistance -method to find the index.
@@ -109,8 +139,8 @@ class DatabaseManager {
                 null);
     }
 
+    // Hardcode admin in to the database.
     private void createAdmin() {
-        System.out.println("Admin tallennettu.");
         encryptor = PasswordEncryptor.getInstance();
         byte[] salt = encryptor.getSalt("admin");
         ContentValues cv = new ContentValues();
@@ -120,6 +150,8 @@ class DatabaseManager {
         cv.put(UserIdContract.newUserId.COLUMN_SALT, salt);
         cv.put(UserIdContract.newUserId.COLUMN_ADMIN, true);
         db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
-        System.out.println("Admin tallennettu.");
     }
+
+
+
 }

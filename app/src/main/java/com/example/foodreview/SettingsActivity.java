@@ -24,5 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+
+        //TODO: Make this activity seem nicer and add an Old password -screen!
+
     }
 }
