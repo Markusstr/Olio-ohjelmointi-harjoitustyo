@@ -53,4 +53,11 @@
     <string name="settings_hint_newpassword">New password</string>
     <string name="settings_hint_newpasswordagain">New password again</string>
     <string name="settings_changepassword">Change password</string>
+    <string name="fragment_foodTitleNameNull">Invalid foodName</string>
+    <string name="ratingCancelled">Rating cancelled</string>
+    <string name="ratingRated">rated</string>
+    <string name="loginFragment_continue">Continue</string>
+    <string name="authenticator_correct">Correct</string>
+    <string name="authenticator_wrong">Wrong</string>
+    <string name="authenticator_title">Write the 6 numbers you see below</string>
 </resources>

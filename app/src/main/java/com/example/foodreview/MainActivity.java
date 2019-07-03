@@ -21,8 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -39,9 +41,10 @@ public class MainActivity extends AppCompatActivity
     RecyclerViewAdapter radapter;
     FrameLayout frame;
     Fragment reviewFragment;
+    Bundle bundle;
 
     private String username;
-    private NavigationView navigationView;
+    protected NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,7 +194,7 @@ public class MainActivity extends AppCompatActivity
 
         reviewFragment = new ReviewFragment();
 
-        Bundle bundle = new Bundle();
+        bundle = new Bundle();
         bundle.putString("foodName", radapter.getName(position));
         reviewFragment.setArguments(bundle);
         frame = findViewById(R.id.reviewFragmentWindow);
@@ -203,14 +206,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void reviewCancel(View view) {
-
-        //TODO Do not save the review (currently exactly the same as reviewSave)
-
         frame.setVisibility(View.INVISIBLE);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.detach(reviewFragment);
         transaction.commit();
+
+        Toast.makeText(this, "" + getString(R.string.ratingCancelled), Toast.LENGTH_SHORT).show();
     }
 
     public void reviewSave(View view) {
@@ -219,6 +221,10 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.detach(reviewFragment);
         transaction.commit();
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
+
+        String toast = bundle.getString("foodName") + " " + getString(R.string.ratingRated) + " " + ratingBar.getRating();
+        Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }
 
 //    @Override
