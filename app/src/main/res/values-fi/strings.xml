@@ -48,4 +48,9 @@
     <string name="profile_title">Profiili</string>
     <string name="signup_usernametaken">Valitettavasti tämä käyttäjänimi on jo käytössä. Valitse toinen nimi.</string>
     <string name="login_failed">Väärä käyttäjätunnus tai salasana</string>
+    <string name="settings_loggedinas">Kirjauduttu käyttäjällä:</string>
+    <string name="settings_hint_oldpassword">Vanha salasana</string>
+    <string name="settings_hint_newpassword">Uusi salasana</string>
+    <string name="settings_hint_newpasswordagain">Uusi salasana uudestaan</string>
+    <string name="settings_changepassword">Vaihda salasana</string>
 </resources>

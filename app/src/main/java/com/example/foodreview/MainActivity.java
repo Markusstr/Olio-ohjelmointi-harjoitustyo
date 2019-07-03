@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity
             //TODO: Intent.putExtra(username)
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra("username", username);
             startActivity(intent);
 
         } else if (id == R.id.nav_log_out) {

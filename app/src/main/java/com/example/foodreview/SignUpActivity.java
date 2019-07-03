@@ -27,14 +27,15 @@ public class SignUpActivity extends AppCompatActivity {
 
         final Button create, cancel;
         username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
-        passwordagain = findViewById(R.id.passwordagain);
+        password = findViewById(R.id.newPassword);
+        passwordagain = findViewById(R.id.newPasswordAgain);
 
         create = findViewById(R.id.create);
         cancel = findViewById(R.id.cancel);
 
         final DatabaseManager dbmsSU = DatabaseManager.getInstance(context);
 
+        //TODO: Move everything related to checking the password to its own class
         passwordagain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
