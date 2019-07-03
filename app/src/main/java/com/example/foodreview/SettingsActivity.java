@@ -1,10 +1,12 @@
 package com.example.foodreview;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,8 +54,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: call method check password
-
-                boolean errorMessages = false;
                 String oldPassword = fieldOldPassword.getText().toString().trim();
 
                 //TODO: Check if these passwords are the same
@@ -69,6 +69,14 @@ public class SettingsActivity extends AppCompatActivity {
                     if (pwc.checker(newPassword).isEmpty()) {
                         if (!dbms.changePassword(username, newPassword)) {
                             System.out.println("Oops! Something went wrong with saving the password. Try again in a few minutes");
+                        }
+                        else {
+                            InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+                            fieldOldPassword.setText("");
+                            fieldNewPassword.setText("");
+                            fieldNewPasswordAgain.setText("");
+                            Snackbar.make(v, "Password changed successfully!", Snackbar.LENGTH_LONG).show();
                         }
                     }
                 }
