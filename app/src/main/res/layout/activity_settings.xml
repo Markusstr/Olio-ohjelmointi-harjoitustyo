@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="76dp"
-        android:text="TextView"
+        android:text="@string/settings_loggedinas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/profiletoolbar" />
 
@@ -38,38 +38,72 @@
     <!--app:layout_constraintTop_toBottomOf="@+id/settings_text1" />-->
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/newPassword"
         android:layout_width="245dp"
         android:layout_height="41dp"
         android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/ic_lock"
         android:ems="10"
-        android:hint="@string/signup_password"
+        android:hint="@string/settings_hint_newpassword"
         android:inputType="textPassword"
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="@+id/settings_text1"
-        app:layout_constraintTop_toBottomOf="@+id/settings_text1" />
+        app:layout_constraintTop_toBottomOf="@+id/oldPassword" />
 
     <EditText
-        android:id="@+id/passwordagain"
+        android:id="@+id/oldPassword"
         android:layout_width="245dp"
         android:layout_height="41dp"
         android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/ic_lock"
         android:ems="10"
-        android:hint="@string/signup_passwordagain"
+        android:hint="@string/settings_hint_oldpassword"
         android:inputType="textPassword"
         android:padding="8dp"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintStart_toStartOf="@+id/settings_text1"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <EditText
+        android:id="@+id/newPasswordAgain"
+        android:layout_width="245dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/ic_lock"
+        android:ems="10"
+        android:hint="@string/settings_hint_newpasswordagain"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="@+id/newPassword"
+        app:layout_constraintTop_toBottomOf="@+id/newPassword" />
 
     <View
         android:id="@+id/view3"
         style="@style/Divider"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordagain" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldUsername" />
+
+    <TextView
+        android:id="@+id/fieldUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/login_username"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_text1" />
+
+    <Button
+        android:id="@+id/changePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/settings_changepassword"
+        app:layout_constraintStart_toStartOf="@+id/profiletoolbar"
+        app:layout_constraintTop_toBottomOf="@+id/newPasswordAgain" />
 
 </android.support.constraint.ConstraintLayout>
