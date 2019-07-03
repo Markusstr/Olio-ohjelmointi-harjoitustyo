@@ -36,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         changePassword = findViewById(R.id.changePassword);
         context = this;
         dbms = DatabaseManager.getInstance(context);
+        final PasswordChecker pwc = PasswordChecker.getInstance(context);
 
         Toolbar toolbar = findViewById(R.id.toolbarsettings);
         setSupportActionBar(toolbar);
@@ -65,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (!errorMessages) {
+                if (pwc.checker(newPassword).isEmpty()) {
                     if (!dbms.changePassword(username, newPassword)) {
                         System.out.println("Oops! Something went wrong with saving the password. Try again in a few minutes");
                     }
