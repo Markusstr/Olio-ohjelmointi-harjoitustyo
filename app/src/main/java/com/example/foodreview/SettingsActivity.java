@@ -61,14 +61,15 @@ public class SettingsActivity extends AppCompatActivity {
                 String newPasswordAgain = fieldNewPasswordAgain.getText().toString().trim();
 
                 if (!dbms.searchDatabase(username, oldPassword)) {
+                    System.out.println(username + oldPassword);
                     //TODO: Error message when old password was wrong!
                     Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show();
-                    return;
                 }
-
-                if (pwc.checker(newPassword).isEmpty()) {
-                    if (!dbms.changePassword(username, newPassword)) {
-                        System.out.println("Oops! Something went wrong with saving the password. Try again in a few minutes");
+                else {
+                    if (pwc.checker(newPassword).isEmpty()) {
+                        if (!dbms.changePassword(username, newPassword)) {
+                            System.out.println("Oops! Something went wrong with saving the password. Try again in a few minutes");
+                        }
                     }
                 }
             }
