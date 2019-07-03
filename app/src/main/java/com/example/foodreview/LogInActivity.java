@@ -4,17 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class LogInActivity extends AppCompatActivity {
 
     Context context;
     EditText loginText, passwordText;
+    AuthenticatorFragment authenticatorFragment;
+    FrameLayout authenticatorFrame;
+    String username;
+    String authenticatorEditText;
+    String authenticatorCheck;
+    FragmentManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +42,17 @@ public class LogInActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = loginText.getText().toString().trim();
+                username = loginText.getText().toString().trim();
                 String password = passwordText.getText().toString().trim();
                 if (dbms.searchDatabase(username, password)) {
-                    Intent mainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
-                    setResult(RESULT_OK, mainActivityIntent);
-                    mainActivityIntent.putExtra("username", username);
-                    mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(mainActivityIntent);
-                    finish();
+                    authenticatorFragment = new AuthenticatorFragment();
+                    authenticatorFrame = findViewById(R.id.authenticatorframe);
+                    authenticatorFrame.setVisibility(View.VISIBLE);
+                    manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.replace(R.id.authenticatorframe, authenticatorFragment);
+                    transaction.commit();
+
                 }
                 else {
 
@@ -77,4 +88,31 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() { }
 
+    public void fragmentContinue(View view) {
+        AuthenticatorFragment authenticatorFragment = (AuthenticatorFragment) manager.findFragmentById(R.id.authenticatorframe);
+        authenticatorEditText = authenticatorFragment.getAuthenticatorEditText();
+        authenticatorCheck = authenticatorFragment.getAuthenticatorCheck();
+
+        if (authenticatorEditText.equals(authenticatorCheck)) {
+            Toast.makeText(this, getString(R.string.authenticator_correct), Toast.LENGTH_SHORT).show();
+
+            authenticatorFrame.setVisibility(View.INVISIBLE);
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.detach(authenticatorFragment);
+            transaction.commit();
+
+            Intent mainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
+            setResult(RESULT_OK, mainActivityIntent);
+            mainActivityIntent.putExtra("username", username);
+            mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(mainActivityIntent);
+            finish();
+        } else {
+            Toast.makeText(this, getString(R.string.authenticator_wrong), Toast.LENGTH_SHORT).show();
+        }
     }
+
+    }
+
+

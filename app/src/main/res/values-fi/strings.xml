@@ -56,4 +56,8 @@
     <string name="fragment_foodTitleNameNull">Invaliidi ruuan nimi</string>
     <string name="ratingCancelled">Arvostelu peruutettu</string>
     <string name="ratingRated">arvosteltu</string>
+    <string name="loginFragment_continue">Jatka</string>
+    <string name="authenticator_correct">Oikein</string>
+    <string name="authenticator_wrong">Väärin</string>
+    <string name="authenticator_title">Kirjoita seuraavat 6 numeroa alle</string>
 </resources>
