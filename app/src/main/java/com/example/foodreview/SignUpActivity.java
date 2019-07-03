@@ -34,12 +34,13 @@ public class SignUpActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
 
         final DatabaseManager dbmsSU = DatabaseManager.getInstance(context);
+        final PasswordChecker pwc = PasswordChecker.getInstance(context);
 
         //TODO: Move everything related to checking the password to its own class
         passwordagain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                String message = passwordCheck();
+                String message = pwc.checker(password.getText().toString());
                 //Let's check if we get any error messages from passwordCheck
                 //If we don't, the password fulfills the requirements and we don't need to add any text listeners to the first editText
                 //If the password is not ok, we make the line red + add error drawable to indicate that there is an error in the password
@@ -60,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void afterTextChanged(Editable s) {
-                            if (passwordCheck().isEmpty()) {
+                            if (pwc.checker(password.getText().toString()).isEmpty()) {
                                 password.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.colorAccent));
                                 password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0,0, 0);
                             }
@@ -115,7 +116,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Check if the password fulfills all the requirements
-                String message = passwordCheck();
+                String message = pwc.checker(password.getText().toString());
                 //Print the message to user if it's not empty
                 if (!message.isEmpty()) {
                     Snackbar.make(v, message, Snackbar.LENGTH_LONG).show();
@@ -228,32 +229,6 @@ public class SignUpActivity extends AppCompatActivity {
         else {
             closeActivity(-1);
         }
-    }
-
-    private String passwordCheck() {
-        String message = "";
-        if (password.getText().toString().length() < 12) {
-            message = message.concat(getResources().getString(R.string.signup_password_tooshort) + "\n");
-        }
-        if (password.getText().toString().length() > 32) {
-            message = message.concat(getResources().getString(R.string.signup_password_toolong) + "\n");
-        }
-        if (password.getText().toString().equals(password.getText().toString().toLowerCase())) {
-            message = message.concat(getResources().getString(R.string.signup_password_uppercase) + "\n");
-        }
-        if (password.getText().toString().equals(password.getText().toString().toUpperCase())) {
-            message = message.concat(getResources().getString(R.string.signup_password_lowercase) + "\n");
-        }
-        if (!password.getText().toString().matches(".*\\d.*")) {
-            message = message.concat(getResources().getString(R.string.signup_password_nonumbers) + "\n");
-        }
-
-//        if (!Pattern.compile("(?=.*[@#$%^&+=])").matcher(password.getText().toString()).matches()) {
-//            message = message.concat(getResources().getString(R.string.signup_password_nospecialchar));
-//        }
-//        TODO: Check if password contains special letter
-
-        return message;
     }
 
     private void closeActivity(int endResult) {
