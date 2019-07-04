@@ -11,6 +11,17 @@
             android:icon="@android:drawable/ic_menu_compass"
             android:title="@string/menu_home" />
     </group>
+
+    <group
+        android:checkableBehavior="none"
+        android:visible="false"
+        android:id="@+id/menu_admingroup">
+        <item
+            android:id="@+id/nav_admin"
+            android:icon="@drawable/ic_supervisor_account"
+            android:title="@string/menu_admin" />
+    </group>
+
     <group
         android:checkableBehavior="none"
         android:id="@+id/menu_bottom" >

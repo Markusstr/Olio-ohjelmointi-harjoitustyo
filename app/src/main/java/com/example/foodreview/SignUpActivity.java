@@ -36,7 +36,6 @@ public class SignUpActivity extends AppCompatActivity {
         final DatabaseManager dbmsSU = DatabaseManager.getInstance(context);
         final PasswordChecker pwc = PasswordChecker.getInstance(context);
 
-        //TODO: Move everything related to checking the password to its own class
         passwordagain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
