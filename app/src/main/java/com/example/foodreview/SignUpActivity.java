@@ -17,13 +17,12 @@ import android.widget.EditText;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText username, password, passwordagain;
-    private Context context;
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        context = this;
 
         final Button create, cancel;
         username = findViewById(R.id.username);

@@ -66,7 +66,10 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
         nav_header_username.setText(username);
-        if (username.equals("admin")) {
+
+        DatabaseManager dbms = DatabaseManager.getInstance(this);
+
+        if (dbms.isAdmin(username)) {
             navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, true);
 //            navigationView.getMenu().setGroupEnabled(R.id.menu_admingroup, false);
         }
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         restaurants.setAdapter(adapterRestaurant);
 
         //Creates the list of foods for the recyclerView
-        food.newFood("Spaghetti", "SPAGHETTI", 1); //TODO TEMPORAARY, IMPLEMENT DATABASE HERE PLS
+        food.newFood("Spaghetti", "SPAGHETTI", 1); //TODO TEMPORARY, IMPLEMENT DATABASE HERE PLS
         food.newFood("Lasagna", "LASAGNA", 2);
 
         ArrayList<String> foodNames = new ArrayList<>();
