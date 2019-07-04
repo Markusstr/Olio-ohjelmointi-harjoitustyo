@@ -1,6 +1,5 @@
 package com.example.foodreview;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -24,7 +23,10 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
                 newUserId.COLUMN_USERNAME + " VARCHAR(32) PRIMARY KEY NOT NULL, " +
                 newUserId.COLUMN_PASSWORD + " VARCHAR(64) NOT NULL, " +
                 newUserId.COLUMN_SALT + " BLOB NOT NULL, " +
-                newUserId.COLUMN_ADMIN + " BOOLEAN NOT NULL );";
+                newUserId.COLUMN_ADMIN + " INTEGER NOT NULL CHECK (" +
+                newUserId.COLUMN_ADMIN + " = 1 or (" +
+                newUserId.COLUMN_ADMIN +
+                " = 0)));";
         db.execSQL(SQL_CREATE_USERID_DATABASE);
     }
 
