@@ -87,7 +87,7 @@ class DatabaseManager {
             //uses class variable to move cursor to the position, where the username was located.
             // Removes the need for another for -loop.
             databaseCursor.moveToPosition(index);
-            System.out.println(index);
+            //System.out.println(index);
             String dbPassWord = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.tableUserIds.COLUMN_PASSWORD));
             byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.tableUserIds.COLUMN_SALT));
             String newHash = encryptor.encryptor(password, thisSalt);
@@ -110,7 +110,7 @@ class DatabaseManager {
 
             databaseCursor.moveToPosition(x);
             String dbUserName = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.tableUserIds.COLUMN_USERNAME));
-            System.out.println(x);
+            //System.out.println(x);
             if (dbUserName.equals(username)) {
                 System.out.println(x);
                 index = x;
