@@ -128,6 +128,14 @@ class DatabaseManager {
         return (data == 1);
     }
 
+    // Moving on to use other tables in the database after this line.
+    boolean addUniversity (String name) {
+        ContentValues cv = new ContentValues();
+        cv.put(UserIdContract.tableUniversity.COLUMN_UNINAME, name);
+        return db.insert(UserIdContract.tableUniversity.TABLE_NAME, null, cv) >= 0;
+    }
+
+
     //This method makes a query to get the data from the database. Returns cursor.
     private Cursor getCursor() {
         return db.query(UserIdContract.tableUserIds.TABLE_NAME,
