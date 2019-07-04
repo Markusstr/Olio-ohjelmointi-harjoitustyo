@@ -59,4 +59,11 @@
     <string name="settings_oldnewpasswordnotequal">Old and new passwords can\'t be the same</string>
     <string name="settings_passworderror">Oops! Something went wrong with saving the password. Try again in a few minutes</string>
     <string name="admin_title">Admin</string>
+    <string name="fragment_foodTitleNameNull">Invalid foodName</string>
+    <string name="ratingCancelled">Rating cancelled</string>
+    <string name="ratingRated">rated</string>
+    <string name="loginFragment_continue">Continue</string>
+    <string name="authenticator_correct">Correct</string>
+    <string name="authenticator_wrong">Wrong</string>
+    <string name="authenticator_title">Write the 6 numbers you see below</string>
 </resources>
