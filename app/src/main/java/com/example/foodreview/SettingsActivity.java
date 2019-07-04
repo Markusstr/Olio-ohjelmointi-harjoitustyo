@@ -1,8 +1,10 @@
 package com.example.foodreview;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -48,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                closeActivityCheck();
             }
         });
         if (dbms.isAdmin(username)) {
@@ -218,9 +221,48 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-
-
-
         //TODO: Make this activity seem nicer and add an Old password -screen!
+    }
+
+    //If user has typed something in the text fields and tries to leave, alert dialog shows up
+    private void closeActivityCheck() {
+        if (!fieldOldPassword.getText().toString().equals("") || !fieldNewPassword.getText().toString().equals("") || !fieldNewPasswordAgain.getText().toString().equals("")) {
+            new AlertDialog.Builder(SettingsActivity.this)
+                    .setTitle(R.string.settings_alertdialog_notsaved)
+                    .setMessage(R.string.signup_alertdialog_confirm)
+                    .setPositiveButton(R.string.signup_alertdialog_exit, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //onClickListener if user clicks exit
+                            dialog.cancel();
+                            closeActivity();
+                        }
+                    })
+                    //Keep editing button doesn't need onClickListener because it just goes back to the activity
+                    .setNegativeButton(R.string.signup_alertdialog_keepediting, null)
+                    .setIcon(R.drawable.ic_warning)
+                    .show();
+        }
+        else {
+            closeActivity();
+        }
+    }
+
+    private void closeActivity() {
+//        Intent intent = new Intent();
+        //Activity can be ended two different ways: user creates new account successfully or user presses cancel
+        //If cancel is pressed endResult equals -1 and activity is ended with RESULT_CANCELLED, otherwise with RESULT_OK
+//        if (endResult == -1) {
+//            setResult(RESULT_CANCELED, intent);
+//        }
+//        else {
+//            setResult(RESULT_OK, intent);
+//        }
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        closeActivityCheck();
     }
 }
