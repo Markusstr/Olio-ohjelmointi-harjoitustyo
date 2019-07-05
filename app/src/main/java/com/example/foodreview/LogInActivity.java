@@ -45,6 +45,8 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 username = loginText.getText().toString().trim();
                 String password = passwordText.getText().toString().trim();
+
+                //Checks if the username and password are in the database and then starts the user authentication event
                 if (dbms.searchDatabase(username, password)) {
                     authenticatorFragment = new AuthenticatorFragment();
                     authenticatorFrame = findViewById(R.id.authenticatorframe);
@@ -91,6 +93,8 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() { }
 
+
+    //Checks if the user has authenticated itself successfully after pressing continue in the authenticator fragment and then starts the main activity
     public void fragmentContinue(View view) {
         AuthenticatorFragment authenticatorFragment = (AuthenticatorFragment) manager.findFragmentById(R.id.authenticatorframe);
         authenticatorEditText = authenticatorFragment.getAuthenticatorEditText();

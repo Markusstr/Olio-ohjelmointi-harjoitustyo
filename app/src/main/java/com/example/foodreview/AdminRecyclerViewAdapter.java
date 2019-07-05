@@ -70,7 +70,7 @@ public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecycler
         return mDataNames.get(id);
     }
 
-    String getPrice(int id) {return mDataAddresses.get(id); }
+    String getAddress(int id) {return mDataAddresses.get(id); }
 
     // allows clicks events to be caught
     void setClickListener(ItemClickListener itemClickListener) {

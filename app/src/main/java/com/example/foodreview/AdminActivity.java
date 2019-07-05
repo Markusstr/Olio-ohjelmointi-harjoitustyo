@@ -1,5 +1,8 @@
 package com.example.foodreview;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -8,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,6 +22,7 @@ public class AdminActivity extends AppCompatActivity implements AdminRecyclerVie
 
     private ImageView admin_delete;
     private AdminRecyclerViewAdapter radapter;
+    FrameLayout frame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,5 +68,27 @@ public class AdminActivity extends AppCompatActivity implements AdminRecyclerVie
                 Toast.makeText(AdminActivity.this, "Klikkasit: " + nimi, Toast.LENGTH_SHORT).show();
             }
         });
+
+        Bundle bundle = new Bundle();
+        bundle.putString("restaurantName", radapter.getName(position));
+        bundle.putString("restaurantAddress", radapter.getAddress(position));
+        Fragment adminEditFragment = new AdminEditFragment();
+        adminEditFragment.setArguments(bundle);
+        frame = findViewById(R.id.adminEditFragmentWindow);
+        frame.setVisibility(View.VISIBLE);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.adminEditFragmentWindow, adminEditFragment);
+        transaction.commit();
+
+    }
+
+    public void continueClick(View view) {
+        frame.setVisibility(View.INVISIBLE);
+        Fragment adminEditFragment = new AdminEditFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.detach(adminEditFragment);
+        transaction.commit();
     }
 }
