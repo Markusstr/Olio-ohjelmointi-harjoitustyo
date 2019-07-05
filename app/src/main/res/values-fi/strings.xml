@@ -68,4 +68,6 @@
     <string name="settings_oldnewpasswordnotequal">Uusi ja vanha salasana eivät voi olla samoja</string>
     <string name="settings_passworderror">Jotain meni pieleen salasanan tallennuksessa. Yritä uudestaan hetken kuluttua</string>
     <string name="admin_title">Ylläpitäjä</string>
+    <string name="admin_fragment_address">Osoite:</string>
+    <string name="admin_fragment_restaurantname">Nimi:</string>
 </resources>

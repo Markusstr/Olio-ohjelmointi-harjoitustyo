@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class AdminEditFragment extends Fragment {
@@ -26,10 +27,10 @@ public class AdminEditFragment extends Fragment {
             assert getArguments() != null;
             String arg = getArguments().getString("restaurantName");//Sets the admin edit fragment's textviews to correspond the correct information
             String arg2 = getArguments().getString("restaurantAddress");
-            TextView restaurantName = this.view.findViewById(R.id.restaurantName);
-            TextView restaurantAddress = this.view.findViewById(R.id.restaurantAddress);
-            restaurantName.setText(arg);
-            restaurantAddress.setText(arg2);
+            EditText fieldRestaurantName = this.view.findViewById(R.id.fieldRestaurantName);
+            EditText fieldRestaurantAddress = this.view.findViewById(R.id.fieldRestaurantAddress);
+            fieldRestaurantName.setText(arg);
+            fieldRestaurantAddress.setText(arg2);
         } catch (Exception e) {
             TextView restaurantName = this.view.findViewById(R.id.restaurantName);
             restaurantName.setText(R.string.fragment_foodTitleNameNull);

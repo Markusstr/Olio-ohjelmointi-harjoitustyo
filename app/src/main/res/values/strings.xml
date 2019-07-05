@@ -68,4 +68,6 @@
     <string name="authenticator_title">Write the 6 numbers you see below</string>
     <string name="settings_alertdialog_notsaved">Settings not saved</string>
     <string name="admin_restaurant">Restaurant</string>
+    <string name="admin_fragment_restaurantname">Name:</string>
+    <string name="admin_fragment_address">Address:</string>
 </resources>
