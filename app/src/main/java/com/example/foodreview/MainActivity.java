@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handles navigation view item clicks
+        // Handles sidebar item clicks
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
