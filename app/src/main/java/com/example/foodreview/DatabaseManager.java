@@ -46,12 +46,12 @@ class DatabaseManager {
         String hash = encryptor.encryptor(password, salt);
 
         ContentValues cv = new ContentValues();
-        cv.put(UserIdContract.newUserId.COLUMN_USERNAME, username);
-        cv.put(UserIdContract.newUserId.COLUMN_PASSWORD, hash);
-        cv.put(UserIdContract.newUserId.COLUMN_SALT, salt);
-        cv.put(UserIdContract.newUserId.COLUMN_ADMIN, 0);
+        cv.put(UserIdContract.tableUserIds.COLUMN_USERNAME, username);
+        cv.put(UserIdContract.tableUserIds.COLUMN_PASSWORD, hash);
+        cv.put(UserIdContract.tableUserIds.COLUMN_SALT, salt);
+        cv.put(UserIdContract.tableUserIds.COLUMN_ADMIN, 0);
 
-        db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
+        db.insert(UserIdContract.tableUserIds.TABLE_NAME, null, cv);
 
         databaseCursor = getCursor();
     }
@@ -61,15 +61,15 @@ class DatabaseManager {
     boolean changePassword(String username, String newPassword) {
 
         databaseCursor.moveToPosition(index);
-        byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_SALT));
+        byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.tableUserIds.COLUMN_SALT));
         String newHash = encryptor.encryptor(newPassword, thisSalt);
         ContentValues cv = new ContentValues();
-        cv.put(UserIdContract.newUserId.COLUMN_PASSWORD,newHash);
+        cv.put(UserIdContract.tableUserIds.COLUMN_PASSWORD,newHash);
 
-        String whereClause = UserIdContract.newUserId.COLUMN_USERNAME.concat("=?");
+        String whereClause = UserIdContract.tableUserIds.COLUMN_USERNAME.concat("=?");
         String[] whereArgs = {username};
 
-        if (db.update(UserIdContract.newUserId.TABLE_NAME, cv, whereClause,whereArgs) > 0) {
+        if (db.update(UserIdContract.tableUserIds.TABLE_NAME, cv, whereClause,whereArgs) > 0) {
             return true;
         }
         else {
@@ -87,9 +87,9 @@ class DatabaseManager {
             //uses class variable to move cursor to the position, where the username was located.
             // Removes the need for another for -loop.
             databaseCursor.moveToPosition(index);
-            System.out.println(index);
-            String dbPassWord = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_PASSWORD));
-            byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_SALT));
+            //System.out.println(index);
+            String dbPassWord = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.tableUserIds.COLUMN_PASSWORD));
+            byte[] thisSalt = databaseCursor.getBlob(databaseCursor.getColumnIndex(UserIdContract.tableUserIds.COLUMN_SALT));
             String newHash = encryptor.encryptor(password, thisSalt);
 
             return newHash.equals(dbPassWord);
@@ -109,8 +109,8 @@ class DatabaseManager {
         for (int x = 0; x < count; x++) {
 
             databaseCursor.moveToPosition(x);
-            String dbUserName = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_USERNAME));
-            System.out.println(x);
+            String dbUserName = databaseCursor.getString(databaseCursor.getColumnIndex(UserIdContract.tableUserIds.COLUMN_USERNAME));
+            //System.out.println(x);
             if (dbUserName.equals(username)) {
                 System.out.println(x);
                 index = x;
@@ -120,16 +120,25 @@ class DatabaseManager {
         return false;
     }
 
+    //A simple method to check an admin property from the database.
     boolean isAdmin (String username){
         checkExistance(username);
         databaseCursor.moveToPosition(index);
-        int data = databaseCursor.getInt(databaseCursor.getColumnIndex(UserIdContract.newUserId.COLUMN_ADMIN));
+        int data = databaseCursor.getInt(databaseCursor.getColumnIndex(UserIdContract.tableUserIds.COLUMN_ADMIN));
         return (data == 1);
     }
 
+    // Moving on to use other tables in the database after this line.
+    boolean addUniversity (String name) {
+        ContentValues cv = new ContentValues();
+        cv.put(UserIdContract.tableUniversity.COLUMN_UNINAME, name);
+        return db.insert(UserIdContract.tableUniversity.TABLE_NAME, null, cv) >= 0;
+    }
+
+
     //This method makes a query to get the data from the database. Returns cursor.
     private Cursor getCursor() {
-        return db.query(UserIdContract.newUserId.TABLE_NAME,
+        return db.query(UserIdContract.tableUserIds.TABLE_NAME,
                 null,
                 null,
                 null,
@@ -144,10 +153,10 @@ class DatabaseManager {
         byte[] salt = encryptor.getSalt("admin");
         ContentValues cv = new ContentValues();
         String password = encryptor.encryptor("admin", salt);
-        cv.put(UserIdContract.newUserId.COLUMN_USERNAME, "admin");
-        cv.put(UserIdContract.newUserId.COLUMN_PASSWORD, password);
-        cv.put(UserIdContract.newUserId.COLUMN_SALT, salt);
-        cv.put(UserIdContract.newUserId.COLUMN_ADMIN, 1);
-        db.insert(UserIdContract.newUserId.TABLE_NAME, null, cv);
+        cv.put(UserIdContract.tableUserIds.COLUMN_USERNAME, "admin");
+        cv.put(UserIdContract.tableUserIds.COLUMN_PASSWORD, password);
+        cv.put(UserIdContract.tableUserIds.COLUMN_SALT, salt);
+        cv.put(UserIdContract.tableUserIds.COLUMN_ADMIN, 1);
+        db.insert(UserIdContract.tableUserIds.TABLE_NAME, null, cv);
     }
 }
