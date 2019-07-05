@@ -4,29 +4,22 @@ import java.util.ArrayList;
 
 public class Restaurant {
     private String name;
-    private String id;
-    ArrayList<Restaurant> restaurantList = new ArrayList<>();
+    private int id;
+    private String[] address;
+    private ArrayList<Food> foods;
 
-    private static Restaurant restaurant = new Restaurant();
-
-    public static Restaurant getInstance() { return restaurant; }
-
-    private Restaurant() {
-
+    Restaurant(int resId, String resName, String[] newAddress) {
+        name = resName;
+        id = resId;
+        address = newAddress;
     }
 
     public String getRestaurantName() {
         return name;
     }
 
-    public String getRestaurantId() {
+    public int getRestaurantId() {
         return id;
     }
 
-    public void newRestaurant(String newName, String newId) {
-        Restaurant newRestaurant = new Restaurant();
-        newRestaurant.name = newName;
-        newRestaurant.id = newId;
-        restaurantList.add(newRestaurant);
-    }
 }

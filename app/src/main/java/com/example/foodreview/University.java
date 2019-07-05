@@ -4,29 +4,27 @@ import java.util.ArrayList;
 
 public class University {
     private String name;
-    private String id;
-    ArrayList<University> uniList = new ArrayList<>();
+    private int id;
+    private ArrayList<Restaurant> restaurants;
 
-    private static University university = new University();
-
-    public static University getInstance() { return university; }
-
-    private University() {
+    University(int uniId, String uniName) {
+        name = uniName;
+        id = uniId;
 
     }
 
-    public String getUniName() {
+    String getUniName() {
         return name;
     }
 
-    public String getUniId() {
+    int getUniId() {
         return id;
     }
 
-    public void newUni(String newName, String newId) {
-        University newUni = new University();
-        newUni.name = newName;
-        newUni.id = newId;
-        uniList.add(newUni);
+    public ArrayList<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+    void setRestaurants(ArrayList<Restaurant> newRestaurants) {
+        restaurants = newRestaurants;
     }
 }
