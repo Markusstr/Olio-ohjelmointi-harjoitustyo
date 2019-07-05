@@ -33,6 +33,7 @@
         android:layout_width="401dp"
         android:layout_height="275dp"
         android:layout_marginTop="208dp"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toStartOf="@+id/settingstoolbar"
         app:layout_constraintStart_toEndOf="@+id/settingstoolbar"
         app:layout_constraintTop_toTopOf="@+id/settingstoolbar" />
