@@ -44,6 +44,7 @@ public class AuthenticatorFragment extends Fragment {
         return string;
     }
 
+    //Generates the random number string for the authenticator
     public String randomString() {
         String string = "";
 

@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".AdminActivity">
 
+    <FrameLayout
+        android:id="@+id/adminEditFragmentWindow"
+        android:layout_width="375dp"
+        android:layout_height="372dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#2196F3"
+        android:elevation="2dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/settingstoolbar"
+        app:layout_constraintStart_toStartOf="@+id/settingstoolbar"
+        app:layout_constraintTop_toTopOf="@+id/settingstoolbar">
+
+    </FrameLayout>
+
     <include
         android:id="@+id/settingstoolbar"
         layout="@layout/admin_toolbar"
@@ -17,6 +33,7 @@
         android:layout_width="401dp"
         android:layout_height="275dp"
         android:layout_marginTop="208dp"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toStartOf="@+id/settingstoolbar"
         app:layout_constraintStart_toEndOf="@+id/settingstoolbar"
         app:layout_constraintTop_toTopOf="@+id/settingstoolbar" />

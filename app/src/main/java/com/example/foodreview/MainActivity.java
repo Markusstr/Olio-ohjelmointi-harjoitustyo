@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
         university = University.getInstance();
-        restaurant = Restaurant.getInstance();
+//        restaurant = Restaurant.getInstance();
         food = Food.getInstance();
         universities = findViewById(R.id.universitySpinner);
         restaurants = findViewById(R.id.restaurantSpinner);
@@ -112,18 +112,18 @@ public class MainActivity extends AppCompatActivity
         universities.setAdapter(adapterUni);
 
         //Creates the list of restaurants
-        restaurant.newRestaurant("Aalef", "AALEF"); //TODO TEMPORARY, IMPLEMENT DATABASE HERE PLS
-
-        ArrayList<String> restaurantNames = new ArrayList<>();
-        for (int i = 0; i < restaurant.restaurantList.size(); i++) {
-            if (!restaurantNames.contains(restaurant.restaurantList.get(i).getRestaurantName())) {
-                restaurantNames.add(restaurant.restaurantList.get(i).getRestaurantName());
-            }
-        }
-
-        adapterRestaurant = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, restaurantNames);
-        adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        restaurants.setAdapter(adapterRestaurant);
+//        restaurant.newRestaurant("Aalef", "AALEF"); //TODO TEMPORARY, IMPLEMENT DATABASE HERE PLS
+//
+//        ArrayList<String> restaurantNames = new ArrayList<>();
+//        for (int i = 0; i < restaurant.restaurantList.size(); i++) {
+//            if (!restaurantNames.contains(restaurant.restaurantList.get(i).getRestaurantName())) {
+//                restaurantNames.add(restaurant.restaurantList.get(i).getRestaurantName());
+//            }
+//        }
+//
+//        adapterRestaurant = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, restaurantNames);
+//        adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        restaurants.setAdapter(adapterRestaurant);
 
         //Creates the list of foods for the recyclerView
         food.newFood("Spaghetti", "SPAGHETTI", 1); //TODO TEMPORARY, IMPLEMENT DATABASE HERE PLS
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handles navigation view item clicks
+        // Handles sidebar item clicks
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
