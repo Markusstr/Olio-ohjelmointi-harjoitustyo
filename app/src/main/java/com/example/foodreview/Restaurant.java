@@ -22,4 +22,10 @@ public class Restaurant {
         return id;
     }
 
+    void setRestaurantFoods(ArrayList<Food> newFoods) {
+        this.foods = newFoods;
+    }
+
+    String[] getRestaurantAddress() {
+        return address; }
 }

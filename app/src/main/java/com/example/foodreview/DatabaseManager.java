@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Address;
+
 import com.example.foodreview.UserIdContract.*;
 
 import java.util.ArrayList;
@@ -161,13 +163,18 @@ class DatabaseManager {
 
     //Is called with a list of Address ids to get data to restaurants.
     void updateRestaurants (University thisUniversity) {
+
+        //Creates an SQL query clause. Uses class variables as table names and attributes
         String restaurantQuery = "SELECT * FROM "+tableRestaurant.TABLE_NAME+
                 " INNER JOIN "+ tableAddresses.TABLE_NAME+
                 " ON "+tableRestaurant.TABLE_NAME+"."+tableRestaurant.COLUMN_ADDRESSID+
                 " = "+tableAddresses.TABLE_NAME+"."+tableAddresses.COLUMN_ADDRESSID+
                 " WHERE "+tableRestaurant.COLUMN_UNIID+" = ?;";
 
+        //Creates the argument string array to be appended in where -clause.
         String[] argument = {String.valueOf(thisUniversity.getUniId())};
+
+        //Executes the sql query.
         Cursor newCursor = getRawCursor(restaurantQuery, argument);
         ArrayList<Restaurant> restaurants = new ArrayList<>();
 
@@ -185,6 +192,71 @@ class DatabaseManager {
             restaurants.add(newRestaurant);
         }
         thisUniversity.setRestaurants(restaurants);
+    }
+
+    void fetchFoodFromRestaurant (Restaurant restaurant) {
+
+        //Creates an SQL query clause. Uses class variables as table names and attributes
+        String foodQuery = "SELECT * FROM "+tableFood.TABLE_NAME+
+                " INNER JOIN "+ tableRestaurant.TABLE_NAME+
+                " ON "+tableRestaurant.TABLE_NAME+"."+tableRestaurant.COLUMN_RESTAURANTID+
+                " = "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+
+                " WHERE "+tableFood.COLUMN_RESTAURANTID+" = ?;";
+
+        //Creates the argument string array to be appended in where -clause.
+        String[] arguments = {Integer.toString(restaurant.getRestaurantId())};
+
+        //Executes the sql query.
+        Cursor newCursor = getRawCursor(foodQuery, arguments);
+        ArrayList<Food> foods = new ArrayList<>();
+        Food foodTemp;
+
+        //For -loop to go through every column in the current sql query.
+        for (int x = 0; x < newCursor.getCount(); x++) {
+            String newFoodName = newCursor.getString(newCursor.getColumnIndex(tableFood.COLUMN_FOODNAME));
+            float newFoodPrice = newCursor.getFloat(newCursor.getColumnIndex(tableFood.COLUMN_FOODPRICE));
+            int newFoodId = newCursor.getInt(newCursor.getColumnIndex(tableFood.COLUMN_FOODID));
+            String newDate = newCursor.getString(newCursor.getColumnIndex(tableFood.COLUMN_DATE));
+
+            foodTemp = new Food(newFoodName,newFoodId,newFoodPrice,newDate);
+            foods.add(foodTemp);
+        }
+        restaurant.setRestaurantFoods(foods);
+
+    }
+
+    void setNewUniversity (String newUniName) {
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(tableUniversity.COLUMN_UNINAME, newUniName);
+        db.insert(tableUniversity.TABLE_NAME, null, cv);
+        updateUniversities();
+
+    }
+
+    void setNewRestaurant (String[] newAddress, String newRestaurantName, int whichUni) {
+
+        ContentValues cvAddress = new ContentValues();
+        cvAddress.put(tableAddresses.COLUMN_ADDRESS,newAddress[0]);
+        cvAddress.put(tableAddresses.COLUMN_POSTALCODE, Integer.parseInt(newAddress[1]));
+        cvAddress.put(tableAddresses.COLUMN_CITY, newAddress[2]);
+        long newAddressId = db.insert(tableAddresses.TABLE_NAME, null, cvAddress);
+
+        ContentValues cvRestaurant = new ContentValues();
+        cvRestaurant.put(tableRestaurant.COLUMN_ADDRESSID, newAddressId);
+        cvRestaurant.put(tableRestaurant.COLUMN_RESTAURANTNAME, newRestaurantName);
+        cvRestaurant.put(tableRestaurant.COLUMN_UNIID,whichUni);
+        db.insert(tableRestaurant.TABLE_NAME,null, cvRestaurant);
+
+    }
+
+    void setNewFood(String newFoodName, float newFoodPrice, int newRestaurantId) {
+        ContentValues cv = new ContentValues();
+        cv.put(tableFood.COLUMN_RESTAURANTID, newRestaurantId);
+        cv.put(tableFood.COLUMN_FOODNAME, newFoodName);
+        cv.put(tableFood.COLUMN_FOODPRICE, newFoodPrice);
+        db.insert(tableFood.TABLE_NAME,null, cv);
     }
 
     //This method makes a query to get the data from the database. Returns cursor.
