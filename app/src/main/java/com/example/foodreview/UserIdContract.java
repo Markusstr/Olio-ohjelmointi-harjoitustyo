@@ -15,7 +15,7 @@ class UserIdContract{
         static final String COLUMN_ADMIN = "admin";
     }
 
-    static final class tableAddresses  implements BaseColumns {
+    static final class tableAddresses implements BaseColumns {
         //Contains table names.
         static final String TABLE_NAME = "address";
         static final String COLUMN_ADDRESSID = "addressId";
@@ -24,14 +24,14 @@ class UserIdContract{
         static final String COLUMN_CITY = "city";
     }
 
-    static final class tableUniversity  implements BaseColumns {
+    static final class tableUniversity implements BaseColumns {
         //Contains table names.
         static final String TABLE_NAME = "university";
         static final String COLUMN_UNIID = "uniId";
         static final String COLUMN_UNINAME = "uniName";
     }
 
-    static final class tableChef  implements BaseColumns {
+    static final class tableChef implements BaseColumns {
         //Contains table names.
         static final String TABLE_NAME = "chef";
         static final String COLUMN_CHEFID = "chefId";
@@ -39,7 +39,7 @@ class UserIdContract{
         static final String COLUMN_LASTNAME = "lastName";
     }
 
-    static final class tableRestaurant  implements BaseColumns {
+    static final class tableRestaurant implements BaseColumns {
         //Contains table names.
         static final String TABLE_NAME = "restaurant";
         static final String COLUMN_RESTAURANTID = "restaurantId";
@@ -48,7 +48,7 @@ class UserIdContract{
         static final String COLUMN_ADDRESSID = "addressId";
     }
 
-    static final class tableFood  implements BaseColumns {
+    static final class tableFood implements BaseColumns {
         //Contains table names.
         static final String TABLE_NAME = "food";
         static final String COLUMN_FOODID = "foodId";
@@ -59,7 +59,7 @@ class UserIdContract{
         static final String COLUMN_CHEFID = "chefId";
     }
 
-    static final class tableReview  implements BaseColumns {
+    static final class tableReview implements BaseColumns {
         //Contains table names.
         static final String TABLE_NAME = "review";
         static final String COLUMN_REVIEWID = "reviewId";

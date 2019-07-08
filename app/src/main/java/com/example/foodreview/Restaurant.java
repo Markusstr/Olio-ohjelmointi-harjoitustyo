@@ -63,4 +63,8 @@ class Restaurant {
         }
         return foodPrices;
     }
+
+    ArrayList<Food> getFoods () {
+        return foods;
+    }
 }

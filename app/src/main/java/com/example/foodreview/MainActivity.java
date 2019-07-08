@@ -141,6 +141,16 @@ public class MainActivity extends AppCompatActivity
         universities.setAdapter(adapterUni);
         universities.setOnItemSelectedListener(this);
 
+        foodNames = new ArrayList<>();
+        foodPrices = new ArrayList<>();
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        radapter = new RecyclerViewAdapter(this, foodNames, foodPrices);
+        radapter.setClickListener(this);
+        recyclerView.setAdapter(radapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+
     }
 
     @Override
@@ -236,16 +246,6 @@ public class MainActivity extends AppCompatActivity
         restaurants.setAdapter(adapterRestaurant);
         restaurants.setOnItemSelectedListener(this);
     }
-
-    public void makeFoodsRecycler () {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        radapter = new RecyclerViewAdapter(this, foodNames, foodPrices);
-        radapter.setClickListener(this);
-        recyclerView.setAdapter(radapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL));
-    }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -257,6 +257,11 @@ public class MainActivity extends AppCompatActivity
                 System.out.println(uniName);
                 currentUniversity = universityManager.getUniversity(uniName);
                 dbms.updateRestaurants(currentUniversity);
+                ArrayList<Restaurant> restaurants = currentUniversity.getRestaurants();
+                for (int x = 0; x < restaurants.size(); x++) {
+                    Restaurant tempRestaurant = restaurants.get(x);
+                    dbms.updateFoods(tempRestaurant);
+                }
                 makeRestaurantSpinner(uniName);
                 break;
 
@@ -267,10 +272,11 @@ public class MainActivity extends AppCompatActivity
                 if (currentRestaurant == null) {
                     return;
                 }
-                dbms.updateFoods(currentRestaurant);
-                foodNames = currentRestaurant.getRestaurantFoodStrings(thisDate);
-                foodPrices = currentRestaurant.getRestaurantFoodFloats(thisDate);
-                makeFoodsRecycler();
+                foodPrices.clear();
+                foodNames.clear();
+                foodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
+                foodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
+                radapter.notifyDataSetChanged();
                 break;
         }
     }

@@ -1,27 +1,25 @@
 package com.example.foodreview;
 
-import java.util.ArrayList;
 
 public class Review {
-    private String id;
+    private int id;
     private String review;
     private float grade;
-    private String reviewer;
-    ArrayList<Review> reviewList = new ArrayList<>();
+    private String userId;
+    private int foodId;
 
-    private static Review reviewInstance = new Review();
-
-    public static Review getInstance() { return reviewInstance; }
-
-    private Review() {
-
+    private Review(float newStars, String newReview, String newUserId, int newFoodId) {
+        grade = newStars;
+        userId = newUserId;
+        review = newReview;
+        foodId = newFoodId;
     }
 
     public String getReview() {
         return review;
     }
 
-    public String getReviewId() {
+    public int getReviewId() {
         return id;
     }
 
@@ -29,16 +27,8 @@ public class Review {
         return grade;
     }
 
-    public String getReviewer() {
-        return reviewer;
+    public String getUserId() {
+        return userId;
     }
 
-    public void newReview(String newId, String newReviewText, float newGrade, String newReviewer) {
-        Review newReview = new Review();
-        newReview.review = newReviewText;
-        newReview.id = newId;
-        newReview.grade = newGrade;
-        newReview.reviewer = newReviewer;
-        reviewList.add(newReview);
-    }
 }
