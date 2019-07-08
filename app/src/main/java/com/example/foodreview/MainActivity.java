@@ -1,5 +1,6 @@
 package com.example.foodreview;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -49,6 +52,10 @@ public class MainActivity extends AppCompatActivity
     Bundle bundle;
     String thisDate;
     DatabaseManager dbms;
+    Button datePicker;
+    TextView date;
+    private int year, month, day;
+    final Calendar c = Calendar.getInstance();
 
     private String username;
     protected NavigationView navigationView;
@@ -62,11 +69,32 @@ public class MainActivity extends AppCompatActivity
         universities = findViewById(R.id.universitySpinner);
         restaurants = findViewById(R.id.restaurantSpinner);
         recyclerView = findViewById(R.id.foodListView);
-
         navigationView = findViewById(R.id.nav_view);
+        datePicker = findViewById(R.id.datePicker);
+        date = findViewById(R.id.date);
 
-        //Creates a date for thisDate
-        createDate();
+        //Creates today's date, createDate() method is for getting a new date
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+
+        if ((month + 1) < 10) {
+            if (day < 10) {
+                date.setText("0" + day + ".0" + (month + 1) + "." + year);
+                thisDate = "0" + day + ".0" + (month + 1) + "." + year;
+            } else {
+                date.setText(day + ".0" + (month + 1) + "." + year);
+                thisDate = day + ".0" + (month + 1) + "." + year;
+            }
+        } else {
+            if (day < 10) {
+                date.setText("0" + day + "." + (month + 1) + "." + year);
+                thisDate = "0" + day + "." + (month + 1) + "." + year;
+            } else {
+                date.setText(day + "." + (month + 1) + "." + year);
+                thisDate = day + "." + (month + 1) + "." + year;
+            }
+        }
 
 
         username = getIntent().getStringExtra("username");
@@ -268,22 +296,35 @@ public class MainActivity extends AppCompatActivity
 //    }
 
     //Creates a date for thisDate
-    public void createDate() {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH) + 1;
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        System.out.println("year " + year + " month " + month + " day " + day);
-        if (day < 10) {
-            thisDate = "0" + day + ".";
-        } else {
-            thisDate = day + ".";
+    public void createDate(View view) {
+        if (view == datePicker) {
+            year = c.get(Calendar.YEAR);
+            month = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    if ((month + 1) < 10) {
+                        if (dayOfMonth < 10) {
+                            date.setText("0" + dayOfMonth + ".0" + (month + 1) + "." + year);
+                            thisDate = "0" + dayOfMonth + ".0" + (month + 1) + "." + year;
+                        } else {
+                            date.setText(dayOfMonth + ".0" + (month + 1) + "." + year);
+                            thisDate = dayOfMonth + ".0" + (month + 1) + "." + year;
+                        }
+                    } else {
+                        if (dayOfMonth < 10) {
+                            date.setText("0" + dayOfMonth + "." + (month + 1) + "." + year);
+                            thisDate = "0" + dayOfMonth + "." + (month + 1) + "." + year;
+                        } else {
+                            date.setText(dayOfMonth + "." + (month + 1) + "." + year);
+                            thisDate = dayOfMonth + "." + (month + 1) + "." + year;
+                        }
+                    }
+                }
+            }, year, month, day);
+            datePickerDialog.show();
         }
-        if (month < 10) {
-            thisDate = thisDate + "0" + month + ".";
-        } else {
-            thisDate = thisDate + month + ".";
-        }
-        thisDate = thisDate + year;
     }
 }
