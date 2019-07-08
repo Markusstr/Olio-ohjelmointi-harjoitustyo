@@ -2,17 +2,16 @@ package com.example.foodreview;
 
 
 public class Review {
-    private int id;
+    private int reviewId;
     private String review;
     private float grade;
     private String userId;
-    private int foodId;
 
-    private Review(float newStars, String newReview, String newUserId, int newFoodId) {
+    Review(int newReviewId, float newStars, String newReview, String newUserId) {
+        reviewId = newReviewId;
         grade = newStars;
         userId = newUserId;
         review = newReview;
-        foodId = newFoodId;
     }
 
     public String getReview() {
@@ -20,7 +19,7 @@ public class Review {
     }
 
     public int getReviewId() {
-        return id;
+        return reviewId;
     }
 
     public float getGrade() {

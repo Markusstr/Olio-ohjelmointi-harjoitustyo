@@ -249,9 +249,30 @@ class DatabaseManager {
 
     }
 
-//    void updateReviews (Food food) {
-//        String reviewQuery =
-//    }
+    void updateReviews (Food food) {
+
+        ArrayList<Review> reviews = new ArrayList<>();
+        Review reviewTemp;
+
+        //Creates the argument string array to be appended in where -clause.
+        String whereClause = "WHERE " + tableReview.COLUMN_FOODID + " = ?";
+        String[] arguments = {Integer.toString(food.getFoodId())};
+        Cursor newCursor = getCursorWithWhere(tableReview.TABLE_NAME, whereClause, arguments);
+
+        //For -loop to go through every column in the current sql query.
+        for (int x = 0; x < newCursor.getCount(); x++) {
+            newCursor.moveToPosition(x);
+            int reviewId = newCursor.getInt(newCursor.getColumnIndex(tableReview.COLUMN_REVIEWID));
+            String review = newCursor.getString(newCursor.getColumnIndex(tableReview.COLUMN_REVIEW));
+            float stars = newCursor.getFloat(newCursor.getColumnIndex(tableReview.COLUMN_STARS));
+            String username = newCursor.getString(newCursor.getColumnIndex(tableReview.COLUMN_USERNAME));
+
+            reviewTemp = new Review(reviewId , stars, review, username);
+            reviews.add(reviewTemp);
+        }
+        food.setReviews(reviews);
+
+    }
 
     void deleteUniversity(University university) {
         String whereClause = "WHERE "+tableUniversity.COLUMN_UNIID +" = ?;";
@@ -315,6 +336,16 @@ class DatabaseManager {
                 null,
                 null,
                 null,
+                null,
+                null,
+                null);
+    }
+
+    private Cursor getCursorWithWhere(String whatTable, String whereClause, String[] whereArgs) {
+        return db.query(whatTable,
+                null,
+                whereClause,
+                whereArgs,
                 null,
                 null,
                 null);
