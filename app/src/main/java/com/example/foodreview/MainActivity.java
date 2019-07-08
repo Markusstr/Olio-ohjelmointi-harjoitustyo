@@ -19,6 +19,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.RatingBar;
@@ -30,18 +31,24 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecyclerViewAdapter.ItemClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecyclerViewAdapter.ItemClickListener, Spinner.OnItemSelectedListener {
 
     Spinner universities;
     Spinner restaurants;
-    University university;
-    Restaurant restaurant;
+    UniversityManager universityManager;
+    University currentUniversity;
+    Restaurant currentRestaurant;
+    ArrayList<String> foodNames;
+    ArrayList<Float> foodPrices;
+    RecyclerView recyclerView;
     Food food;
     ArrayAdapter<String> adapterRestaurant;
     RecyclerViewAdapter radapter;
     FrameLayout frame;
     Fragment reviewFragment;
     Bundle bundle;
+    String thisDate = "08.07.2019";
+    DatabaseManager dbms;
 
     private String username;
     protected NavigationView navigationView;
@@ -54,11 +61,10 @@ public class MainActivity extends AppCompatActivity
 //        startActivityForResult(intent, 1);
 
         setContentView(R.layout.activity_main);
-        university = University.getInstance();
-//        restaurant = Restaurant.getInstance();
-        food = Food.getInstance();
+
         universities = findViewById(R.id.universitySpinner);
         restaurants = findViewById(R.id.restaurantSpinner);
+        recyclerView = findViewById(R.id.foodListView);
 
         navigationView = findViewById(R.id.nav_view);
 
@@ -67,7 +73,9 @@ public class MainActivity extends AppCompatActivity
         TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
         nav_header_username.setText(username);
 
-        DatabaseManager dbms = DatabaseManager.getInstance(this);
+        dbms = DatabaseManager.getInstance(this);
+        universityManager = UniversityManager.getInstance();
+        dbms.updateUniversities();
 
         if (dbms.isAdmin(username)) {
             navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, true);
@@ -97,19 +105,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_home);
 
 
-        //Creates the list of universities
-        university.newUni("LUT", "LUT"); //TODO TEMPORARY, IMPLEMENT DATABASE HERE PLS
-
-        ArrayList<String> uniNames = new ArrayList<>();
-        for (int i = 0; i < university.uniList.size(); i++) {
-            if (!uniNames.contains(university.uniList.get(i).getUniName())) {
-                uniNames.add(university.uniList.get(i).getUniName());
-            }
-        }
+        ArrayList<String> uniNames;
+        uniNames = universityManager.getUniNames();
 
         ArrayAdapter<String> adapterUni = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
         adapterUni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         universities.setAdapter(adapterUni);
+        universities.setOnItemSelectedListener(this);
+
 
         //Creates the list of restaurants
 //        restaurant.newRestaurant("Aalef", "AALEF"); //TODO TEMPORARY, IMPLEMENT DATABASE HERE PLS
@@ -121,38 +124,6 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        }
 //
-//        adapterRestaurant = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, restaurantNames);
-//        adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        restaurants.setAdapter(adapterRestaurant);
-
-        //Creates the list of foods for the recyclerView
-        food.newFood("Spaghetti", "SPAGHETTI", 1); //TODO TEMPORARY, IMPLEMENT DATABASE HERE PLS
-        food.newFood("Lasagna", "LASAGNA", 2);
-
-        ArrayList<String> foodNames = new ArrayList<>();
-        for (int i = 0; i < food.foodList.size(); i++) {
-            if (!foodNames.contains(food.foodList.get(i).getFoodName())) {
-                foodNames.add(food.foodList.get(i).getFoodName());
-            }
-        }
-
-        ArrayList<Double> foodPrices = new ArrayList<>();
-        for (int i = 0; i < food.foodList.size(); i++) {
-            if (!foodPrices.contains(food.foodList.get(i).getFoodPrice())) {
-                foodPrices.add(food.foodList.get(i).getFoodPrice());
-            }
-        }
-
-        //Creating the recyclerView and customizing it
-        RecyclerView recyclerView = findViewById(R.id.foodListView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        radapter = new RecyclerViewAdapter(this, foodNames, foodPrices);
-        radapter.setClickListener(this);
-        recyclerView.setAdapter(radapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL));
-
-
     }
 
     @Override
@@ -238,6 +209,56 @@ public class MainActivity extends AppCompatActivity
 
         String toast = bundle.getString("foodName") + " " + getString(R.string.ratingRated) + " " + ratingBar.getRating();
         Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+    }
+
+    public void makeRestaurantSpinner(String uniName) {
+        currentUniversity = universityManager.getUniversity(uniName);
+        ArrayList<String> restaurantStrings = currentUniversity.getRestaurantStrings();
+
+        adapterRestaurant = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, restaurantStrings);
+        adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        restaurants.setAdapter(adapterRestaurant);
+    }
+
+    public void makeFoodsRecycler () {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        radapter = new RecyclerViewAdapter(this, foodNames, foodPrices);
+        radapter.setClickListener(this);
+        recyclerView.setAdapter(radapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        System.out.println("Going to item selected." + parent.getId());
+
+        switch (parent.getId()) {
+            case R.id.universitySpinner:
+                String uniName = parent.getItemAtPosition(position).toString();
+                System.out.println(uniName);
+                currentUniversity = universityManager.getUniversity(uniName);
+                dbms.updateRestaurants(currentUniversity);
+                makeRestaurantSpinner(uniName);
+
+            case R.id.restaurantSpinner:
+                String restaurantName = parent.getItemAtPosition(position).toString();
+                System.out.println(restaurantName);
+                currentRestaurant = currentUniversity.getRestaurant(restaurantName);
+                if (currentRestaurant == null) {
+                    return;
+                }
+                dbms.updateFoods(currentRestaurant);
+                foodNames = currentRestaurant.getRestaurantFoodStrings(thisDate);
+                foodPrices = currentRestaurant.getRestaurantFoodFloats(thisDate);
+                makeFoodsRecycler();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
 //    @Override

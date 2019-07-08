@@ -68,12 +68,4 @@
     <string name="authenticator_title">Kirjoita seuraavat 6 numeroa alle</string>
     <string name="settings_alertdialog_notsaved">Asetuksia ei tallennettu</string>
     <string name="admin_restaurant">Ravintola</string>
-    <string name="menu_admin">Ylläpitäjä</string>
-    <string name="settings_oldpasswordwrong">Vanha salasana ei ole oikein</string>
-    <string name="settings_passwordsuccessful">Salasana vaihdettu onnistuneesti</string>
-    <string name="settings_oldnewpasswordnotequal">Uusi ja vanha salasana eivät voi olla samoja</string>
-    <string name="settings_passworderror">Jotain meni pieleen salasanan tallennuksessa. Yritä uudestaan hetken kuluttua</string>
-    <string name="admin_title">Ylläpitäjä</string>
-    <string name="settings_alertdialog_notsaved">Asetuksia ei tallennettu</string>
-    <string name="admin_restaurant">Ravintola</string>
 </resources>

@@ -26,6 +26,40 @@ public class Restaurant {
         this.foods = newFoods;
     }
 
-    String[] getRestaurantAddress() {
-        return address; }
+    String[] getRawRestaurantAddress() {
+        return address;
+    }
+
+    String getRestaurantAddress() {
+        String restaurantAddressString;
+        restaurantAddressString = address[0];
+        restaurantAddressString = restaurantAddressString.concat(" ");
+        restaurantAddressString = restaurantAddressString.concat(address[1]).concat(" ");
+        restaurantAddressString = restaurantAddressString.concat(address[2]);
+        return restaurantAddressString;
+    }
+
+    // Takes date, compares all of the restaurant foods with the given date
+    // Returns an ArrayList with compatible strings of food names.
+    ArrayList<String> getRestaurantFoodStrings(String date) {
+        ArrayList<String> restaurantFoodStrings = new ArrayList<>();
+        for (int x = 0; x < foods.size(); x++) {
+            if (date.equals(foods.get(x).getDate())) {
+                restaurantFoodStrings.add(foods.get(x).getFoodName());
+            }
+        }
+        return restaurantFoodStrings;
+    }
+
+    // Takes date, compares all of the restaurant foods with the given date
+    // Returns an ArrayList with compatible floats of food prices.
+    ArrayList<Float> getRestaurantFoodFloats(String date) {
+        ArrayList<Float> foodPrices = new ArrayList<>();
+        for (int x = 0; x < foods.size(); x++) {
+            if (date.equals(foods.get(x).getDate())) {
+                foodPrices.add(foods.get(x).getFoodPrice());
+            }
+        }
+        return foodPrices;
+    }
 }

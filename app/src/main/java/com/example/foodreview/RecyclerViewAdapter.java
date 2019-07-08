@@ -9,16 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private List<String> mDataNames;
-    private List<Double> mDataPrices;
+    private ArrayList<String> mDataNames;
+    private ArrayList<Float> mDataPrices;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    RecyclerViewAdapter(Context context, List<String> dataNames, List<Double> dataPrices) {
+    RecyclerViewAdapter(Context context, ArrayList<String> dataNames, ArrayList<Float> dataPrices) {
         this.mInflater = LayoutInflater.from(context);
         this.mDataNames = dataNames;
         this.mDataPrices = dataPrices;
