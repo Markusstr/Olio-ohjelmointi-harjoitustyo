@@ -53,6 +53,12 @@
     <string name="settings_hint_newpassword">Uusi salasana</string>
     <string name="settings_hint_newpasswordagain">Uusi salasana uudestaan</string>
     <string name="settings_changepassword">Vaihda salasana</string>
+    <string name="menu_admin">Ylläpitäjä</string>
+    <string name="settings_oldpasswordwrong">Vanha salasana ei ole oikein</string>
+    <string name="settings_passwordsuccessful">Salasana vaihdettu onnistuneesti</string>
+    <string name="settings_oldnewpasswordnotequal">Uusi ja vanha salasana eivät voi olla samoja</string>
+    <string name="settings_passworderror">Jotain meni pieleen salasanan tallennuksessa. Yritä uudestaan hetken kuluttua</string>
+    <string name="admin_title">Ylläpitäjä</string>
     <string name="fragment_foodTitleNameNull">Invaliidi ruuan nimi</string>
     <string name="ratingCancelled">Arvostelu peruutettu</string>
     <string name="ratingRated">arvosteltu</string>
@@ -70,4 +76,6 @@
     <string name="admin_title">Ylläpitäjä</string>
     <string name="admin_fragment_address">Osoite:</string>
     <string name="admin_fragment_restaurantname">Nimi:</string>
+    <string name="settings_alertdialog_notsaved">Asetuksia ei tallennettu</string>
+    <string name="admin_restaurant">Ravintola</string>
 </resources>
