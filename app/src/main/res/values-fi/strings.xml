@@ -70,4 +70,6 @@
     <string name="admin_title">Ylläpitäjä</string>
     <string name="admin_fragment_address">Osoite:</string>
     <string name="admin_fragment_restaurantname">Nimi:</string>
+    <string name="date">Pvm:</string>
+    <string name="dateBtn">Pvm</string>
 </resources>

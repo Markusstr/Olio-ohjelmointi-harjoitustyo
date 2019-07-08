@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.foodListView);
         navigationView = findViewById(R.id.nav_view);
         datePicker = findViewById(R.id.datePicker);
-        date = findViewById(R.id.date);
+        date = findViewById(R.id.dateText);
 
         //Creates today's date, createDate() method is for getting a new date
         year = c.get(Calendar.YEAR);
