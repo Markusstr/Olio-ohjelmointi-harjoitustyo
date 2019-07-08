@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     FrameLayout frame;
     Fragment reviewFragment;
     Bundle bundle;
-    String thisDate = "08.07.2019"; //TODO WTF IS THIS HARD CODING
+    String thisDate;
     DatabaseManager dbms;
 
     private String username;
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.foodListView);
 
         navigationView = findViewById(R.id.nav_view);
+
+        //Creates a date for thisDate
+        createDate();
+
 
         username = getIntent().getStringExtra("username");
         View headerView = navigationView.getHeaderView(0);
@@ -261,4 +266,24 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        }
 //    }
+
+    //Creates a date for thisDate
+    public void createDate() {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        System.out.println("year " + year + " month " + month + " day " + day);
+        if (day < 10) {
+            thisDate = "0" + day + ".";
+        } else {
+            thisDate = day + ".";
+        }
+        if (month < 10) {
+            thisDate = thisDate + "0" + month + ".";
+        } else {
+            thisDate = thisDate + month + ".";
+        }
+        thisDate = thisDate + year;
+    }
 }
