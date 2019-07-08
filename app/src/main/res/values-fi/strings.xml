@@ -72,4 +72,7 @@
     <string name="admin_fragment_restaurantname">Nimi:</string>
     <string name="date">Pvm:</string>
     <string name="dateBtn">Pvm</string>
+    <string name="admin_fragment_price">Hinta:</string>
+    <string name="admin_fragment_date">Pvm:</string>
+    <string name="admin_fragment_title">Ylläpitäjän näkymä muokkauksiin</string>
 </resources>

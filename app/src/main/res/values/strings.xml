@@ -72,4 +72,7 @@
     <string name="admin_fragment_address">Address:</string>
     <string name="date">Date:</string>
     <string name="dateBtn">Date</string>
+    <string name="admin_fragment_price">Price:</string>
+    <string name="admin_fragment_date">Date:</string>
+    <string name="admin_fragment_title">Admin item edit view</string>
 </resources>

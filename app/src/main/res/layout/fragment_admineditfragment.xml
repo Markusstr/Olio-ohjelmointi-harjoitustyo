@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Admin edit view"
-        android:textSize="18sp"
+        android:text="@string/admin_fragment_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:onClick="continueClick"
-        android:text="Button"
+        android:text="@string/loginFragment_continue"
         app:layout_constraintStart_toStartOf="@+id/restaurantAddress"
         app:layout_constraintTop_toBottomOf="@+id/restaurantAddress" />
 
@@ -75,7 +75,6 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:padding="7dp"
-        android:text="Name"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/restaurantName"
         app:layout_constraintTop_toBottomOf="@+id/admin_fragment_title" />
@@ -88,7 +87,6 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:padding="7dp"
-        android:text="Name"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/restaurantAddress"
         app:layout_constraintTop_toBottomOf="@+id/fieldRestaurantName" />
