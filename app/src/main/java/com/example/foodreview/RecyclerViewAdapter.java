@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -36,10 +37,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setMaximumFractionDigits(2);
+
         String food = mDataNames.get(position);
         holder.foodName.setText(food);
-        double price = mDataPrices.get(position);
-        holder.foodPrice.setText(price + " €");
+        float price = mDataPrices.get(position);
+        String priceToString = df.format(price);
+
+        holder.foodPrice.setText(priceToString + " €");
     }
 
     // total number of rows

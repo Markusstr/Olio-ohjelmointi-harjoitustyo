@@ -249,6 +249,18 @@ class DatabaseManager {
 
     }
 
+//    void updateReviews (Food food) {
+//        String reviewQuery =
+//    }
+
+    void deleteUniversity(University university) {
+        String whereClause = "WHERE "+tableUniversity.COLUMN_UNIID +" = ?;";
+        String[] whereArgs = {Integer.toString(university.getUniId())};
+        db.delete(tableUniversity.TABLE_NAME, whereClause, whereArgs);
+
+        updateUniversities();
+    }
+
     void setNewUniversity (String newUniName) {
 
         ContentValues cv = new ContentValues();
@@ -285,6 +297,16 @@ class DatabaseManager {
         cv.put(tableFood.COLUMN_DATE, newFoodDate);
         long insertedId = db.insert(tableFood.TABLE_NAME,null, cv);
         System.out.println("New food id is: "+insertedId);
+    }
+
+    void setNewReview (String newReview, float newStars, String newUsername, int newFoodId) {
+        ContentValues cv = new ContentValues();
+        cv.put(tableReview.COLUMN_FOODID, newFoodId);
+        cv.put(tableReview.COLUMN_STARS, newStars);
+        cv.put(tableReview.COLUMN_REVIEW, newReview);
+        cv.put(tableReview.COLUMN_USERNAME, newUsername);
+        long insertedId = db.insert(tableReview.TABLE_NAME, null, cv);
+        System.out.println("New review id is: "+ insertedId);
     }
 
     //This method makes a query to get the data from the database. Returns cursor.
