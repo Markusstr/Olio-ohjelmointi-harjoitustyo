@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
     FrameLayout frame;
     Fragment reviewFragment;
     Bundle bundle;
-    String thisDate = "08.07.2019";
+    String thisDate = "08.07.2019"; //TODO WTF IS THIS HARD CODING
     DatabaseManager dbms;
 
     private String username;
@@ -55,9 +55,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Starts the log in activity first
-//        Intent intent = new Intent(this, LogInActivity.class);
-//        startActivityForResult(intent, 1);
 
         setContentView(R.layout.activity_main);
 
@@ -229,6 +226,7 @@ public class MainActivity extends AppCompatActivity
                 currentUniversity = universityManager.getUniversity(uniName);
                 dbms.updateRestaurants(currentUniversity);
                 makeRestaurantSpinner(uniName);
+                break;
 
             case R.id.restaurantSpinner:
                 String restaurantName = parent.getItemAtPosition(position).toString();
@@ -241,6 +239,7 @@ public class MainActivity extends AppCompatActivity
                 foodNames = currentRestaurant.getRestaurantFoodStrings(thisDate);
                 foodPrices = currentRestaurant.getRestaurantFoodFloats(thisDate);
                 makeFoodsRecycler();
+                break;
         }
     }
 
