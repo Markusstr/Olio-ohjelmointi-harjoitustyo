@@ -68,4 +68,6 @@
     <string name="authenticator_title">Kirjoita seuraavat 6 numeroa alle</string>
     <string name="settings_alertdialog_notsaved">Asetuksia ei tallennettu</string>
     <string name="admin_restaurant">Ravintola</string>
+    <string name="admin_fragment_restaurantname">Nimi:</string>
+    <string name="admin_fragment_address">Osoite:</string>
 </resources>

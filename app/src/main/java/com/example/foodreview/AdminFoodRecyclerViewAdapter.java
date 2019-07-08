@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecyclerViewAdapter.AdminViewHolder> {
-    private ArrayList<Restaurant> mRestaurantList;
+public class AdminFoodRecyclerViewAdapter extends RecyclerView.Adapter<AdminFoodRecyclerViewAdapter.AdminViewHolder> {
+    private ArrayList<Food> mFoodList;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -26,14 +26,14 @@ public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecycler
 
     static class AdminViewHolder extends RecyclerView.ViewHolder {
         TextView mName;
-        TextView mAddress;
+        TextView mInfo;
         ImageView mEdit;
         ImageView mDelete;
 
         AdminViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             mName = itemView.findViewById(R.id.admin_name);
-            mAddress = itemView.findViewById(R.id.admin_address);
+            mInfo = itemView.findViewById(R.id.admin_info);
             mDelete = itemView.findViewById(R.id.admin_delete);
             mEdit = itemView.findViewById(R.id.admin_edit);
 
@@ -75,30 +75,30 @@ public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecycler
         }
     }
 
-    AdminRecyclerViewAdapter(ArrayList<Restaurant> restaurantList) {
-        mRestaurantList = restaurantList;
+    AdminFoodRecyclerViewAdapter(ArrayList<Food> foodList) {
+        mFoodList = foodList;
     }
 
     @NonNull
     @Override
     public AdminViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adminrecyclerview_row, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adminfoodrecyclerview_row, viewGroup, false);
         return new AdminViewHolder(v, mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AdminViewHolder adminViewHolder, int i) {
-        Restaurant currentItem = mRestaurantList.get(i);
+        Food currentItem = mFoodList.get(i);
 
-        adminViewHolder.mName.setText(currentItem.getRestaurantName());
-        adminViewHolder.mAddress.setText(currentItem.getRestaurantAddress() /*TODO: getAddress()*/);
+        adminViewHolder.mName.setText(currentItem.getFoodName());
+        String infoText = currentItem.getDate() + " - " + currentItem.getFoodPrice();
+        adminViewHolder.mInfo.setText(infoText);
 
     }
 
     @Override
     public int getItemCount() {
-        return mRestaurantList.size();
+        return mFoodList.size();
     }
 
 }
-
