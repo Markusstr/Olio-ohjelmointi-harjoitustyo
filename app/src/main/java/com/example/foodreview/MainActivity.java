@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
     ArrayList<String> foodNames;
     ArrayList<Float> foodPrices;
     RecyclerView recyclerView;
-    Food food;
     ArrayAdapter<String> adapterRestaurant;
     RecyclerViewAdapter radapter;
     FrameLayout frame;

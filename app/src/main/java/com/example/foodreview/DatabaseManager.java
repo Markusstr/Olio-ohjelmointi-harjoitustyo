@@ -85,7 +85,7 @@ class DatabaseManager {
     boolean searchDatabase (String username, String password) {
 
         databaseCursor = getCursor(tableUserIds.TABLE_NAME);
-        if (checkStringExistance("admin", tableUserIds.TABLE_NAME, tableUserIds.COLUMN_USERNAME)) {
+        if (checkStringExistance(username, tableUserIds.TABLE_NAME, tableUserIds.COLUMN_USERNAME)) {
             //uses class variable to move cursor to the position, where the username was located.
             // Removes the need for another for -loop.
             databaseCursor.moveToPosition(userIndex);
@@ -156,7 +156,7 @@ class DatabaseManager {
 
     //A simple method to check an admin property from the database.
     boolean isAdmin (String username){
-        checkStringExistance("admin", tableUserIds.TABLE_NAME, tableUserIds.COLUMN_USERNAME);
+        checkStringExistance(username, tableUserIds.TABLE_NAME, tableUserIds.COLUMN_USERNAME);
         databaseCursor.moveToPosition(userIndex);
         int data = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
         return (data == 1);

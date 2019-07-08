@@ -2,7 +2,7 @@ package com.example.foodreview;
 
 import java.util.ArrayList;
 
-public class Restaurant {
+class Restaurant {
     private String name;
     private int id;
     private String[] address;
@@ -14,11 +14,11 @@ public class Restaurant {
         address = newAddress;
     }
 
-    public String getRestaurantName() {
+    String getRestaurantName() {
         return name;
     }
 
-    public int getRestaurantId() {
+    int getRestaurantId() {
         return id;
     }
 
@@ -26,9 +26,9 @@ public class Restaurant {
         this.foods = newFoods;
     }
 
-    String[] getRawRestaurantAddress() {
-        return address;
-    }
+//    String[] getRawRestaurantAddress() {
+//        return address;
+//    }
 
     String getRestaurantAddress() {
         String restaurantAddressString;

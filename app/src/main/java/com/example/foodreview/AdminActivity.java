@@ -10,19 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class AdminActivity extends AppCompatActivity{
 
-    private RecyclerView mRecyclerView;
     private AdminRecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Restaurant> mRestaurantList;
-    private University currentUniversity;
     private UniversityManager universityManager;
     FrameLayout frame;
 
@@ -53,15 +48,15 @@ public class AdminActivity extends AppCompatActivity{
     }
 
     public void createRestaurantList() {
-        currentUniversity = universityManager.getUniversity("LUT-University");
+        University currentUniversity = universityManager.getUniversity("LUT-University");
         mRestaurantList = currentUniversity.getRestaurants();
 
     }
 
     public void buildRecyclerView() {
-        mRecyclerView = findViewById(R.id.adminRecyclerView);
+        RecyclerView mRecyclerView = findViewById(R.id.adminRecyclerView);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new AdminRecyclerViewAdapter(mRestaurantList);
 
         mRecyclerView.setLayoutManager(mLayoutManager);

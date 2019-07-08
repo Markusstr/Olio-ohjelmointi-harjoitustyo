@@ -1,10 +1,9 @@
 package com.example.foodreview;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 // University is a class that also functions as a manager for all restaurants.
-public class University {
+class University {
     private String name;
     private int id;
     private ArrayList<Restaurant> restaurants;
@@ -23,7 +22,7 @@ public class University {
         return id;
     }
 
-    public ArrayList<Restaurant> getRestaurants() {
+    ArrayList<Restaurant> getRestaurants() {
         return restaurants;
     }
 
