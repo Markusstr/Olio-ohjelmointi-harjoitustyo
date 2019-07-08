@@ -23,6 +23,7 @@ class Restaurant {
     }
 
     void setRestaurantFoods(ArrayList<Food> newFoods) {
+        System.out.println("Tiedot tallentuvat oikein. Pituus on: " + newFoods.size());
         this.foods = newFoods;
     }
 

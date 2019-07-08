@@ -224,7 +224,7 @@ class DatabaseManager {
                 " INNER JOIN "+ tableRestaurant.TABLE_NAME+
                 " ON "+tableRestaurant.TABLE_NAME+"."+tableRestaurant.COLUMN_RESTAURANTID+
                 " = "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+
-                " WHERE "+tableFood.COLUMN_RESTAURANTID+" = ?;";
+                " WHERE "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+" = ?;";
 
         //Creates the argument string array to be appended in where -clause.
         String[] arguments = {Integer.toString(restaurant.getRestaurantId())};
@@ -236,6 +236,7 @@ class DatabaseManager {
 
         //For -loop to go through every column in the current sql query.
         for (int x = 0; x < newCursor.getCount(); x++) {
+            newCursor.moveToPosition(x);
             String newFoodName = newCursor.getString(newCursor.getColumnIndex(tableFood.COLUMN_FOODNAME));
             float newFoodPrice = newCursor.getFloat(newCursor.getColumnIndex(tableFood.COLUMN_FOODPRICE));
             int newFoodId = newCursor.getInt(newCursor.getColumnIndex(tableFood.COLUMN_FOODID));
