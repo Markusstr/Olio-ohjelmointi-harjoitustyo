@@ -80,4 +80,5 @@
     <string name="adminusermanager_menu_main">Hallitse ravintoloita ja ruokia</string>
     <string name="admin_menu_usermanager">Hallitse käyttäjiä</string>
     <string name="adminusermanager_title">Käyttäjien hallinta</string>
+    <string name="admin_menu_save">Tallenna tiedostoon</string>
 </resources>

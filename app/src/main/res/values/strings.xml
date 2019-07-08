@@ -80,4 +80,5 @@
     <string name="adminusermanager_menu_main">Manage restaurants and foods</string>
     <string name="admin_menu_usermanager">Manage users</string>
     <string name="adminusermanager_title">User manager</string>
+    <string name="admin_menu_save">Save to file</string>
 </resources>

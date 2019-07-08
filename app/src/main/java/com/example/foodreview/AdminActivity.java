@@ -101,6 +101,9 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 Toast.makeText(this, "New food", Toast.LENGTH_SHORT).show();
                 //TODO: New food fragment
                 break;
+            case R.id.admin_action_save:
+                Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
+                //TODO: Save to file
         }
         return true;
     }
@@ -198,7 +201,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 bundle.putString("foodName", mFoodList.get(position).getFoodName());
                 bundle.putString("foodPrice", foodPrice);
                 bundle.putString("foodDate", mFoodList.get(position).getDate());
-                Fragment adminFoodEditFragment = new adminFoodEditFragment();
+                Fragment adminFoodEditFragment = new AdminFoodEditFragment();
                 adminFoodEditFragment.setArguments(bundle);
                 frame = findViewById(R.id.adminEditFragmentWindow);
                 frame.setVisibility(View.VISIBLE);

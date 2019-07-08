@@ -48,7 +48,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/adminRecyclerView"
-        android:layout_width="411dp"
+        android:layout_width="match_parent"
         android:layout_height="632dp"
         android:layout_marginTop="8dp"
         android:scrollbars="vertical"
@@ -58,7 +58,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/adminFoodRecyclerView"
-        android:layout_width="411dp"
+        android:layout_width="match_parent"
         android:layout_height="632dp"
         android:layout_marginTop="8dp"
         android:scrollbars="vertical"

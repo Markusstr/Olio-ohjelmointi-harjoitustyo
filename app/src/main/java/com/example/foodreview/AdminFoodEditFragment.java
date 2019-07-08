@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class adminFoodEditFragment extends Fragment {
+public class AdminFoodEditFragment extends Fragment {
     View view;
 
     @Nullable
