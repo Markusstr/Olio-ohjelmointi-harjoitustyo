@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
     ArrayList<String> foodNames;
     ArrayList<Float> foodPrices;
     RecyclerView recyclerView;
-    Food food;
     ArrayAdapter<String> adapterRestaurant;
     RecyclerViewAdapter radapter;
     FrameLayout frame;
@@ -113,17 +112,6 @@ public class MainActivity extends AppCompatActivity
         universities.setAdapter(adapterUni);
         universities.setOnItemSelectedListener(this);
 
-
-        //Creates the list of restaurants
-//        restaurant.newRestaurant("Aalef", "AALEF"); //TODO TEMPORARY, IMPLEMENT DATABASE HERE PLS
-//
-//        ArrayList<String> restaurantNames = new ArrayList<>();
-//        for (int i = 0; i < restaurant.restaurantList.size(); i++) {
-//            if (!restaurantNames.contains(restaurant.restaurantList.get(i).getRestaurantName())) {
-//                restaurantNames.add(restaurant.restaurantList.get(i).getRestaurantName());
-//            }
-//        }
-//
     }
 
     @Override
@@ -214,10 +202,10 @@ public class MainActivity extends AppCompatActivity
     public void makeRestaurantSpinner(String uniName) {
         currentUniversity = universityManager.getUniversity(uniName);
         ArrayList<String> restaurantStrings = currentUniversity.getRestaurantStrings();
-
         adapterRestaurant = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, restaurantStrings);
         adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         restaurants.setAdapter(adapterRestaurant);
+        restaurants.setOnItemSelectedListener(this);
     }
 
     public void makeFoodsRecycler () {

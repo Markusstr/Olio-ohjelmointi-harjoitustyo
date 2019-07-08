@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private ArrayList<String> mDataNames;
@@ -74,8 +73,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     String getName(int id) {
         return mDataNames.get(id);
     }
-
-    double getPrice(int id) {return mDataPrices.get(id); }
 
     // allows clicks events to be caught
     void setClickListener(ItemClickListener itemClickListener) {
