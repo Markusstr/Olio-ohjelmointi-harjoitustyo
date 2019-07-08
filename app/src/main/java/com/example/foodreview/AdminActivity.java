@@ -22,6 +22,8 @@ public class AdminActivity extends AppCompatActivity{
     private AdminRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Restaurant> mRestaurantList;
+    private University currentUniversity;
+    private UniversityManager universityManager;
     FrameLayout frame;
 
     @Override
@@ -39,6 +41,7 @@ public class AdminActivity extends AppCompatActivity{
             }
         });
 
+        universityManager = UniversityManager.getInstance();
         createRestaurantList();
         buildRecyclerView();
 
@@ -50,15 +53,8 @@ public class AdminActivity extends AppCompatActivity{
     }
 
     public void createRestaurantList() {
-        mRestaurantList = new ArrayList<>();
-        mRestaurantList.add(new Restaurant("Laseri", "Testikatu 25 A"));
-        mRestaurantList.add(new Restaurant("LUT Buffet", "Yliopistonkatu 34"));
-        mRestaurantList.add(new Restaurant("LUT Buffet", "Yliopistonkatu 34"));
-        mRestaurantList.add(new Restaurant("LUT Buffet", "Yliopistonkatu 34"));
-        mRestaurantList.add(new Restaurant("LUT Buffet", "Yliopistonkatu 34"));
-        mRestaurantList.add(new Restaurant("LUT Buffet", "Yliopistonkatu 34"));
-        mRestaurantList.add(new Restaurant("LUT Buffet", "Yliopistonkatu 34"));
-        mRestaurantList.add(new Restaurant("LUT Buffet", "Yliopistonkatu 34"));
+        currentUniversity = universityManager.getUniversity("LUT-University");
+        mRestaurantList = currentUniversity.getRestaurants();
 
     }
 

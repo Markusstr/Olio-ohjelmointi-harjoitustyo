@@ -1,5 +1,6 @@
 package com.example.foodreview;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 // University is a class that also functions as a manager for all restaurants.
@@ -27,6 +28,8 @@ public class University {
     }
 
     void setRestaurants(ArrayList<Restaurant> newRestaurants) {
+
+        System.out.println("Onnistuneesti tämän pituinen newRestaurants " + newRestaurants.size());
         restaurants = newRestaurants;
     }
 
@@ -37,6 +40,14 @@ public class University {
                 return restaurants.get(x);
             }
         }
+        //System.out.println("Null returned");
         return null;
+    }
+    ArrayList<String> getRestaurantStrings () {
+        ArrayList<String> restaurantStrings = new ArrayList<>();
+        for (int x = 0; x < restaurants.size(); x++) {
+            restaurantStrings.add(restaurants.get(x).getRestaurantName());
+        }
+        return restaurantStrings;
     }
 }

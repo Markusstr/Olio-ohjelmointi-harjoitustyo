@@ -33,10 +33,20 @@ class UniversityManager {
     University getUniversity(String name) {
         for (int x = 0; x < universities.size(); x++) {
             if (name.equals(universities.get(x).getUniName())) {
+                System.out.println("University found and returned");
                 return universities.get(x);
+
             }
         }
         return null;
+    }
+
+    ArrayList<String> getUniNames () {
+        ArrayList<String> uniNames = new ArrayList<>();
+        for (int x = 0; x < universities.size(); x++) {
+            uniNames.add(universities.get(x).getUniName());
+        }
+        return uniNames;
     }
 
 
