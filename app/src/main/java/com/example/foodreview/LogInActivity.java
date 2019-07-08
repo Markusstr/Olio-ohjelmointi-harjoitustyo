@@ -56,6 +56,16 @@ public class LogInActivity extends AppCompatActivity {
                     transaction.replace(R.id.authenticatorframe, authenticatorFragment);
                     transaction.commit();
 
+                    //TODO REMOVE THIS WHEN PROJECT DONE
+                    //*******************************************************************************
+                    Intent mainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
+                    setResult(RESULT_OK, mainActivityIntent);
+                    mainActivityIntent.putExtra("username", username);
+                    mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(mainActivityIntent);
+                    finish();
+                    //*******************************************************************************
+
                 }
                 else {
 
