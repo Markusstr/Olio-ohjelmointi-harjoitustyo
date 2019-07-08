@@ -173,29 +173,25 @@ public class AdminActivity extends AppCompatActivity{
 
             @Override
             public void onEditClick(int position) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("restaurantName", mRestaurantList.get(position).getRestaurantName());
-//                bundle.putString("restaurantAddress", mRestaurantList.get(position).getRestaurantAddress());
-//                Fragment adminEditFragment = new AdminEditFragment();
-//                adminEditFragment.setArguments(bundle);
-//                frame = findViewById(R.id.adminEditFragmentWindow);
-//                frame.setVisibility(View.VISIBLE);
-//                FragmentManager manager = getSupportFragmentManager();
-//                FragmentTransaction transaction = manager.beginTransaction();
-//                transaction.replace(R.id.adminEditFragmentWindow, adminEditFragment);
-//                transaction.commit();
-//                TODO: Other fragment
+                Bundle bundle = new Bundle();
+                String foodPrice = "" + mFoodList.get(position).getFoodPrice();
+                bundle.putString("foodName", mFoodList.get(position).getFoodName());
+                bundle.putString("foodPrice", foodPrice);
+                bundle.putString("foodDate", mFoodList.get(position).getDate());
+                Fragment adminFoodEditFragment = new adminFoodEditFragment();
+                adminFoodEditFragment.setArguments(bundle);
+                frame = findViewById(R.id.adminEditFragmentWindow);
+                frame.setVisibility(View.VISIBLE);
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.adminEditFragmentWindow, adminFoodEditFragment);
+                transaction.commit();
             }
         });
     }
 
     public void continueClick(View view) {
         frame.setVisibility(View.INVISIBLE);
-        Fragment adminEditFragment = new AdminEditFragment();
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.detach(adminEditFragment);
-        transaction.commit();
     }
 }
 

@@ -32,8 +32,7 @@ public class AdminEditFragment extends Fragment {
             fieldRestaurantName.setText(arg);
             fieldRestaurantAddress.setText(arg2);
         } catch (Exception e) {
-            TextView restaurantName = this.view.findViewById(R.id.restaurantName);
-            restaurantName.setText(R.string.fragment_foodTitleNameNull);
+            //TODO UPDATE THE DATABASE WITH ALL THE INFORMATION IN HERE
         }
     }
 }

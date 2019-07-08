@@ -27,7 +27,7 @@
         android:padding="7dp"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/foodEditPrice"
-        app:layout_constraintTop_toBottomOf="@+id/fieldRestaurantName2" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldFoodName" />
 
     <TextView
         android:id="@+id/foodEditPrice"
@@ -63,7 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/admin_fragment_title2" />
 
     <EditText
-        android:id="@+id/fieldRestaurantName2"
+        android:id="@+id/fieldFoodName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
