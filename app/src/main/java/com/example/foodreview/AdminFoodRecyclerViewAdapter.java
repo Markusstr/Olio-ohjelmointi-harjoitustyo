@@ -91,7 +91,7 @@ public class AdminFoodRecyclerViewAdapter extends RecyclerView.Adapter<AdminFood
         Food currentItem = mFoodList.get(i);
 
         adminViewHolder.mName.setText(currentItem.getFoodName());
-        String infoText = currentItem.getDate() + " - " + currentItem.getFoodPrice();
+        String infoText = currentItem.getDate() + " - " + currentItem.getFoodPrice() + "€";
         adminViewHolder.mInfo.setText(infoText);
 
     }

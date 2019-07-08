@@ -70,9 +70,14 @@
     <string name="admin_restaurant">Ravintola</string>
     <string name="admin_fragment_restaurantname">Nimi:</string>
     <string name="admin_fragment_address">Osoite:</string>
+    <string name="admin_menu_newfood">Lisää uusi ruoka</string>
+    <string name="admin_menu_newrestaurant">Lisää uusi ravintola</string>
     <string name="date">Pvm:</string>
     <string name="dateBtn">Pvm</string>
     <string name="admin_fragment_price">Hinta:</string>
     <string name="admin_fragment_date">Pvm:</string>
     <string name="admin_fragment_title">Ylläpitäjän näkymä muokkauksiin</string>
+    <string name="adminusermanager_menu_main">Hallitse ravintoloita ja ruokia</string>
+    <string name="admin_menu_usermanager">Hallitse käyttäjiä</string>
+    <string name="adminusermanager_title">Käyttäjien hallinta</string>
 </resources>

@@ -5,10 +5,22 @@
     tools:context=".AdminActivity">
 
     <item
-        android:id="@+id/action_add"
+        android:id="@+id/admin_action_users"
         android:orderInCategory="300"
-        android:title="Test"
-        android:icon="@drawable/ic_add"
-        app:showAsAction="ifRoom" />
+        android:title="@string/admin_menu_usermanager"
+        android:icon="@drawable/ic_supervisor_account_white"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/admin_action_newrestaurant"
+        android:orderInCategory="100"
+        android:title="@string/admin_menu_newrestaurant"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/admin_action_newfood"
+        android:orderInCategory="200"
+        android:title="@string/admin_menu_newfood"
+        app:showAsAction="never" />
 
 </menu>

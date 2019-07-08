@@ -98,4 +98,19 @@
         app:layout_constraintStart_toEndOf="@+id/foodEditDate"
         app:layout_constraintTop_toBottomOf="@+id/fieldFoodPrice" />
 
+    <ImageView
+        android:id="@+id/adminfoodedit_fragment_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="continueClick"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

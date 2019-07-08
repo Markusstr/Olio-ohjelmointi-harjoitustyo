@@ -70,9 +70,14 @@
     <string name="admin_restaurant">Restaurant</string>
     <string name="admin_fragment_restaurantname">Name:</string>
     <string name="admin_fragment_address">Address:</string>
+    <string name="admin_menu_newrestaurant">Add new restaurant</string>
+    <string name="admin_menu_newfood">Add new food</string>
     <string name="date">Date:</string>
     <string name="dateBtn">Date</string>
     <string name="admin_fragment_price">Price:</string>
     <string name="admin_fragment_date">Date:</string>
     <string name="admin_fragment_title">Admin item edit view</string>
+    <string name="adminusermanager_menu_main">Manage restaurants and foods</string>
+    <string name="admin_menu_usermanager">Manage users</string>
+    <string name="adminusermanager_title">User manager</string>
 </resources>
