@@ -39,7 +39,7 @@ class DatabaseManager {
 
 
     // This method takes given username and password to insert one new value to the database.
-    // Does not return anything at the moment. //TODO: Maybe check if the database saves the value properly?
+    // Does not return anything at the moment.
     void addItem(String username, String password) {
 
         byte[] salt = encryptor.getSalt(username);
@@ -53,7 +53,6 @@ class DatabaseManager {
 
         db.insert(tableUserIds.TABLE_NAME, null, cv);
 
-        databaseCursor = getCursor(tableUserIds.TABLE_NAME);
     }
 
     // Takes three strings. Uses username and oldPassword to confirm the user.
@@ -99,7 +98,7 @@ class DatabaseManager {
         }
     }
 
-    // Looks through the arrayList and looks for an existing username. Returns true if a username exists in the Database.
+    // Looks through the database and looks for an existing username. Returns true if a username exists in the Database.
     // Also sets a class variable index to the position of the located username.
     boolean checkExistance (String username) {
         databaseCursor = getCursor(tableUserIds.TABLE_NAME);
@@ -120,6 +119,8 @@ class DatabaseManager {
         return false;
     }
 
+    // Looks through the database to check if a string exists in the database.
+    // Also takes table name and column.
     private boolean checkStringExistance (String search, String tableName, String column) {
         databaseCursor = getCursor(tableName);
         databaseCursor.moveToFirst();
@@ -136,6 +137,7 @@ class DatabaseManager {
         return false;
     }
 
+    // Looks through the database, checks integer instead of String
     private boolean checkIdExistance (int id, String tableName, String column) {
         databaseCursor = getCursor(tableName);
         databaseCursor.moveToFirst();
@@ -181,10 +183,14 @@ class DatabaseManager {
         uniMan.setUniversities(universities);
     }
 
-    //Is called with a list of Address ids to get data to restaurants.
+    // Update Methods:
+    // Update methods use the same principle, and so the principle has only been explained in the first
+    // method. Update methods are made to parse database data, and to save the data in the right
+    // format to be used by the program.
     void updateRestaurants (University thisUniversity) {
 
-        System.out.println("Getting data from university: "+ thisUniversity.getUniName());
+        //System.out.println("Getting data from university: "+ thisUniversity.getUniName());
+
         //Creates an SQL query clause. Uses class variables as table names and attributes
         String restaurantQuery = "SELECT * FROM "+tableRestaurant.TABLE_NAME+
                 " INNER JOIN "+ tableAddresses.TABLE_NAME+
@@ -200,6 +206,9 @@ class DatabaseManager {
         ArrayList<Restaurant> restaurants = new ArrayList<>();
 
         int count = newCursor.getCount();
+
+        // For -loop goes through every row of data, and appends it to corresponding class attributes.
+        // Saves objects to an ArrayList that is later set to corresponding parent objects.
         for (int x = 0; x < count; x++) {
             newCursor.moveToPosition(x);
 
@@ -225,15 +234,12 @@ class DatabaseManager {
                 " = "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+
                 " WHERE "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+" = ?;";
 
-        //Creates the argument string array to be appended in where -clause.
         String[] arguments = {Integer.toString(restaurant.getRestaurantId())};
 
-        //Executes the sql query.
         Cursor newCursor = getRawCursor(foodQuery, arguments);
         ArrayList<Food> foods = new ArrayList<>();
         Food foodTemp;
 
-        //For -loop to go through every column in the current sql query.
         for (int x = 0; x < newCursor.getCount(); x++) {
             newCursor.moveToPosition(x);
             String newFoodName = newCursor.getString(newCursor.getColumnIndex(tableFood.COLUMN_FOODNAME));
@@ -338,6 +344,7 @@ class DatabaseManager {
         System.out.println("New food id is: "+insertedId);
     }
 
+    //Method sets a new review directly to the database.
     void setNewReview (String newReview, float newStars, String newUsername, int newFoodId) {
         ContentValues cv = new ContentValues();
         cv.put(tableReview.COLUMN_FOODID, newFoodId);
@@ -388,6 +395,7 @@ class DatabaseManager {
         return false;
     }
 
+    // Modify food's data in the database. Again, use unmodified strings as null and other values as -1
     boolean modifyFoodData(Food food, String foodName, float foodPrice, int restaurantId) {
         ContentValues cv = new ContentValues();
         String whereClause = tableFood.COLUMN_FOODID+ " = ?";
@@ -409,7 +417,11 @@ class DatabaseManager {
         return false;
     }
 
-    //Methods to remove items from database:
+    // Methods to remove items from database:
+    // All methods take in the corresponding object. Method takes it's id from the object and
+    // removes the corresponding row from the database. Runs update -methods afterwards to
+    // keep program's object
+
     void deleteUniversity(University university) {
         String whereClause = tableUniversity.COLUMN_UNIID +" = ?";
         String[] whereArgs = {Integer.toString(university.getUniId())};
@@ -449,7 +461,7 @@ class DatabaseManager {
         updateReviews(food);
     }
 
-    //This method makes a query to get the data from the database. Returns cursor.
+    // This method makes a query to get the data from the database. Returns cursor.
     private Cursor getCursor(String whatTable) {
         return db.query(whatTable,
                 null,
@@ -460,6 +472,7 @@ class DatabaseManager {
                 null);
     }
 
+    // This method uses a where -clause to get data from the database.
     private Cursor getCursorWithWhere(String whatTable, String whereClause, String[] whereArgs) {
         return db.query(whatTable,
                 null,
@@ -471,7 +484,7 @@ class DatabaseManager {
     }
 
     // This method fetches a cursor using a raw SQL select -clause.
-    // Used instead of plain fetch (above) when joining tables or requiring specific data.
+    // Used instead of plain fetch (above) when joining tables or requiring very specific data.
     private Cursor getRawCursor (String query, String[] arguments) {
         return db.rawQuery(query, arguments);
 
