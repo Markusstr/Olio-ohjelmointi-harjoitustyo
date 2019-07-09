@@ -90,4 +90,14 @@
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/restaurantAddress"
         app:layout_constraintTop_toBottomOf="@+id/fieldRestaurantName" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:onClick="continueClick"
+        android:text="@string/review_cancel"
+        app:layout_constraintStart_toEndOf="@+id/continueBtn"
+        app:layout_constraintTop_toTopOf="@+id/continueBtn" />
 </android.support.constraint.ConstraintLayout>

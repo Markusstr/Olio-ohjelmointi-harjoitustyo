@@ -81,4 +81,6 @@
     <string name="admin_menu_usermanager">Hallitse käyttäjiä</string>
     <string name="adminusermanager_title">Käyttäjien hallinta</string>
     <string name="admin_menu_save">Tallenna tiedostoon</string>
+    <string name="admin_fragment_newrestaurant">Ylläpitäjän uusi ravintola -näkymä</string>
+    <string name="admin_fragment_newfood">Ylläpitäjän uusi ruoka -näkymä</string>
 </resources>

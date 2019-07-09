@@ -32,7 +32,6 @@ public class AdminEditFragment extends Fragment {
             fieldRestaurantName.setText(arg);
             fieldRestaurantAddress.setText(arg2);
         } catch (Exception e) {
-            //TODO UPDATE THE DATABASE WITH ALL THE INFORMATION IN HERE
         }
     }
 }

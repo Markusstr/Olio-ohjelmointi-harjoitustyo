@@ -385,7 +385,7 @@ class DatabaseManager {
         System.out.println("New restaurant id is: "+newRestaurantId);
     }
 
-    // Method sets a new restaurant directly to database.
+    // Method sets a new food directly to database.
     void setNewFood(String newFoodName, float newFoodPrice, int newRestaurantId, String newFoodDate) {
         ContentValues cv = new ContentValues();
         cv.put(tableFood.COLUMN_RESTAURANTID, newRestaurantId);

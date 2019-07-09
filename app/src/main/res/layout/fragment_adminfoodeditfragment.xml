@@ -113,4 +113,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:onClick="continueClick"
+        android:text="@string/review_cancel"
+        app:layout_constraintStart_toEndOf="@+id/continueBtn2"
+        app:layout_constraintTop_toTopOf="@+id/continueBtn2" />
+
 </android.support.constraint.ConstraintLayout>
