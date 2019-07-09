@@ -127,6 +127,7 @@ class DatabaseManager {
         ContentValues cv = new ContentValues();
         String whereClause = tableUserIds.COLUMN_USERNAME + " = ?";
         String[] whereArgs = {username};
+
         int isAdminInt;
         if (isAdmin) {
             isAdminInt = 1;
@@ -134,10 +135,11 @@ class DatabaseManager {
         else {
             isAdminInt = 0;
         }
-
         cv.put(tableUserIds.COLUMN_ADMIN, isAdminInt);
 
-        db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs);
+        if (db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs) <= 0) {
+            System.out.println("Modifying failed.");
+        }
     }
 
     // Looks through the database and looks for an existing username. Returns true if a username exists in the Database.
