@@ -8,12 +8,19 @@ class Restaurant {
     private int addressId;
     private String[] address;
     private ArrayList<Food> foods;
+    private boolean isEnabled;
 
-    Restaurant(int resId, String resName, String[] newAddress, int newAddressId) {
+    Restaurant(int resId, String resName, String[] newAddress, int newAddressId, int newIsEnabled) {
         name = resName;
         id = resId;
         addressId = newAddressId;
         address = newAddress;
+        if (newIsEnabled == 1) {
+            isEnabled = true;
+        }
+        else if (newIsEnabled == 0) {
+            isEnabled = false;
+        }
     }
 
     String getRestaurantName() {
@@ -31,6 +38,10 @@ class Restaurant {
 
     int getRestaurantAddressId() {
         return addressId;
+    }
+
+    boolean getIsEnabled() {
+        return isEnabled;
     }
 
 //    String[] getRawRestaurantAddress() {

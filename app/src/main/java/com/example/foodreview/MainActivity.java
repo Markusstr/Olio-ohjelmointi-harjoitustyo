@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -62,7 +63,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         universities = findViewById(R.id.universitySpinner);
@@ -154,6 +154,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String currentUniversityName = universities.getItemAtPosition(universities.getSelectedItemPosition()).toString();
+                University currentUniversity = universityManager.getUniversity(currentUniversityName);
+                dbms.updateCascade(currentUniversity);
+                makeRestaurantSpinner(currentUniversityName);
+
+            }
+        }
+
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -174,7 +189,7 @@ public class MainActivity extends AppCompatActivity
             //TODO Handle the main menu action
         } else if (id == R.id.nav_admin){
             Intent intent = new Intent(this, AdminActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         } else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("username", username);

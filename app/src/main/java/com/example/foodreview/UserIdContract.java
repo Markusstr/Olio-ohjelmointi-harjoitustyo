@@ -44,6 +44,7 @@ class UserIdContract{
         static final String TABLE_NAME = "restaurant";
         static final String COLUMN_RESTAURANTID = "restaurantId";
         static final String COLUMN_RESTAURANTNAME = "restaurantName";
+        static final String COLUMN_ISENABLED = "isEnabled";
         static final String COLUMN_UNIID = "uniId";
         static final String COLUMN_ADDRESSID = "addressId";
     }
