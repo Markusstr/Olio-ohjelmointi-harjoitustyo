@@ -22,23 +22,40 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="80"
+                android:layout_weight="70"
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical">
                 <TextView
-                    android:id="@+id/admin_name"
+                    android:id="@+id/adminusermanager_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:text="Laseri"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/admin_address"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@android:color/darker_gray"-->
+                    <!--android:text="Testikatu 24 A"/>-->
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+
                 <TextView
-                    android:id="@+id/admin_info"
+                    android:id="@+id/admin_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
                     android:textColor="@android:color/darker_gray"
-                    android:text="Testikatu 24 A"/>
+                    android:layout_gravity="end"
+                    android:text="@string/adminusermanager_adminrow" />
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
@@ -47,30 +64,10 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical">
 
-                <ImageView
-                    android:id="@+id/admin_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:src="@drawable/ic_edit" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:orientation="vertical"
-                android:layout_gravity="center_vertical">
-
-                <ImageView
-                    android:id="@+id/admin_delete"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:src="@drawable/ic_delete" />
+                <CheckBox
+                    android:id="@+id/adminusermanager_isadmin"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

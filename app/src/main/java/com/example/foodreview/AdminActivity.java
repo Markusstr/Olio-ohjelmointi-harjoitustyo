@@ -42,6 +42,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     private DatabaseManager dbms;
     private Context context;
 
+    private boolean dataChanged = false;
+
     private Spinner admin_unispinner;
     FrameLayout frame;
 
@@ -139,12 +141,14 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         mRestaurantList.remove(position);
         mAdapter.notifyItemRemoved(position);
         dbms.deleteRestaurant(restaurant, currentUniversity);
+        dataChanged = true;
     }
 
     public void removeFoodItem(int position, Food food) {
         mFoodList.remove(position);
         mFoodAdapter.notifyItemRemoved(position);
         dbms.deleteFood(food, currentRestaurant);
+        dataChanged = true;
     }
 
     public void createRestaurantList() {
@@ -264,6 +268,13 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.admin_title));
         }
         else {
+            Intent intent = new Intent();
+            if (dataChanged) {
+                setResult(RESULT_OK, intent);
+            }
+            else {
+                setResult(RESULT_CANCELED, intent);
+            }
             finish();
         }
     }
@@ -285,23 +296,3 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     }
 }
 
-        //Creating the recyclerView and customizing it
-//        RecyclerView recyclerView = findViewById(R.id.adminRecyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        radapter = new AdminRecyclerViewAdapter(this, names, addresses);
-//        radapter.setClickListener(this);
-//        recyclerView.setAdapter(radapter);
-//        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-//                DividerItemDecoration.VERTICAL));
-//    }
-//
-//    @Override
-//    public void onItemClick(View view, int position) {
-//        final String nimi = radapter.getName(position);
-//        admin_delete = findViewById(R.id.admin_delete);
-//        admin_delete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(AdminActivity.this, "Klikkasit: " + nimi, Toast.LENGTH_SHORT).show();
-//            }
-//        });
