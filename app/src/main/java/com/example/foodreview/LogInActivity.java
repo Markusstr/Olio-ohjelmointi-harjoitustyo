@@ -35,6 +35,7 @@ public class LogInActivity extends AppCompatActivity {
         final Button login, signup;
         final DatabaseManager dbms = DatabaseManager.getInstance(context);
 
+
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
         loginText = findViewById(R.id.usernameEditText);

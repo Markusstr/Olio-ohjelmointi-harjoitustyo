@@ -98,6 +98,26 @@ class DatabaseManager {
         }
     }
 
+    void updateUsers() {
+        databaseCursor = getCursor(tableUserIds.TABLE_NAME);
+        ArrayList<User> newUsers = new ArrayList<>();
+        UserManager userManager = UserManager.getInstance();
+
+        int count = databaseCursor.getCount();
+
+        for (int x = 0; x < count; x++) {
+            databaseCursor.moveToPosition(x);
+            String newUsername = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_USERNAME));
+            int newIsAdmin = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
+
+            User newUser = new User(newUsername, newIsAdmin);
+            newUsers.add(newUser);
+        }
+
+        userManager.setUsers(newUsers);
+
+    }
+
     // Looks through the database and looks for an existing username. Returns true if a username exists in the Database.
     // Also sets a class variable index to the position of the located username.
     boolean checkExistance (String username) {
@@ -502,6 +522,8 @@ class DatabaseManager {
         cv.put(tableUserIds.COLUMN_ADMIN, 1);
         db.insert(tableUserIds.TABLE_NAME, null, cv);
     }
+
+
 
     // This method puts the Test Data in to the database, while running checks to qualify the existance
     // of the data that is being added.
