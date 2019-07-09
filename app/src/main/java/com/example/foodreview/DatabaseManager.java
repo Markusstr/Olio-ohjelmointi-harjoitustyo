@@ -390,7 +390,7 @@ class DatabaseManager {
 
     boolean modifyFoodData(Food food, String foodName, float foodPrice, int restaurantId) {
         ContentValues cv = new ContentValues();
-        String whereClause = tableFood.TABLE_NAME+ " = ?";
+        String whereClause = tableFood.COLUMN_FOODID+ " = ?";
         String[] whereArgs = {Integer.toString(food.getFoodId())};
 
         if (foodName != null) {
