@@ -27,20 +27,17 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     private RecyclerView mRecyclerView;
     private AdminRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
     private RecyclerView mFoodRecyclerView;
     private AdminFoodRecyclerViewAdapter mFoodAdapter;
     private RecyclerView.LayoutManager mFoodLayoutManager;
-
     private ArrayList<Restaurant> mRestaurantList;
     private ArrayList<Food> mFoodList;
     private University currentUniversity;
     private UniversityManager universityManager;
-
     private Restaurant currentRestaurant;
-
     private DatabaseManager dbms;
     private Context context;
+    FragmentManager manager;
 
     private Spinner admin_unispinner;
     FrameLayout frame;
@@ -112,8 +109,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 Toast.makeText(this, "New restaurant", Toast.LENGTH_SHORT).show();
                 Fragment adminNewRestaurantFragment = new AdminNewRestaurantFragment();
                 frame = findViewById(R.id.adminEditFragmentWindow);
-                FragmentManager managerNewRestaurant = getSupportFragmentManager();
-                FragmentTransaction transactionNewRestaurant = managerNewRestaurant.beginTransaction();
+                manager = getSupportFragmentManager();
+                FragmentTransaction transactionNewRestaurant = manager.beginTransaction();
                 transactionNewRestaurant.replace(R.id.adminEditFragmentWindow, adminNewRestaurantFragment);
                 transactionNewRestaurant.commit();
                 frame.setVisibility(View.VISIBLE);
@@ -122,8 +119,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 Toast.makeText(this, "New food", Toast.LENGTH_SHORT).show();
                 Fragment adminNewFoodFragment = new AdminNewFoodFragment();
                 frame = findViewById(R.id.adminEditFragmentWindow);
-                FragmentManager managerNewFood = getSupportFragmentManager();
-                FragmentTransaction transactionNewFood = managerNewFood.beginTransaction();
+                manager = getSupportFragmentManager();
+                FragmentTransaction transactionNewFood = manager.beginTransaction();
                 transactionNewFood.replace(R.id.adminEditFragmentWindow, adminNewFoodFragment);
                 transactionNewFood.commit();
                 frame.setVisibility(View.VISIBLE);
@@ -196,7 +193,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 Fragment adminEditFragment = new AdminEditFragment();
                 adminEditFragment.setArguments(bundle);
                 frame = findViewById(R.id.adminEditFragmentWindow);
-                FragmentManager manager = getSupportFragmentManager();
+                manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.adminEditFragmentWindow, adminEditFragment);
                 transaction.commit();
@@ -235,7 +232,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 Fragment adminFoodEditFragment = new AdminFoodEditFragment();
                 adminFoodEditFragment.setArguments(bundle);
                 frame = findViewById(R.id.adminEditFragmentWindow);
-                FragmentManager manager = getSupportFragmentManager();
+                manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.adminEditFragmentWindow, adminFoodEditFragment);
                 transaction.commit();
@@ -244,10 +241,32 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         });
     }
 
+    //Actually cancel click in fragments
     public void continueClick(View view) {
         frame.setVisibility(View.INVISIBLE);
-        //TODO: Save new settings
     }
+
+    public void saveNewRestaurant(View view) {
+        AdminNewRestaurantFragment adminNewRestaurantFragment = (AdminNewRestaurantFragment) manager.findFragmentById(R.id.adminEditFragmentWindow);
+        String newRestaurantName = adminNewRestaurantFragment.getNewRestaurantName();
+        String newRestaurantAddress = adminNewRestaurantFragment.getNewRestaurantAddress();
+        String newRestaurantPC = adminNewRestaurantFragment.getNewRestaurantPC();
+        String newRestaurantCity = adminNewRestaurantFragment.getNewRestaurantCity();
+        String[] newRestaurantAddressArray = {newRestaurantAddress, newRestaurantPC, newRestaurantCity};
+        String newRestaurantUni = adminNewRestaurantFragment.getNewRestaurantUni();
+        int newRestUniId = universityManager.getUniversity(newRestaurantUni).getUniId();
+
+        if (newRestaurantName.equals("") || newRestaurantAddress.equals("") || newRestaurantPC.equals("") || newRestaurantCity.equals("")) {
+            Toast.makeText(this, "Fill empty fields", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "New restaurant " + newRestaurantName, Toast.LENGTH_SHORT).show();
+            frame.setVisibility(View.INVISIBLE);
+            dbms.setNewRestaurant(newRestaurantAddressArray, newRestaurantName, newRestUniId);
+        }
+
+    }
+
+
 
     @Override
     public void onBackPressed() {
@@ -284,24 +303,3 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
     }
 }
-
-        //Creating the recyclerView and customizing it
-//        RecyclerView recyclerView = findViewById(R.id.adminRecyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        radapter = new AdminRecyclerViewAdapter(this, names, addresses);
-//        radapter.setClickListener(this);
-//        recyclerView.setAdapter(radapter);
-//        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-//                DividerItemDecoration.VERTICAL));
-//    }
-//
-//    @Override
-//    public void onItemClick(View view, int position) {
-//        final String nimi = radapter.getName(position);
-//        admin_delete = findViewById(R.id.admin_delete);
-//        admin_delete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(AdminActivity.this, "Klikkasit: " + nimi, Toast.LENGTH_SHORT).show();
-//            }
-//        });
