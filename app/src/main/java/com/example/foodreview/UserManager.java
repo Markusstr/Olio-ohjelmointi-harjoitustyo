@@ -25,6 +25,8 @@ class UserManager {
         users = newUsers;
     }
 
-
+    ArrayList<User> getUsers() {
+        return users;
+    }
 
 }
