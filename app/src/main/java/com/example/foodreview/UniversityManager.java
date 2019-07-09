@@ -36,7 +36,6 @@ class UniversityManager {
             if (name.equals(universities.get(x).getUniName())) {
                 //System.out.println("University found and returned");
                 return universities.get(x);
-
             }
         }
         return null;
