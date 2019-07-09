@@ -118,6 +118,24 @@ class DatabaseManager {
 
     }
 
+    void modifyUser(String username, boolean isAdmin) {
+
+        ContentValues cv = new ContentValues();
+        String whereClause = tableUserIds.COLUMN_USERNAME + " = ?";
+        String[] whereArgs = {username};
+        int isAdminInt;
+        if (isAdmin) {
+            isAdminInt = 1;
+        }
+        else {
+            isAdminInt = 0;
+        }
+
+        cv.put(tableUserIds.COLUMN_ADMIN, isAdminInt);
+
+        db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs);
+    }
+
     // Looks through the database and looks for an existing username. Returns true if a username exists in the Database.
     // Also sets a class variable index to the position of the located username.
     boolean checkExistance (String username) {
@@ -239,7 +257,8 @@ class DatabaseManager {
             int newId = newCursor.getInt(newCursor.getColumnIndex(tableRestaurant.COLUMN_RESTAURANTID));
             String newName = newCursor.getString(newCursor.getColumnIndex(tableRestaurant.COLUMN_RESTAURANTNAME));
             int newAddressId = newCursor.getInt(newCursor.getColumnIndex(tableRestaurant.COLUMN_ADDRESSID));
-            Restaurant newRestaurant = new Restaurant(newId, newName, newAddressArray, newAddressId);
+            int newIsEnabled = newCursor.getInt(newCursor.getColumnIndex(tableRestaurant.COLUMN_ISENABLED));
+            Restaurant newRestaurant = new Restaurant(newId, newName, newAddressArray, newAddressId, newIsEnabled);
             restaurants.add(newRestaurant);
         }
         thisUniversity.setRestaurants(restaurants);
@@ -336,7 +355,7 @@ class DatabaseManager {
     }
 
     // Method sets a new restaurant directly to database.
-    void setNewRestaurant (String[] newAddress, String newRestaurantName, int whichUni) {
+    void setNewRestaurant (String[] newAddress, String newRestaurantName, int whichUni, boolean isEnabled) {
 
         ContentValues cvAddress = new ContentValues();
         cvAddress.put(tableAddresses.COLUMN_ADDRESS,newAddress[0]);
@@ -345,10 +364,19 @@ class DatabaseManager {
         long newAddressId = db.insert(tableAddresses.TABLE_NAME, null, cvAddress);
         System.out.println("New address id is: "+newAddressId);
 
+        int isEnabledInt;
+        if (isEnabled) {
+            isEnabledInt = 1;
+        }
+        else {
+            isEnabledInt = 0;
+        }
+
         ContentValues cvRestaurant = new ContentValues();
         cvRestaurant.put(tableRestaurant.COLUMN_ADDRESSID, newAddressId);
         cvRestaurant.put(tableRestaurant.COLUMN_RESTAURANTNAME, newRestaurantName);
         cvRestaurant.put(tableRestaurant.COLUMN_UNIID,whichUni);
+        cvRestaurant.put(tableRestaurant.COLUMN_ISENABLED, isEnabledInt);
         long newRestaurantId = db.insert(tableRestaurant.TABLE_NAME,null, cvRestaurant);
         System.out.println("New restaurant id is: "+newRestaurantId);
     }
@@ -379,10 +407,17 @@ class DatabaseManager {
 
     // Modify restaurant data. Call when needed to change restaurant data. Use null on String values
     // if value is not to be changed. Use -1 on integers if value is not to be changed.
-    boolean modifyRestaurantData (Restaurant restaurant, String[] newAddress, String newRestaurantName, int whichUni) {
+    boolean modifyRestaurantData (Restaurant restaurant, String[] newAddress, String newRestaurantName, int whichUni, boolean isEnabled) {
         ContentValues cvAddress = new ContentValues();
         ContentValues cvRestaurant = new ContentValues();
-        boolean modified = false;
+
+        int isEnabledInt;
+        if (isEnabled) {
+            isEnabledInt = 1;
+        }
+        else {
+            isEnabledInt = 0;
+        }
 
         if (newAddress != null) {
             String whereClauseAddress = tableAddresses.COLUMN_ADDRESSID + " = ?";
@@ -398,19 +433,16 @@ class DatabaseManager {
         }
         if (newRestaurantName != null) {
             cvRestaurant.put(tableRestaurant.COLUMN_RESTAURANTNAME, newRestaurantName);
-            modified = true;
         }
         if (whichUni != -1) {
             cvRestaurant.put(tableRestaurant.COLUMN_UNIID, whichUni);
-            modified = true;
         }
-        if (modified) {
+        cvRestaurant.put(tableRestaurant.COLUMN_ISENABLED, isEnabledInt);
             String whereClauseRestaurant = tableRestaurant.COLUMN_RESTAURANTID + " = ?";
             String[] whereArgsRestaurant = {Integer.toString(restaurant.getRestaurantId())};
 
             if (db.update(tableRestaurant.TABLE_NAME, cvRestaurant, whereClauseRestaurant, whereArgsRestaurant) > 0) {
                 return true;
-            }
         }
         return false;
     }
@@ -545,23 +577,23 @@ class DatabaseManager {
         //TODO: Checks to allow multiple restaurants with the same name!
         if (!checkStringExistance("Aalef - Meidän ravintola", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
             String[] newAddress = {"Laserkatu 10", "53850", "Lappeenranta"};
-            setNewRestaurant(newAddress, "Aalef - Meidän ravintola", 1);
+            setNewRestaurant(newAddress, "Aalef - Meidän ravintola", 1, true);
         }
         if (!checkStringExistance("Aalef - Laseri", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
             String[] newAddress = {"Skinnarilankatu 45", "53850", "Lappeenranta"};
-            setNewRestaurant(newAddress, "Aalef - Laseri", 1);
+            setNewRestaurant(newAddress, "Aalef - Laseri", 1, true);
         }
         if (!checkStringExistance("LUT Buffet", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
             String[] newAddress = {"Yliopistonkatu 38", "53850", "Lappeenranta"};
-            setNewRestaurant(newAddress, "LUT Buffet", 1);
+            setNewRestaurant(newAddress, "LUT Buffet", 1, false);
         }
         if (!checkStringExistance("Juvenes - Newton", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
             String[] newAddress = {"Korkeakoulunkatu 6", "33780", "Tampere"};
-            setNewRestaurant(newAddress, "Juvenes - Newton", 2);
+            setNewRestaurant(newAddress, "Juvenes - Newton", 2, true);
         }
         if (!checkStringExistance("Opiskelijaravintola Carelia", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
             String[] newAddress = {"Yliopistonkatu 4", "80100", "Joensuu"};
-            setNewRestaurant(newAddress, "Opiskelijaravintola Carelia", 3);
+            setNewRestaurant(newAddress, "Opiskelijaravintola Carelia", 3, true);
         }
         //Foods from now on:
         if (!checkIdExistance(1,tableFood.TABLE_NAME, tableFood.COLUMN_FOODID)) {

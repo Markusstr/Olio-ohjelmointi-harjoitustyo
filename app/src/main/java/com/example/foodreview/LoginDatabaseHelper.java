@@ -49,6 +49,9 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
                 tableRestaurant.COLUMN_RESTAURANTNAME +" TEXT NOT NULL," +
                 tableRestaurant.COLUMN_ADDRESSID + " INTEGER,"+
                 tableRestaurant.COLUMN_UNIID + " INTEGER,"+
+                tableRestaurant.COLUMN_ISENABLED + " INTEGER NOT NULL CHECK (" +
+                tableRestaurant.COLUMN_ISENABLED + " = 1 or (" +
+                tableRestaurant.COLUMN_ISENABLED + " = 0))," +
                 "FOREIGN KEY("+tableRestaurant.COLUMN_UNIID+") REFERENCES "+tableUniversity.TABLE_NAME+"("+tableUniversity.COLUMN_UNIID+") ON DELETE CASCADE,"+
                 "FOREIGN KEY("+tableRestaurant.COLUMN_ADDRESSID+") REFERENCES "+tableAddresses.TABLE_NAME+"("+tableAddresses.COLUMN_ADDRESSID+") ON DELETE CASCADE);";
 
