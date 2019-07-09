@@ -50,5 +50,9 @@ class UniversityManager {
         return uniNames;
     }
 
+    ArrayList<University> getUniversities() {
+        return universities;
+    }
+
 
 }

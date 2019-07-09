@@ -1,5 +1,6 @@
 package com.example.foodreview;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +37,9 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     private University currentUniversity;
     private UniversityManager universityManager;
 
+    private DatabaseManager dbms;
+    private Context context;
+
     private Spinner admin_unispinner;
     FrameLayout frame;
 
@@ -60,6 +64,14 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         admin_unispinner = findViewById(R.id.admin_unispinner);
 
         universityManager = UniversityManager.getInstance();
+        context = this;
+        dbms = DatabaseManager.getInstance(context);
+
+        ArrayList<University> universityObjects = universityManager.getUniversities();
+        for (int x = 0; x < universityObjects.size(); x++) {
+            dbms.updateCascade(universityObjects.get(x));
+        }
+        universityObjects.clear();
 
         ArrayList<String> uniNames;
         uniNames = universityManager.getUniNames();
