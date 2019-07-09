@@ -348,9 +348,70 @@ class DatabaseManager {
         System.out.println("New review id is: "+ insertedId);
     }
 
+    //Methods to modify database data:
+
+    // Modify restaurant data. Call when needed to change restaurant data. Use null on String values
+    // if value is not to be changed. Use -1 on integers if value is not to be changed.
+    boolean modifyRestaurantData (Restaurant restaurant, String[] newAddress, String newRestaurantName, int whichUni) {
+        ContentValues cvAddress = new ContentValues();
+        ContentValues cvRestaurant = new ContentValues();
+        boolean modified = false;
+
+        if (newAddress != null) {
+            String whereClauseAddress = tableAddresses.COLUMN_ADDRESSID + " = ?";
+            String[] whereArgsAddressrestaurant = {Integer.toString(restaurant.getRestaurantAddressId())};
+            cvAddress.put(tableAddresses.COLUMN_ADDRESS, newAddress[0]);
+            cvAddress.put(tableAddresses.COLUMN_POSTALCODE, Integer.parseInt(newAddress[1]));
+            cvAddress.put(tableAddresses.COLUMN_CITY, newAddress[2]);
+
+            if (db.update(tableAddresses.TABLE_NAME, cvAddress, whereClauseAddress, whereArgsAddressrestaurant) <= 0) {
+                return false;
+            }
+
+        }
+        if (newRestaurantName != null) {
+            cvRestaurant.put(tableRestaurant.COLUMN_RESTAURANTNAME, newRestaurantName);
+            modified = true;
+        }
+        if (whichUni != -1) {
+            cvRestaurant.put(tableRestaurant.COLUMN_UNIID, whichUni);
+            modified = true;
+        }
+        if (modified) {
+            String whereClauseRestaurant = tableRestaurant.COLUMN_RESTAURANTID + " = ?";
+            String[] whereArgsRestaurant = {Integer.toString(restaurant.getRestaurantId())};
+
+            if (db.update(tableRestaurant.TABLE_NAME, cvRestaurant, whereClauseRestaurant, whereArgsRestaurant) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean modifyFoodData(Food food, String foodName, float foodPrice, int restaurantId) {
+        ContentValues cv = new ContentValues();
+        String whereClause = tableFood.TABLE_NAME+ " = ?";
+        String[] whereArgs = {Integer.toString(food.getFoodId())};
+
+        if (foodName != null) {
+            cv.put(tableFood.COLUMN_FOODNAME, foodName);
+        }
+        if (foodPrice != -1f) {
+            cv.put(tableFood.COLUMN_FOODPRICE, foodPrice);
+        }
+        if (restaurantId != -1) {
+            cv.put(tableFood.COLUMN_RESTAURANTID, restaurantId);
+        }
+
+        if (db.update(tableFood.TABLE_NAME, cv, whereClause, whereArgs) > 0) {
+            return true;
+        }
+        return false;
+    }
+
     //Methods to remove items from database:
     void deleteUniversity(University university) {
-        String whereClause = "WHERE "+tableUniversity.COLUMN_UNIID +" = ?;";
+        String whereClause = tableUniversity.COLUMN_UNIID +" = ?";
         String[] whereArgs = {Integer.toString(university.getUniId())};
         db.delete(tableUniversity.TABLE_NAME, whereClause, whereArgs);
 
@@ -358,18 +419,18 @@ class DatabaseManager {
     }
 
     void deleteRestaurant(Restaurant restaurant, University university) {
-        String whereClause = "WHERE "+tableRestaurant.COLUMN_RESTAURANTID +" = ?;";
+        String whereClause = tableRestaurant.COLUMN_RESTAURANTID +" = ?";
         String[] whereArgsRestaurant = {Integer.toString(restaurant.getRestaurantId())};
         db.delete(tableRestaurant.TABLE_NAME, whereClause, whereArgsRestaurant);
 
-        whereClause = "WHERE "+tableAddresses.COLUMN_ADDRESSID +" = ?;";
+        whereClause = tableAddresses.COLUMN_ADDRESSID +" = ?";
         String[] whereArgsAddress = {Integer.toString(restaurant.getRestaurantAddressId())};
         db.delete(tableAddresses.TABLE_NAME, whereClause, whereArgsAddress);
         updateCascade(university);
     }
 
     void deleteFood(Food food, Restaurant restaurant) {
-        String whereClause = "WHERE "+tableFood.COLUMN_FOODID +" = ?;";
+        String whereClause = tableFood.COLUMN_FOODID +" = ?";
         String[] whereArgs = {Integer.toString(food.getFoodId())};
         db.delete(tableFood.TABLE_NAME, whereClause, whereArgs);
 
@@ -381,7 +442,7 @@ class DatabaseManager {
     }
 
     void deleteReview(Review review, Food food) {
-        String whereClause = "WHERE "+tableReview.COLUMN_REVIEWID +" = ?;";
+        String whereClause = tableReview.COLUMN_REVIEWID +" = ?";
         String[] whereArgs = {Integer.toString(review.getReviewId())};
         db.delete(tableReview.TABLE_NAME, whereClause, whereArgs);
 
