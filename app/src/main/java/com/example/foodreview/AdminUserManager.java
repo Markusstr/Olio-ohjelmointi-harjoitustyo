@@ -61,12 +61,11 @@ public class AdminUserManager extends AppCompatActivity {
 
             @Override
             public void onCheckboxClick(int position, boolean isChecked) {
-                Toast.makeText(AdminUserManager.this, "Klikattu", Toast.LENGTH_SHORT).show();
                 if (isChecked) {
-                    dbms.modifyUser(mUserList.get(0).getUsername(), true);
+                    dbms.modifyUser(mUserList.get(position).getUsername(), true);
                 }
                 else {
-                    dbms.modifyUser(mUserList.get(0).getUsername(), false);
+                    dbms.modifyUser(mUserList.get(position).getUsername(), false);
                 }
             }
         });

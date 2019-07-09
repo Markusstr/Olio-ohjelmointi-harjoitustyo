@@ -266,6 +266,15 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             Toast.makeText(this, "New restaurant " + newRestaurantName, Toast.LENGTH_SHORT).show();
             frame.setVisibility(View.INVISIBLE);
             dbms.setNewRestaurant(newRestaurantAddressArray, newRestaurantName, newRestUniId, true);
+
+            ArrayList<University> universityObjects = universityManager.getUniversities();
+            for (int x = 0; x < universityObjects.size(); x++) {
+                dbms.updateCascade(universityObjects.get(x));
+            }
+
+            mRestaurantList.clear();
+            createRestaurantList();
+            mAdapter.notifyDataSetChanged();
         }
 
         //TODO REPLACE STRINGS WITH STRING VALUES

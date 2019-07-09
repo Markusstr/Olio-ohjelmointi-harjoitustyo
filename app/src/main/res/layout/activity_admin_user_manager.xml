@@ -14,7 +14,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/adminUserManagerRecyclerView"
-        android:layout_width="416dp"
+        android:layout_width="match_parent"
         android:layout_height="682dp"
         android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
