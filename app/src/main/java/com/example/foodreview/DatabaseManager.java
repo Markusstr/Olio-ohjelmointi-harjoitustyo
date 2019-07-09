@@ -51,7 +51,11 @@ class DatabaseManager {
         cv.put(tableUserIds.COLUMN_SALT, salt);
         cv.put(tableUserIds.COLUMN_ADMIN, 0);
 
-        db.insert(tableUserIds.TABLE_NAME, null, cv);
+        if (db.insert(tableUserIds.TABLE_NAME, null, cv) >= 0) {
+            System.out.print(username);
+        }
+        System.out.println(" This username has been set.");
+
 
     }
 
@@ -82,7 +86,7 @@ class DatabaseManager {
     boolean searchDatabase (String username, String password) {
 
         databaseCursor = getCursor(tableUserIds.TABLE_NAME);
-        if (checkStringExistance(username, tableUserIds.TABLE_NAME, tableUserIds.COLUMN_USERNAME)) {
+        if (checkExistance(username)) {
             //uses class variable to move cursor to the position, where the username was located.
             // Removes the need for another for -loop.
             databaseCursor.moveToPosition(userIndex);

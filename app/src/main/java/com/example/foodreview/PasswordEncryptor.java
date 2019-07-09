@@ -29,7 +29,7 @@ class PasswordEncryptor {
 
         MessageDigest digestor;
         try {
-            digestor = MessageDigest.getInstance("SHA-512");
+            digestor = MessageDigest.getInstance("SHA-256");
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
