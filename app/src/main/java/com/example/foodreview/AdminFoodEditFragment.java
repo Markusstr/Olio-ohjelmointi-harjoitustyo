@@ -35,7 +35,6 @@ public class AdminFoodEditFragment extends Fragment {
             fieldFoodPrice.setText(arg2);
             fieldFoodDate.setText(arg3);
         } catch (Exception e) {
-            //TODO UPDATE THE DATABASE WITH ALL THE INFORMATION IN HERE
         }
     }
 }

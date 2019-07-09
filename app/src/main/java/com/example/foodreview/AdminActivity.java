@@ -110,11 +110,23 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 break;
             case R.id.admin_action_newrestaurant:
                 Toast.makeText(this, "New restaurant", Toast.LENGTH_SHORT).show();
-                //TODO: New restaurant fragment
+                Fragment adminNewRestaurantFragment = new AdminNewRestaurantFragment();
+                frame = findViewById(R.id.adminEditFragmentWindow);
+                FragmentManager managerNewRestaurant = getSupportFragmentManager();
+                FragmentTransaction transactionNewRestaurant = managerNewRestaurant.beginTransaction();
+                transactionNewRestaurant.replace(R.id.adminEditFragmentWindow, adminNewRestaurantFragment);
+                transactionNewRestaurant.commit();
+                frame.setVisibility(View.VISIBLE);
                 break;
             case R.id.admin_action_newfood:
                 Toast.makeText(this, "New food", Toast.LENGTH_SHORT).show();
-                //TODO: New food fragment
+                Fragment adminNewFoodFragment = new AdminNewFoodFragment();
+                frame = findViewById(R.id.adminEditFragmentWindow);
+                FragmentManager managerNewFood = getSupportFragmentManager();
+                FragmentTransaction transactionNewFood = managerNewFood.beginTransaction();
+                transactionNewFood.replace(R.id.adminEditFragmentWindow, adminNewFoodFragment);
+                transactionNewFood.commit();
+                frame.setVisibility(View.VISIBLE);
                 break;
             case R.id.admin_action_save:
                 Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
@@ -184,11 +196,11 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 Fragment adminEditFragment = new AdminEditFragment();
                 adminEditFragment.setArguments(bundle);
                 frame = findViewById(R.id.adminEditFragmentWindow);
-                frame.setVisibility(View.VISIBLE);
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.adminEditFragmentWindow, adminEditFragment);
                 transaction.commit();
+                frame.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -223,11 +235,11 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 Fragment adminFoodEditFragment = new AdminFoodEditFragment();
                 adminFoodEditFragment.setArguments(bundle);
                 frame = findViewById(R.id.adminEditFragmentWindow);
-                frame.setVisibility(View.VISIBLE);
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.adminEditFragmentWindow, adminFoodEditFragment);
                 transaction.commit();
+                frame.setVisibility(View.VISIBLE);
             }
         });
     }

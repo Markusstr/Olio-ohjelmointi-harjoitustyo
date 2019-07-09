@@ -81,4 +81,6 @@
     <string name="admin_menu_usermanager">Manage users</string>
     <string name="adminusermanager_title">User manager</string>
     <string name="admin_menu_save">Save to file</string>
+    <string name="admin_fragment_newrestaurant">Admin\'s new restaurant view</string>
+    <string name="admin_fragment_newfood">Admin\'s new food view</string>
 </resources>

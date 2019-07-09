@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "gerbiili", Snackbar.LENGTH_LONG) //memes
+                Snackbar.make(view, "Doge is wow", Snackbar.LENGTH_LONG) //memes
                         .setAction("Action", null).show();
             }
         });
@@ -284,20 +284,6 @@ public class MainActivity extends AppCompatActivity
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 1) {
-//            if (resultCode == RESULT_OK) {
-//                assert data != null;
-//                username = data.getStringExtra("username");
-//                View headerView = navigationView.getHeaderView(0);
-//                TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
-//                nav_header_username.setText(username);
-//            }
-//        }
-//    }
 
     //Creates a date for thisDate
     public void createDate(View view) {
