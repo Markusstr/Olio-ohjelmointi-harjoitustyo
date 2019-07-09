@@ -5,12 +5,14 @@ import java.util.ArrayList;
 class Restaurant {
     private String name;
     private int id;
+    private int addressId;
     private String[] address;
     private ArrayList<Food> foods;
 
-    Restaurant(int resId, String resName, String[] newAddress) {
+    Restaurant(int resId, String resName, String[] newAddress, int newAddressId) {
         name = resName;
         id = resId;
+        addressId = newAddressId;
         address = newAddress;
     }
 
@@ -25,6 +27,10 @@ class Restaurant {
     void setRestaurantFoods(ArrayList<Food> newFoods) {
         System.out.println("Tiedot tallentuvat oikein. Pituus on: " + newFoods.size());
         this.foods = newFoods;
+    }
+
+    int getRestaurantAddressId() {
+        return addressId;
     }
 
 //    String[] getRawRestaurantAddress() {

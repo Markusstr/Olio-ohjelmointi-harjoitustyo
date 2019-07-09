@@ -4,9 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.example.foodreview.UserIdContract.*;
-
 import java.util.ArrayList;
 
 class DatabaseManager {
@@ -122,7 +120,7 @@ class DatabaseManager {
         return false;
     }
 
-    boolean checkStringExistance (String search, String tableName, String column) {
+    private boolean checkStringExistance (String search, String tableName, String column) {
         databaseCursor = getCursor(tableName);
         databaseCursor.moveToFirst();
         int count = databaseCursor.getCount();
@@ -138,7 +136,7 @@ class DatabaseManager {
         return false;
     }
 
-    boolean checkIdExistance (int id, String tableName, String column) {
+    private boolean checkIdExistance (int id, String tableName, String column) {
         databaseCursor = getCursor(tableName);
         databaseCursor.moveToFirst();
         int count = databaseCursor.getCount();
@@ -211,7 +209,8 @@ class DatabaseManager {
 
             int newId = newCursor.getInt(newCursor.getColumnIndex(tableRestaurant.COLUMN_RESTAURANTID));
             String newName = newCursor.getString(newCursor.getColumnIndex(tableRestaurant.COLUMN_RESTAURANTNAME));
-            Restaurant newRestaurant = new Restaurant(newId, newName, newAddressArray);
+            int newAddressId = newCursor.getInt(newCursor.getColumnIndex(tableRestaurant.COLUMN_ADDRESSID));
+            Restaurant newRestaurant = new Restaurant(newId, newName, newAddressArray, newAddressId);
             restaurants.add(newRestaurant);
         }
         thisUniversity.setRestaurants(restaurants);
@@ -255,7 +254,7 @@ class DatabaseManager {
         Review reviewTemp;
 
         //Creates the argument string array to be appended in where -clause.
-        String whereClause = "WHERE " + tableReview.COLUMN_FOODID + " = ?";
+        String whereClause = tableReview.COLUMN_FOODID + " = ?";
         String[] arguments = {Integer.toString(food.getFoodId())};
         Cursor newCursor = getCursorWithWhere(tableReview.TABLE_NAME, whereClause, arguments);
 
@@ -271,17 +270,34 @@ class DatabaseManager {
             reviews.add(reviewTemp);
         }
         food.setReviews(reviews);
+    }
+
+    // Method to update every item related to selected university.
+    // Called every time when some data related to the university has been changed (or university deleted).
+    void updateCascade (University university) {
+        ArrayList<Restaurant> restaurants;
+        ArrayList<Food> foods;
+
+        updateRestaurants(university);
+        restaurants = university.getRestaurants();
+        Restaurant tempRestaurant;
+
+        // Update all related foods
+        for (int x = 0; x < restaurants.size(); x++) {
+            tempRestaurant = restaurants.get(x);
+            updateFoods(tempRestaurant);
+            foods = tempRestaurant.getFoods();
+
+            //Update all related Reviews
+            System.out.println(foods.size());
+            for (int y = 0; y < foods.size(); y++) {
+                updateReviews(foods.get(y));
+            }
+        }
 
     }
 
-    void deleteUniversity(University university) {
-        String whereClause = "WHERE "+tableUniversity.COLUMN_UNIID +" = ?;";
-        String[] whereArgs = {Integer.toString(university.getUniId())};
-        db.delete(tableUniversity.TABLE_NAME, whereClause, whereArgs);
-
-        updateUniversities();
-    }
-
+    // Method sets a new university directly to database.
     void setNewUniversity (String newUniName) {
 
         ContentValues cv = new ContentValues();
@@ -293,6 +309,7 @@ class DatabaseManager {
         System.out.println("New university id is: "+insertedId);
     }
 
+    // Method sets a new restaurant directly to database.
     void setNewRestaurant (String[] newAddress, String newRestaurantName, int whichUni) {
 
         ContentValues cvAddress = new ContentValues();
@@ -310,6 +327,7 @@ class DatabaseManager {
         System.out.println("New restaurant id is: "+newRestaurantId);
     }
 
+    // Method sets a new restaurant directly to database.
     void setNewFood(String newFoodName, float newFoodPrice, int newRestaurantId, String newFoodDate) {
         ContentValues cv = new ContentValues();
         cv.put(tableFood.COLUMN_RESTAURANTID, newRestaurantId);
@@ -328,6 +346,46 @@ class DatabaseManager {
         cv.put(tableReview.COLUMN_USERNAME, newUsername);
         long insertedId = db.insert(tableReview.TABLE_NAME, null, cv);
         System.out.println("New review id is: "+ insertedId);
+    }
+
+    //Methods to remove items from database:
+    void deleteUniversity(University university) {
+        String whereClause = "WHERE "+tableUniversity.COLUMN_UNIID +" = ?;";
+        String[] whereArgs = {Integer.toString(university.getUniId())};
+        db.delete(tableUniversity.TABLE_NAME, whereClause, whereArgs);
+
+        updateUniversities();
+    }
+
+    void deleteRestaurant(Restaurant restaurant, University university) {
+        String whereClause = "WHERE "+tableRestaurant.COLUMN_RESTAURANTID +" = ?;";
+        String[] whereArgsRestaurant = {Integer.toString(restaurant.getRestaurantId())};
+        db.delete(tableRestaurant.TABLE_NAME, whereClause, whereArgsRestaurant);
+
+        whereClause = "WHERE "+tableAddresses.COLUMN_ADDRESSID +" = ?;";
+        String[] whereArgsAddress = {Integer.toString(restaurant.getRestaurantAddressId())};
+        db.delete(tableAddresses.TABLE_NAME, whereClause, whereArgsAddress);
+        updateCascade(university);
+    }
+
+    void deleteFood(Food food, Restaurant restaurant) {
+        String whereClause = "WHERE "+tableFood.COLUMN_FOODID +" = ?;";
+        String[] whereArgs = {Integer.toString(food.getFoodId())};
+        db.delete(tableFood.TABLE_NAME, whereClause, whereArgs);
+
+        updateFoods(restaurant);
+        ArrayList<Food> tempFoods = restaurant.getFoods();
+        for (int x = 0; x < tempFoods.size(); x++) {
+            updateReviews(tempFoods.get(x));
+        }
+    }
+
+    void deleteReview(Review review, Food food) {
+        String whereClause = "WHERE "+tableReview.COLUMN_REVIEWID +" = ?;";
+        String[] whereArgs = {Integer.toString(review.getReviewId())};
+        db.delete(tableReview.TABLE_NAME, whereClause, whereArgs);
+
+        updateReviews(food);
     }
 
     //This method makes a query to get the data from the database. Returns cursor.

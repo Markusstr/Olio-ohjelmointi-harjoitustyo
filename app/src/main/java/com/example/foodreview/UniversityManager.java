@@ -27,6 +27,7 @@ class UniversityManager {
     }
 
     void setUniversities(ArrayList<University> newUniversities) {
+        universities.clear();
         universities = newUniversities;
     }
 

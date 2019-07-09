@@ -223,13 +223,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.universitySpinner:
                 String uniName = parent.getItemAtPosition(position).toString();
                 System.out.println(uniName);
+                dbms.updateUniversities();
                 currentUniversity = universityManager.getUniversity(uniName);
-                dbms.updateRestaurants(currentUniversity);
-                ArrayList<Restaurant> restaurants = currentUniversity.getRestaurants();
-                for (int x = 0; x < restaurants.size(); x++) {
-                    Restaurant tempRestaurant = restaurants.get(x);
-                    dbms.updateFoods(tempRestaurant);
+                if (currentUniversity == null) {
+                    return;
                 }
+                dbms.updateCascade(currentUniversity);
                 makeRestaurantSpinner(uniName);
                 break;
 
