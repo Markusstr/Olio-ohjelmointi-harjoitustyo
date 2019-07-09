@@ -37,6 +37,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     private University currentUniversity;
     private UniversityManager universityManager;
 
+    private Restaurant currentRestaurant;
+
     private DatabaseManager dbms;
     private Context context;
 
@@ -66,21 +68,22 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         universityManager = UniversityManager.getInstance();
         context = this;
         dbms = DatabaseManager.getInstance(context);
+        dbms.updateUniversities();
 
         ArrayList<University> universityObjects = universityManager.getUniversities();
         for (int x = 0; x < universityObjects.size(); x++) {
             dbms.updateCascade(universityObjects.get(x));
         }
-        universityObjects.clear();
 
         ArrayList<String> uniNames;
         uniNames = universityManager.getUniNames();
-        currentUniversity = universityManager.getUniversity(universityManager.getUniNames().get(0));
 
         ArrayAdapter<String> adapterUni = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
         adapterUni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         admin_unispinner.setAdapter(adapterUni);
         admin_unispinner.setOnItemSelectedListener(this);
+
+        currentUniversity = universityObjects.get(0);
 
         //Both recycler views are on onCreate and they are not created again after this. Food recycler view will be set to invisible
         //and its content is empty until user presses a restaurant from the first recycler view.
@@ -120,14 +123,16 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         return true;
     }
 
-    public void removeItem(int position) {
+    public void removeItem(int position, Restaurant restaurant) {
         mRestaurantList.remove(position);
         mAdapter.notifyItemRemoved(position);
+        dbms.deleteRestaurant(restaurant, currentUniversity);
     }
 
-    public void removeFoodItem(int position) {
+    public void removeFoodItem(int position, Food food) {
         mFoodList.remove(position);
         mFoodAdapter.notifyItemRemoved(position);
+        dbms.deleteFood(food, currentRestaurant);
     }
 
     public void createRestaurantList() {
@@ -137,9 +142,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
     //Same food list is used so that the food recycler view can be updated with mFoodAdapter.notifyDataSetChanged()
     //Because of this, no new adapters or recycler views need to be created
-    public void createFoodList(String name) {
-        Restaurant currentRestaurant = currentUniversity.getRestaurant(name);
-        mFoodList.addAll(currentRestaurant.getFoods());
+    public void createFoodList(Restaurant restaurant) {
+        mFoodList.addAll(restaurant.getFoods());
 
     }
 
@@ -158,20 +162,22 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 //Get a new food list from the restaurant that user pressed. Set first recycler view to invisible and second to visible
                 //Update the food recycler view adapter and change title to restaurant name
                 mFoodList.clear();
-                createFoodList(mRestaurantList.get(position).getRestaurantName());
+                createFoodList(mRestaurantList.get(position));
                 mFoodAdapter.notifyDataSetChanged();
                 mRecyclerView.setVisibility(View.INVISIBLE);
                 mFoodRecyclerView.setVisibility(View.VISIBLE);
                 Objects.requireNonNull(getSupportActionBar()).setTitle(mRestaurantList.get(position).getRestaurantName());
+                currentRestaurant = mRestaurantList.get(position);
             }
 
             @Override
             public void onDeleteClick(int position) {
-                removeItem(position);
+                removeItem(position, mRestaurantList.get(position));
             }
 
             @Override
             public void onEditClick(int position) {
+                //currentRestaurant = mRestaurantList.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("restaurantName", mRestaurantList.get(position).getRestaurantName());
                 bundle.putString("restaurantAddress", mRestaurantList.get(position).getRestaurantAddress());
@@ -196,6 +202,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         mFoodRecyclerView.setLayoutManager(mFoodLayoutManager);
         mFoodRecyclerView.setAdapter(mFoodAdapter);
 
+
         mFoodAdapter.setOnItemClickListener(new AdminFoodRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -203,7 +210,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
             @Override
             public void onDeleteClick(int position) {
-                removeFoodItem(position);
+                removeFoodItem(position, mFoodList.get(position));
             }
 
             @Override
