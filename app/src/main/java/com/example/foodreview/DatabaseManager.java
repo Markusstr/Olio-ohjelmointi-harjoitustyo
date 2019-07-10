@@ -450,7 +450,7 @@ class DatabaseManager {
     }
 
     // Modify food's data in the database. Again, use unmodified strings as null and other values as -1
-    boolean modifyFoodData(Food food, String foodName, float foodPrice, int restaurantId, String foodDate) {
+    boolean modifyFoodData(Food food, String foodName, float foodPrice, String foodDate) {
         ContentValues cv = new ContentValues();
         String whereClause = tableFood.COLUMN_FOODID+ " = ?";
         String[] whereArgs = {Integer.toString(food.getFoodId())};
@@ -461,9 +461,6 @@ class DatabaseManager {
         if (foodPrice != -1f) {
             cv.put(tableFood.COLUMN_FOODPRICE, foodPrice);
         }
-        if (restaurantId != -1) {
-            cv.put(tableFood.COLUMN_RESTAURANTID, restaurantId);
-        }
         if (foodDate != null) {
             cv.put(tableFood.COLUMN_DATE, foodDate);
         }
@@ -473,6 +470,30 @@ class DatabaseManager {
         }
         return false;
     }
+
+    ArrayList<Review> getReviewsForUser (String username) {
+
+        ArrayList<Review> newReviews = new ArrayList<>();
+
+        String whereClause = tableReview.COLUMN_USERNAME + " = ?";
+        String[] whereArgs = {username};
+        Cursor cursor = getCursorWithWhere(tableReview.TABLE_NAME, whereClause, whereArgs);
+
+        int count = cursor.getCount();
+
+        for (int x = 0; x < count; x++) {
+            cursor.moveToPosition(x);
+            int reviewId = cursor.getInt(cursor.getColumnIndex(tableReview.COLUMN_REVIEWID));
+            String review = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_REVIEW));
+            float grade = cursor.getFloat(cursor.getColumnIndex(tableReview.COLUMN_STARS));
+            String userId = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_USERNAME));
+
+            Review newReview = new Review(reviewId, grade, review, userId);
+            newReviews.add(newReview);
+        }
+        return newReviews;
+    }
+
 
     // Methods to remove items from database:
     // All methods take in the corresponding object. Method takes it's id from the object and
