@@ -44,9 +44,9 @@ class Restaurant {
         return isEnabled;
     }
 
-//    String[] getRawRestaurantAddress() {
-//        return address;
-//    }
+    String[] getRawRestaurantAddress() {
+        return address;
+    }
 
     String getRestaurantAddress() {
         String restaurantAddressString;
