@@ -1,6 +1,8 @@
 package com.example.foodreview;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecycler
         TextView mAddress;
         ImageView mEdit;
         ImageView mDelete;
+        CardView mCard;
 
         AdminViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -36,6 +39,7 @@ public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecycler
             mAddress = itemView.findViewById(R.id.admin_address);
             mDelete = itemView.findViewById(R.id.admin_delete);
             mEdit = itemView.findViewById(R.id.admin_edit);
+            mCard = itemView.findViewById(R.id.admin_cardview);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,6 +97,15 @@ public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecycler
         adminViewHolder.mName.setText(currentItem.getRestaurantName());
         adminViewHolder.mAddress.setText(currentItem.getRestaurantAddress());
 
+
+        if (!currentItem.getIsEnabled()) {
+            adminViewHolder.mCard.setEnabled(false);
+            adminViewHolder.mCard.setCardBackgroundColor(Color.GRAY);
+        }
+        else {
+            adminViewHolder.mCard.setEnabled(true);
+            adminViewHolder.mCard.setCardBackgroundColor(Color.WHITE);
+        }
 
 
     }
