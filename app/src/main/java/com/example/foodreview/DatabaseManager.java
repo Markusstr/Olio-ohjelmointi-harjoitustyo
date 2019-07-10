@@ -5,11 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.example.foodreview.UserIdContract.*;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 class DatabaseManager {
 
@@ -275,16 +271,10 @@ class DatabaseManager {
 
     void updateFoods (Restaurant restaurant) {
 
-        //Creates an SQL query clause. Uses class variables as table names and attributes
-        String foodQuery = "SELECT * FROM "+tableFood.TABLE_NAME+
-                " INNER JOIN "+ tableRestaurant.TABLE_NAME+
-                " ON "+tableRestaurant.TABLE_NAME+"."+tableRestaurant.COLUMN_RESTAURANTID+
-                " = "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+
-                " WHERE "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+" = ?;";
-
+        String whereClause = tableFood.COLUMN_RESTAURANTID + " = ?";
         String[] arguments = {Integer.toString(restaurant.getRestaurantId())};
 
-        Cursor newCursor = getRawCursor(foodQuery, arguments);
+        Cursor newCursor = getCursorWithWhere(tableFood.TABLE_NAME, whereClause, arguments);
         ArrayList<Food> foods = new ArrayList<>();
         Food foodTemp;
 

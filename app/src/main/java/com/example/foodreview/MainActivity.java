@@ -327,6 +327,11 @@ public class MainActivity extends AppCompatActivity
                             thisDate = dayOfMonth + "." + (month + 1) + "." + year;
                         }
                     }
+                    foodPrices.clear();
+                    foodNames.clear();
+                    foodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
+                    foodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
+                    radapter.notifyDataSetChanged();
                 }
             }, year, month, day);
             datePickerDialog.show();

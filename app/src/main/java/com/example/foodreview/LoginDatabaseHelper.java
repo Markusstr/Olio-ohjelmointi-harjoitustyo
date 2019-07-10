@@ -196,21 +196,28 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
         Calendar calendar = Calendar.getInstance();
         String currentDate = sdf.format(calendar.getTime());
         System.out.println(currentDate);
-        int foodCounter = 0;
-        for (int x = 0; x < 1; x++) {
-            calendar.add(Calendar.DATE, 1);
-            currentDate = sdf.format(calendar.getTime());
-            System.out.println(currentDate);
-            if ((calendar.get(Calendar.DAY_OF_WEEK) == 1 || (calendar.get(Calendar.DAY_OF_WEEK) == 7))) {
-                continue;
-            }
-            else {
-                ArrayList<ContentValues> contentValues = new ArrayList<>();
-                contentValues = HardCodeFile.hardCodeFoods(foodCounter, currentDate);
-                for (int y = 0; y < contentValues.size(); y++) {
-                    db.insert(tableFood.TABLE_NAME, null, contentValues.get(y));
+
+        for (int x = 0; x < 4; x++) {
+            System.out.println("This is the x " + x);
+            int foodCounter = 0;
+            int z = 0;
+            for (z = 0; z < 7; z++) {
+                System.out.println(z + " ON tämän z:n tiedot.");
+                currentDate = sdf.format(calendar.getTime());
+                System.out.println(currentDate);
+                if ((calendar.get(Calendar.DAY_OF_WEEK) == 1 || (calendar.get(Calendar.DAY_OF_WEEK) == 7))) {
+                    calendar.add(Calendar.DATE, 1);
+                    continue;
+                } else {
+                    foodCounter++;
+                    ArrayList<ContentValues> contentValues;
+                    contentValues = HardCodeFile.hardCodeFoods(foodCounter, currentDate);
+                    int y = 0;
+                    for (y = 0; y < contentValues.size(); y++) {
+                        db.insert(tableFood.TABLE_NAME, null, contentValues.get(y));
+                    }
+                    calendar.add(Calendar.DATE, 1);
                 }
-                foodCounter++;
             }
         }
     }

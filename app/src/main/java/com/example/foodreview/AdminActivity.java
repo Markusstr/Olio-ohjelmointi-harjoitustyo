@@ -303,10 +303,13 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             frame.setVisibility(View.INVISIBLE);
             dbms.setNewFood(newFoodName, newFoodPrice, newFoodRestId, newFoodDate);
 
+            dbms.updateUniversities();
             ArrayList<University> universityObjects = universityManager.getUniversities();
             for (int x = 0; x < universityObjects.size(); x++) {
                 dbms.updateCascade(universityObjects.get(x));
             }
+            updateObjects();
+
         }
 
         //TODO REPLACE STRINGS WITH STRING VALUES
@@ -389,6 +392,14 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    void updateObjects () {
+        dbms.updateUniversities();
+        ArrayList<University> universityObjects = universityManager.getUniversities();
+        for (int x = 0; x < universityObjects.size(); x++) {
+            dbms.updateCascade(universityObjects.get(x));
+        }
     }
 }
 
