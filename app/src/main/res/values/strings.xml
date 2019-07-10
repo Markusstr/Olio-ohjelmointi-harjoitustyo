@@ -55,7 +55,7 @@
     <string name="settings_changepassword">Change password</string>
     <string name="menu_admin">Admin</string>
     <string name="settings_oldpasswordwrong">Old password is not correct</string>
-    <string name="settings_passwordsuccessful">Password changed successfully</string>
+    <string name="settings_passwordsuccessful">Password changed</string>
     <string name="settings_oldnewpasswordnotequal">Old and new passwords can\'t be the same</string>
     <string name="settings_passworderror">Oops! Something went wrong with saving the password. Try again in a few minutes</string>
     <string name="admin_title">Admin</string>
@@ -84,4 +84,10 @@
     <string name="adminusermanager_adminrow">Admin</string>
     <string name="admin_fragment_newrestaurant">Admin\'s new restaurant view</string>
     <string name="admin_fragment_newfood">Admin\'s new food view</string>
+    <string name="settings_changenickname">Change nickname</string>
+    <string name="settings_cancel">Cancel</string>
+    <string name="settings_changesettings">Save settings</string>
+    <string name="settings_usernamesuccessful">Nickname changed</string>
+    <string name="settings_nonewchanges">No new changes to be saved</string>
+    <string name="settings_hintnickname">Nickname</string>
 </resources>

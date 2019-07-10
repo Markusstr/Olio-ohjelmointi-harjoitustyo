@@ -33,6 +33,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     private ArrayList<Restaurant> mRestaurantList;
     private ArrayList<Food> mFoodList;
     private University currentUniversity;
+    private String uniName;
     private UniversityManager universityManager;
     private Restaurant currentRestaurant;
     private DatabaseManager dbms;
@@ -279,7 +280,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
             mRestaurantList.clear();
             createRestaurantList();
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemInserted(mRestaurantList.size() - 1);
         }
 
         //TODO REPLACE STRINGS WITH STRING VALUES
@@ -307,6 +308,11 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             for (int x = 0; x < universityObjects.size(); x++) {
                 dbms.updateCascade(universityObjects.get(x));
             }
+
+            Restaurant test = universityManager.getUniversity(newFoodUni).getRestaurant(newFoodRest);
+
+            mRestaurantList.clear();
+            mRestaurantList.addAll(universityManager.getUniversity(uniName).getRestaurants());
         }
 
         //TODO REPLACE STRINGS WITH STRING VALUES
@@ -380,8 +386,10 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         mRestaurantList.clear();
-        String uniName = parent.getItemAtPosition(position).toString();
+        uniName = parent.getItemAtPosition(position).toString();
         currentUniversity = universityManager.getUniversity(uniName);
+        //TODO !! \/
+        mRestaurantList.clear();
         createRestaurantList();
         mAdapter.notifyDataSetChanged();
     }

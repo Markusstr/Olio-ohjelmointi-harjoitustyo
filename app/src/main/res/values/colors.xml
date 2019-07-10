@@ -13,4 +13,7 @@
     <color name="error">#FF171C</color>
     <color name="transparent">#00FF0000</color>
     <color name="colorTextWhite">#FFFFFF</color>
+
+    <color name="cardDisabled">#8F8F8F</color>
+    <color name="cardEnabled">#FFFFFF</color>
 </resources>

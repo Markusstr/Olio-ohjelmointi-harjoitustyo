@@ -55,7 +55,7 @@
     <string name="settings_changepassword">Vaihda salasana</string>
     <string name="menu_admin">Ylläpitäjä</string>
     <string name="settings_oldpasswordwrong">Vanha salasana ei ole oikein</string>
-    <string name="settings_passwordsuccessful">Salasana vaihdettu onnistuneesti</string>
+    <string name="settings_passwordsuccessful">Salasana vaihdettu</string>
     <string name="settings_oldnewpasswordnotequal">Uusi ja vanha salasana eivät voi olla samoja</string>
     <string name="settings_passworderror">Jotain meni pieleen salasanan tallennuksessa. Yritä uudestaan hetken kuluttua</string>
     <string name="admin_title">Ylläpitäjä</string>
@@ -84,4 +84,10 @@
     <string name="adminusermanager_adminrow">Ylläpitäjä</string>
     <string name="admin_fragment_newrestaurant">Ylläpitäjän uusi ravintola -näkymä</string>
     <string name="admin_fragment_newfood">Ylläpitäjän uusi ruoka -näkymä</string>
+    <string name="settings_changenickname">Vaihda lempinimeä</string>
+    <string name="settings_cancel">Peruuta</string>
+    <string name="settings_changesettings">Tallenna asetukset</string>
+    <string name="settings_usernamesuccessful">Lempinimi vaihdettu</string>
+    <string name="settings_nonewchanges">Ei uusia asetuksia tallennettavaksi</string>
+    <string name="settings_hintnickname">Lempinimi</string>
 </resources>

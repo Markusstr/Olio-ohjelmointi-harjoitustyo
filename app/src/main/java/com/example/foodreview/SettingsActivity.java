@@ -21,9 +21,9 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    TextView fieldUsername;
-    EditText fieldOldPassword, fieldNewPassword,fieldNewPasswordAgain;
-    Button changePassword;
+    TextView fieldUsernameText;
+    EditText fieldOldPassword, fieldNewPassword,fieldNewPasswordAgain, fieldUsername;
+    Button changeNickname, changePassword;
     DatabaseManager dbms;
     Context context;
 
@@ -33,14 +33,17 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         //Set the username from another activity
-        fieldUsername = findViewById(R.id.fieldUsername);
+        fieldUsernameText = findViewById(R.id.fieldUsernameText);
         final String username = getIntent().getStringExtra("username");
-        fieldUsername.setText(username);
+        fieldUsernameText.setText(username);
 
         fieldOldPassword = findViewById(R.id.oldPassword);
         fieldNewPassword = findViewById(R.id.newPassword);
         fieldNewPasswordAgain = findViewById(R.id.newPasswordAgain);
+        fieldUsername = findViewById(R.id.fieldUsername);
+        changeNickname = findViewById(R.id.changeNickname);
         changePassword = findViewById(R.id.changePassword);
+//        cancel = findViewById(R.id.settings_cancel);
         context = this;
         dbms = DatabaseManager.getInstance(context);
         final PasswordChecker pwc = PasswordChecker.getInstance(context);
@@ -54,6 +57,32 @@ public class SettingsActivity extends AppCompatActivity {
                 closeActivityCheck();
             }
         });
+
+//        cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                closeActivityCheck();
+//            }
+//        });
+
+        changeNickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String oldPassword = fieldOldPassword.getText().toString().trim();
+
+                if (!checkOldPassword(username, oldPassword)) {
+                    Snackbar.make(v, getResources().getString(R.string.settings_oldpasswordwrong), Snackbar.LENGTH_LONG).show();
+                } else {
+                    fieldUsername.setText("");
+                    fieldOldPassword.setText("");
+                    Toast.makeText(context, "Username changed", Toast.LENGTH_SHORT).show();
+                }
+                //TODO: Change username
+                InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
+
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,29 +92,8 @@ public class SettingsActivity extends AppCompatActivity {
                 String message = pwc.checker(newPassword);
 
                 //Check from the database whether user's old password is correct
-                if (!dbms.searchDatabase(username, oldPassword)) {
-                    //If the password is incorrect, add error message + red tint to indicate that there is error
+                if (!checkOldPassword(username, oldPassword)) {
                     Snackbar.make(v, getResources().getString(R.string.settings_oldpasswordwrong), Snackbar.LENGTH_LONG).show();
-                    fieldOldPassword.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.error));
-                    fieldOldPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_error, 0);
-                    fieldOldPassword.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            //Set text field back to normal after user edits text
-                            fieldOldPassword.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.colorAccent));
-                            fieldOldPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0,0, 0);
-                        }
-                    });
                 } else {
                     //If the old password is correct, let's check whether the new password fulfills all the requirements
                     if (message.isEmpty()) {
@@ -108,7 +116,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 @Override
                                 public void afterTextChanged(Editable s) {
                                     fieldNewPassword.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.colorAccent));
-                                    fieldNewPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0,0, 0);
+                                    fieldNewPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, 0, 0);
                                 }
                             });
                         } else if (!fieldNewPasswordAgain.getText().toString().equals(fieldNewPassword.getText().toString())) {
@@ -121,15 +129,15 @@ public class SettingsActivity extends AppCompatActivity {
                             //Password is changed successfully, clear text fields and print message to user
                             fieldOldPassword.setText("");
                             fieldOldPassword.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.colorAccent));
-                            fieldOldPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0,0, 0);
+                            fieldOldPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, 0, 0);
 
                             fieldNewPassword.setText("");
                             fieldNewPassword.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.colorAccent));
-                            fieldNewPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0,0, 0);
+                            fieldNewPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, 0, 0);
 
                             fieldNewPasswordAgain.setText("");
                             fieldNewPasswordAgain.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.colorAccent));
-                            fieldNewPasswordAgain.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0,0, 0);
+                            fieldNewPasswordAgain.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, 0, 0);
 
                             Snackbar.make(v, getResources().getString(R.string.settings_passwordsuccessful), Snackbar.LENGTH_LONG).show();
                         }
@@ -223,7 +231,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     //If user has typed something in the text fields and tries to leave, alert dialog shows up
     private void closeActivityCheck() {
-        if (!fieldOldPassword.getText().toString().equals("") || !fieldNewPassword.getText().toString().equals("") || !fieldNewPasswordAgain.getText().toString().equals("")) {
+        if (!fieldOldPassword.getText().toString().equals("") ||
+                !fieldNewPassword.getText().toString().equals("") ||
+                !fieldNewPasswordAgain.getText().toString().equals("") ||
+                !fieldUsername.getText().toString().equals("")) {
             new AlertDialog.Builder(SettingsActivity.this)
                     .setTitle(R.string.settings_alertdialog_notsaved)
                     .setMessage(R.string.signup_alertdialog_confirm)
@@ -256,6 +267,35 @@ public class SettingsActivity extends AppCompatActivity {
 //            setResult(RESULT_OK, intent);
 //        }
         finish();
+    }
+
+    private boolean checkOldPassword(String username, String oldPassword) {
+        if (!dbms.searchDatabase(username, oldPassword)) {
+            //If the password is incorrect, add error message + red tint to indicate that there is error
+            fieldOldPassword.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.error));
+            fieldOldPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_error, 0);
+            fieldOldPassword.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    //Set text field back to normal after user edits text
+                    fieldOldPassword.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.colorAccent));
+                    fieldOldPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, 0, 0);
+                }
+            });
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
