@@ -238,6 +238,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 bundle.putString("foodName", mFoodList.get(position).getFoodName());
                 bundle.putString("foodPrice", foodPrice);
                 bundle.putString("foodDate", mFoodList.get(position).getDate());
+                bundle.putString("foodUni", admin_unispinner.getSelectedItem().toString());
+                bundle.putInt("selectedFood", position);
                 Fragment adminFoodEditFragment = new AdminFoodEditFragment();
                 adminFoodEditFragment.setArguments(bundle);
                 frame = findViewById(R.id.adminEditFragmentWindow);
@@ -271,7 +273,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         } else {
             Toast.makeText(this, "New restaurant " + newRestaurantName, Toast.LENGTH_SHORT).show();
             frame.setVisibility(View.INVISIBLE);
-            dbms.setNewRestaurant(0,newRestaurantAddressArray, newRestaurantName, newRestUniId, true);
+            dbms.setNewRestaurant(newRestaurantAddressArray, newRestaurantName, newRestUniId, true);
 
             ArrayList<University> universityObjects = universityManager.getUniversities();
             for (int x = 0; x < universityObjects.size(); x++) {
@@ -309,6 +311,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             for (int x = 0; x < universityObjects.size(); x++) {
                 dbms.updateCascade(universityObjects.get(x));
             }
+
 
             mRestaurantList.clear();
             mRestaurantList.addAll(universityManager.getUniversity(uniName).getRestaurants());
@@ -349,7 +352,33 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     }
 
     public void saveEditedFood(View view) {
+        AdminFoodEditFragment adminEditFragment = (AdminFoodEditFragment) manager.findFragmentById(R.id.adminEditFragmentWindow);
+        String editFoodName = adminEditFragment.getEditFoodName();
+        float editFoodPrice = adminEditFragment.getEditFoodPrice();
+        String editFoodDate = adminEditFragment.getEditFoodDate();
+        String editFoodUni = adminEditFragment.getFoodUni();
+        String s = Float.toString(editFoodPrice);
+        int k = adminEditFragment.getSelectedFood();
 
+        if (editFoodName.equals("") || editFoodDate.equals("") || s.equals("")) {
+            Toast.makeText(this, "Fill empty fields", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Edited food " + editFoodName, Toast.LENGTH_SHORT).show();
+            frame.setVisibility(View.INVISIBLE);
+
+            dbms.modifyFoodData(universityManager.getUniversity(editFoodUni).getRestaurant(currentRestaurant.getRestaurantName()).getFoods().get(k), editFoodName, editFoodPrice, editFoodDate);
+
+            ArrayList<University> universityObjects = universityManager.getUniversities();
+            for (int x = 0; x < universityObjects.size(); x++) {
+                dbms.updateCascade(universityObjects.get(x));
+            }
+
+            mRestaurantList.clear();
+            mRestaurantList.addAll(universityManager.getUniversity(uniName).getRestaurants());
+            mFoodList.clear();
+            createFoodList(universityManager.getUniversity(uniName).getRestaurant(currentRestaurant.getRestaurantName()));
+            mFoodAdapter.notifyDataSetChanged();
+        }
     }
 
 

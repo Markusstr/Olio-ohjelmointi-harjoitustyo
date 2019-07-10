@@ -354,7 +354,7 @@ class DatabaseManager {
     }
 
     // Method sets a new restaurant directly to database.
-    void setNewRestaurant (int newRestaurantId, String[] newAddress, String newRestaurantName, int whichUni, boolean isEnabled) {
+    void setNewRestaurant (String[] newAddress, String newRestaurantName, int whichUni, boolean isEnabled) {
 
         ContentValues cvAddress = new ContentValues();
         cvAddress.put(tableAddresses.COLUMN_ADDRESS,newAddress[0]);
@@ -372,9 +372,6 @@ class DatabaseManager {
         }
 
         ContentValues cvRestaurant = new ContentValues();
-        if (newRestaurantId != 0) {
-            cvRestaurant.put(tableRestaurant.COLUMN_RESTAURANTID, newRestaurantId);
-        }
         cvRestaurant.put(tableRestaurant.COLUMN_ADDRESSID, newAddressId);
         cvRestaurant.put(tableRestaurant.COLUMN_RESTAURANTNAME, newRestaurantName);
         cvRestaurant.put(tableRestaurant.COLUMN_UNIID,whichUni);
