@@ -157,7 +157,6 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     //Because of this, no new adapters or recycler views need to be created
     public void createFoodList(Restaurant restaurant) {
         mFoodList.addAll(restaurant.getFoods());
-
     }
 
     public void buildRecyclerView() {
@@ -279,6 +278,29 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
         //TODO REPLACE STRINGS WITH STRING VALUES
 
+    }
+
+    public void saveNewFood(View view) {
+        AdminNewFoodFragment adminNewFoodFragment = (AdminNewFoodFragment) manager.findFragmentById(R.id.adminEditFragmentWindow);
+        String newFoodName = adminNewFoodFragment.getNewFoodName();
+        float newFoodPrice = adminNewFoodFragment.getNewFoodPrice();
+        String newFoodDate = adminNewFoodFragment.getNewFoodDate();
+        String newFoodUni = adminNewFoodFragment.getNewFoodUni();
+        String newFoodRest = adminNewFoodFragment.getNewFoodRest();
+        int newFoodRestId = universityManager.getUniversity(newFoodUni).getRestaurant(newFoodRest).getRestaurantId();
+
+        if (newFoodName.equals("") || newFoodDate.equals("")) {
+            Toast.makeText(this, "Fill empty fields", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "New food " + newFoodName, Toast.LENGTH_SHORT).show();
+            frame.setVisibility(View.INVISIBLE);
+            dbms.setNewFood(newFoodName, newFoodPrice, newFoodRestId, newFoodDate);
+
+            ArrayList<University> universityObjects = universityManager.getUniversities();
+            for (int x = 0; x < universityObjects.size(); x++) {
+                dbms.updateCascade(universityObjects.get(x));
+            }
+        }
     }
 
 

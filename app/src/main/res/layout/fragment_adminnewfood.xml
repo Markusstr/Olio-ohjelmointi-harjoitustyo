@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/fieldNewFoodName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/fieldNewFoodPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -57,7 +57,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldNewFoodName" />
 
     <TextView
         android:id="@+id/textView9"
@@ -70,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/fieldNewFoodDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -78,17 +78,17 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldNewFoodPrice" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:onClick="continueClick"
-        android:text="@string/loginFragment_continue"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        android:onClick="saveNewFood"
+        android:text="@string/review_save"
+        app:layout_constraintStart_toStartOf="@+id/newFoodUniSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodUniSpinner" />
 
     <Button
         android:id="@+id/button4"
@@ -99,4 +99,29 @@
         android:text="@string/review_cancel"
         app:layout_constraintStart_toEndOf="@+id/button"
         app:layout_constraintTop_toTopOf="@+id/button" />
+
+    <Spinner
+        android:id="@+id/newFoodUniSpinner"
+        android:layout_width="151dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <Spinner
+        android:id="@+id/newFoodRestSpinner"
+        android:layout_width="189dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/newFoodUniSpinner"
+        app:layout_constraintTop_toTopOf="@+id/newFoodUniSpinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="dd.mm.yyyy"
+        app:layout_constraintBottom_toBottomOf="@+id/fieldNewFoodDate"
+        app:layout_constraintStart_toEndOf="@+id/fieldNewFoodDate"
+        app:layout_constraintTop_toTopOf="@+id/fieldNewFoodDate" />
 </android.support.constraint.ConstraintLayout>
