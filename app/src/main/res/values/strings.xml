@@ -46,8 +46,8 @@
     <string name="review_title">Give a review</string>
     <string name="review_save">Save</string>
     <string name="review_cancel">Cancel</string>
-    <string name="profile_reviewtext">Own reviews:</string>
-    <string name="profile_title">Profile</string>
+    <string name="review_reviewtext">Own reviews:</string>
+    <string name="review_activitytitle">Review</string>
     <string name="signup_usernametaken">Unfortunately this username has already been taken. Please choose another one.</string>
     <string name="login_failed">Wrong username or password</string>
     <string name="settings_hint_newpassword">New password</string>
@@ -90,4 +90,6 @@
     <string name="settings_usernamesuccessful">Nickname changed</string>
     <string name="settings_nonewchanges">No new changes to be saved</string>
     <string name="settings_hintnickname">Nickname</string>
+    <string name="main_price">Price:</string>
+    <string name="main_avg_grade">Average grade:</string>
 </resources>

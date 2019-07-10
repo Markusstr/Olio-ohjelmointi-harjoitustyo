@@ -35,18 +35,19 @@ import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecyclerViewAdapter.ItemClickListener, Spinner.OnItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Spinner.OnItemSelectedListener {
 
     Spinner universities;
     Spinner restaurants;
     UniversityManager universityManager;
     University currentUniversity;
     Restaurant currentRestaurant;
-    ArrayList<String> foodNames;
-    ArrayList<Float> foodPrices;
-    RecyclerView recyclerView;
     ArrayAdapter<String> adapterRestaurant;
-    RecyclerViewAdapter radapter;
+    RecyclerView mRecyclerView;
+    RecyclerViewAdapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+    ArrayList<String> mFoodNames;
+    ArrayList<Float> mFoodPrices;
     FrameLayout frame;
     Fragment reviewFragment;
     Bundle bundle;
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity
 
         universities = findViewById(R.id.universitySpinner);
         restaurants = findViewById(R.id.restaurantSpinner);
-        recyclerView = findViewById(R.id.foodListView);
         navigationView = findViewById(R.id.nav_view);
         datePicker = findViewById(R.id.datePicker);
         date = findViewById(R.id.dateText);
@@ -141,15 +141,39 @@ public class MainActivity extends AppCompatActivity
         universities.setAdapter(adapterUni);
         universities.setOnItemSelectedListener(this);
 
-        foodNames = new ArrayList<>();
-        foodPrices = new ArrayList<>();
+        mFoodNames = new ArrayList<>();
+        mFoodPrices = new ArrayList<>();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        radapter = new RecyclerViewAdapter(this, foodNames, foodPrices);
-        radapter.setClickListener(this);
-        recyclerView.setAdapter(radapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL));
+
+        mRecyclerView = findViewById(R.id.foodListView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new RecyclerViewAdapter(mFoodNames, mFoodPrices);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(MainActivity.this, "ItemClick", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onReviewClick(int position) {
+                reviewFragment = new ReviewFragment();
+
+                bundle = new Bundle();
+                bundle.putString("foodName", mFoodNames.get(position));
+                reviewFragment.setArguments(bundle);
+                frame = findViewById(R.id.reviewFragmentWindow);
+                frame.setVisibility(View.VISIBLE);
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.reviewFragmentWindow, reviewFragment);
+                transaction.commit();
+            }
+        });
 
     }
 
@@ -213,24 +237,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onItemClick(View view, int position) {
-
-        //When the user clicks on a food, it starts a review fragment
-
-        reviewFragment = new ReviewFragment();
-
-        bundle = new Bundle();
-        bundle.putString("foodName", radapter.getName(position));
-        reviewFragment.setArguments(bundle);
-        frame = findViewById(R.id.reviewFragmentWindow);
-        frame.setVisibility(View.VISIBLE);
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.reviewFragmentWindow, reviewFragment);
-        transaction.commit();
-    }
-
     public void reviewCancel(View view) {
         frame.setVisibility(View.INVISIBLE);
         FragmentManager manager = getSupportFragmentManager();
@@ -286,11 +292,11 @@ public class MainActivity extends AppCompatActivity
                 if (currentRestaurant == null) {
                     return;
                 }
-                foodPrices.clear();
-                foodNames.clear();
-                foodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
-                foodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
-                radapter.notifyDataSetChanged();
+                mFoodPrices.clear();
+                mFoodNames.clear();
+                mFoodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
+                mFoodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
+                mAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -327,11 +333,11 @@ public class MainActivity extends AppCompatActivity
                             thisDate = dayOfMonth + "." + (month + 1) + "." + year;
                         }
                     }
-                    foodPrices.clear();
-                    foodNames.clear();
-                    foodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
-                    foodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
-                    radapter.notifyDataSetChanged();
+                    mFoodPrices.clear();
+                    mFoodNames.clear();
+                    mFoodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
+                    mFoodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
+                    mAdapter.notifyDataSetChanged();
                 }
             }, year, month, day);
             datePickerDialog.show();

@@ -41,11 +41,11 @@
     <string name="settings_title">Asetukset</string>
     <string name="button_review">Anna arvostelu</string>
     <string name="fragment_newreview">Uusi arvostelu</string>
-    <string name="profile_reviewtext">Omia arvosteluita:</string>
+    <string name="review_reviewtext">Omia arvosteluita:</string>
     <string name="review_title">Anna arvostelu</string>
     <string name="review_save">Tallenna</string>
     <string name="review_cancel">Peruuta</string>
-    <string name="profile_title">Profiili</string>
+    <string name="review_activitytitle">Arvostelu</string>
     <string name="signup_usernametaken">Valitettavasti tämä käyttäjänimi on jo käytössä. Valitse toinen nimi.</string>
     <string name="login_failed">Väärä käyttäjätunnus tai salasana</string>
     <string name="settings_loggedinas">Kirjauduttu käyttäjällä:</string>
@@ -90,4 +90,6 @@
     <string name="settings_usernamesuccessful">Lempinimi vaihdettu</string>
     <string name="settings_nonewchanges">Ei uusia asetuksia tallennettavaksi</string>
     <string name="settings_hintnickname">Lempinimi</string>
+    <string name="main_price">Hinta:</string>
+    <string name="main_avg_grade">Keskimääräinen arvosana:</string>
 </resources>

@@ -13,55 +13,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/university"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/universitySpinner"
-        android:layout_width="271dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/universityTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginStart="4dp"
         app:layout_constraintStart_toEndOf="@+id/universityTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/universityTextView" />
 
     <TextView
         android:id="@+id/restaurantTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
         android:text="@string/restaurant"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/universityTextView"
         app:layout_constraintTop_toBottomOf="@+id/universityTextView" />
 
     <Spinner
         android:id="@+id/restaurantSpinner"
-        android:layout_width="271dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/universitySpinner"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/universitySpinner"
-        app:layout_constraintTop_toBottomOf="@+id/universitySpinner" />
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@+id/restaurantTextView"
+        app:layout_constraintTop_toTopOf="@+id/restaurantTextView" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/foodListView"
-        android:layout_width="389dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+        app:layout_constraintTop_toBottomOf="@+id/settings_divider2" />
 
     <FrameLayout
         android:id="@+id/reviewFragmentWindow"
@@ -80,7 +73,7 @@
     <EditText
         android:id="@+id/dateText"
         android:layout_width="138dp"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="date|textPersonName"
@@ -91,11 +84,11 @@
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:text="@string/date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/restaurantTextView"
         app:layout_constraintTop_toBottomOf="@+id/restaurantTextView" />
 
     <Button
@@ -107,5 +100,15 @@
         android:text="@string/dateBtn"
         app:layout_constraintStart_toEndOf="@+id/dateText"
         app:layout_constraintTop_toBottomOf="@+id/restaurantSpinner" />
+
+    <View
+        android:id="@+id/settings_divider2"
+        style="@style/Divider"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateText" />
 
 </android.support.constraint.ConstraintLayout>

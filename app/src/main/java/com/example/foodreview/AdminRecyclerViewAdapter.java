@@ -99,12 +99,12 @@ public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecycler
 
 
         if (!currentItem.getIsEnabled()) {
-            adminViewHolder.mCard.setEnabled(false);
-            adminViewHolder.mCard.setCardBackgroundColor(Color.GRAY);
+            adminViewHolder.mName.setAlpha(0.3f);
+            adminViewHolder.mAddress.setAlpha(0.4f);
         }
         else {
-            adminViewHolder.mCard.setEnabled(true);
-            adminViewHolder.mCard.setCardBackgroundColor(Color.WHITE);
+            adminViewHolder.mName.setAlpha(1.0f);
+            adminViewHolder.mAddress.setAlpha(1.0f);
         }
 
 

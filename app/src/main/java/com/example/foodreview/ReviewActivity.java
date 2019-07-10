@@ -8,13 +8,13 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ReviewActivity extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_review);
 
         TextView usernameText;
         usernameText = findViewById(R.id.profileUsernameText);
@@ -22,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbarreview);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.profile_title));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.review_activitytitle));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
