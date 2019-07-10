@@ -450,7 +450,7 @@ class DatabaseManager {
     }
 
     // Modify food's data in the database. Again, use unmodified strings as null and other values as -1
-    boolean modifyFoodData(Food food, String foodName, float foodPrice, int restaurantId) {
+    boolean modifyFoodData(Food food, String foodName, float foodPrice, int restaurantId, String foodDate) {
         ContentValues cv = new ContentValues();
         String whereClause = tableFood.COLUMN_FOODID+ " = ?";
         String[] whereArgs = {Integer.toString(food.getFoodId())};
@@ -463,6 +463,9 @@ class DatabaseManager {
         }
         if (restaurantId != -1) {
             cv.put(tableFood.COLUMN_RESTAURANTID, restaurantId);
+        }
+        if (foodDate != null) {
+            cv.put(tableFood.COLUMN_DATE, foodDate);
         }
 
         if (db.update(tableFood.TABLE_NAME, cv, whereClause, whereArgs) > 0) {
