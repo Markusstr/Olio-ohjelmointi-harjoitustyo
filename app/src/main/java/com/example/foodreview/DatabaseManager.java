@@ -22,7 +22,6 @@ class DatabaseManager {
         db = fDBHelp.getWritableDatabase();
         databaseCursor = getCursor(tableUserIds.TABLE_NAME);
         encryptor = PasswordEncryptor.getInstance();
-        hardCodeDatabaseTestData();
     }
 
     // This class functions as a singleton and always returns the same instance
@@ -37,16 +36,16 @@ class DatabaseManager {
         return instance;
     }
 
-
     // This method takes given username and password to insert one new value to the database.
     // Does not return anything at the moment.
-    void addItem(String username, String password) {
+    void addItem(String username, String password, String nickname) {
 
         byte[] salt = encryptor.getSalt(username);
         String hash = encryptor.encryptor(password, salt);
 
         ContentValues cv = new ContentValues();
         cv.put(tableUserIds.COLUMN_USERNAME, username);
+        cv.put(tableUserIds.COLUMN_NICKNAME, nickname);
         cv.put(tableUserIds.COLUMN_PASSWORD, hash);
         cv.put(tableUserIds.COLUMN_SALT, salt);
         cv.put(tableUserIds.COLUMN_ADMIN, 0);
@@ -127,6 +126,7 @@ class DatabaseManager {
         ContentValues cv = new ContentValues();
         String whereClause = tableUserIds.COLUMN_USERNAME + " = ?";
         String[] whereArgs = {username};
+
         int isAdminInt;
         if (isAdmin) {
             isAdminInt = 1;
@@ -134,10 +134,11 @@ class DatabaseManager {
         else {
             isAdminInt = 0;
         }
-
         cv.put(tableUserIds.COLUMN_ADMIN, isAdminInt);
 
-        db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs);
+        if (db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs) <= 0) {
+            System.out.println("Modifying failed.");
+        }
     }
 
     // Looks through the database and looks for an existing username. Returns true if a username exists in the Database.
@@ -180,7 +181,7 @@ class DatabaseManager {
     }
 
     // Looks through the database, checks integer instead of String
-    private boolean checkIdExistance (int id, String tableName, String column) {
+    boolean checkIdExistance (int id, String tableName, String column) {
         databaseCursor = getCursor(tableName);
         databaseCursor.moveToFirst();
         int count = databaseCursor.getCount();
@@ -270,16 +271,10 @@ class DatabaseManager {
 
     void updateFoods (Restaurant restaurant) {
 
-        //Creates an SQL query clause. Uses class variables as table names and attributes
-        String foodQuery = "SELECT * FROM "+tableFood.TABLE_NAME+
-                " INNER JOIN "+ tableRestaurant.TABLE_NAME+
-                " ON "+tableRestaurant.TABLE_NAME+"."+tableRestaurant.COLUMN_RESTAURANTID+
-                " = "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+
-                " WHERE "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_RESTAURANTID+" = ?;";
-
+        String whereClause = tableFood.COLUMN_RESTAURANTID + " = ?";
         String[] arguments = {Integer.toString(restaurant.getRestaurantId())};
 
-        Cursor newCursor = getRawCursor(foodQuery, arguments);
+        Cursor newCursor = getCursorWithWhere(tableFood.TABLE_NAME, whereClause, arguments);
         ArrayList<Food> foods = new ArrayList<>();
         Food foodTemp;
 
@@ -381,8 +376,8 @@ class DatabaseManager {
         cvRestaurant.put(tableRestaurant.COLUMN_RESTAURANTNAME, newRestaurantName);
         cvRestaurant.put(tableRestaurant.COLUMN_UNIID,whichUni);
         cvRestaurant.put(tableRestaurant.COLUMN_ISENABLED, isEnabledInt);
-        long newRestaurantId = db.insert(tableRestaurant.TABLE_NAME,null, cvRestaurant);
-        System.out.println("New restaurant id is: "+newRestaurantId);
+        long newAddedRestaurantId = db.insert(tableRestaurant.TABLE_NAME,null, cvRestaurant);
+        System.out.println("New restaurant id is: "+newAddedRestaurantId);
     }
 
     // Method sets a new food directly to database.
@@ -452,7 +447,7 @@ class DatabaseManager {
     }
 
     // Modify food's data in the database. Again, use unmodified strings as null and other values as -1
-    boolean modifyFoodData(Food food, String foodName, float foodPrice, int restaurantId) {
+    boolean modifyFoodData(Food food, String foodName, float foodPrice, String foodDate) {
         ContentValues cv = new ContentValues();
         String whereClause = tableFood.COLUMN_FOODID+ " = ?";
         String[] whereArgs = {Integer.toString(food.getFoodId())};
@@ -463,8 +458,8 @@ class DatabaseManager {
         if (foodPrice != -1f) {
             cv.put(tableFood.COLUMN_FOODPRICE, foodPrice);
         }
-        if (restaurantId != -1) {
-            cv.put(tableFood.COLUMN_RESTAURANTID, restaurantId);
+        if (foodDate != null) {
+            cv.put(tableFood.COLUMN_DATE, foodDate);
         }
 
         if (db.update(tableFood.TABLE_NAME, cv, whereClause, whereArgs) > 0) {
@@ -472,6 +467,30 @@ class DatabaseManager {
         }
         return false;
     }
+
+    ArrayList<Review> getReviewsForUser (String username) {
+
+        ArrayList<Review> newReviews = new ArrayList<>();
+
+        String whereClause = tableReview.COLUMN_USERNAME + " = ?";
+        String[] whereArgs = {username};
+        Cursor cursor = getCursorWithWhere(tableReview.TABLE_NAME, whereClause, whereArgs);
+
+        int count = cursor.getCount();
+
+        for (int x = 0; x < count; x++) {
+            cursor.moveToPosition(x);
+            int reviewId = cursor.getInt(cursor.getColumnIndex(tableReview.COLUMN_REVIEWID));
+            String review = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_REVIEW));
+            float grade = cursor.getFloat(cursor.getColumnIndex(tableReview.COLUMN_STARS));
+            String userId = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_USERNAME));
+
+            Review newReview = new Review(reviewId, grade, review, userId);
+            newReviews.add(newReview);
+        }
+        return newReviews;
+    }
+
 
     // Methods to remove items from database:
     // All methods take in the corresponding object. Method takes it's id from the object and
@@ -487,6 +506,8 @@ class DatabaseManager {
     }
 
     void deleteRestaurant(Restaurant restaurant, University university) {
+        String pragma = "PRAGMA foreign_keys = ON;";
+        db.execSQL(pragma);
         String whereClause = tableRestaurant.COLUMN_RESTAURANTID +" = ?";
         String[] whereArgsRestaurant = {Integer.toString(restaurant.getRestaurantId())};
         db.delete(tableRestaurant.TABLE_NAME, whereClause, whereArgsRestaurant);
@@ -494,6 +515,9 @@ class DatabaseManager {
         whereClause = tableAddresses.COLUMN_ADDRESSID +" = ?";
         String[] whereArgsAddress = {Integer.toString(restaurant.getRestaurantAddressId())};
         db.delete(tableAddresses.TABLE_NAME, whereClause, whereArgsAddress);
+
+        pragma = "PRAGMA foreign_keys = OFF;";
+        db.execSQL(pragma);
         updateCascade(university);
     }
 
@@ -515,6 +539,14 @@ class DatabaseManager {
         db.delete(tableReview.TABLE_NAME, whereClause, whereArgs);
 
         updateReviews(food);
+    }
+
+    void deleteUser(String username) {
+        String whereClause = tableUserIds.COLUMN_USERNAME +" = ?";
+        String[] whereArgs = {username};
+        db.delete(tableReview.TABLE_NAME, whereClause, whereArgs);
+
+        updateUsers();
     }
 
     // This method makes a query to get the data from the database. Returns cursor.
@@ -553,6 +585,7 @@ class DatabaseManager {
         ContentValues cv = new ContentValues();
         String password = encryptor.encryptor("admin", salt);
         cv.put(tableUserIds.COLUMN_USERNAME, "admin");
+        cv.put(tableUserIds.COLUMN_NICKNAME, "SUPERADMIN");
         cv.put(tableUserIds.COLUMN_PASSWORD, password);
         cv.put(tableUserIds.COLUMN_SALT, salt);
         cv.put(tableUserIds.COLUMN_ADMIN, 1);
@@ -563,91 +596,13 @@ class DatabaseManager {
 
     // This method puts the Test Data in to the database, while running checks to qualify the existance
     // of the data that is being added.
-    private void hardCodeDatabaseTestData() {
+    void hardCodeDatabaseTestData() {
         // users
         if (!checkStringExistance("admin", tableUserIds.TABLE_NAME, tableUserIds.COLUMN_USERNAME)) {
             createAdmin();
         }
-        // Universities
-        if (!checkStringExistance("LUT-University", tableUniversity.TABLE_NAME, tableUniversity.COLUMN_UNINAME)) {
-            setNewUniversity("LUT-University");
-        }
-        if (!checkStringExistance("TTY", tableUniversity.TABLE_NAME, tableUniversity.COLUMN_UNINAME)) {
-            setNewUniversity("TTY");
-        }
-        if (!checkStringExistance("Itä-Suomen Yliopisto", tableUniversity.TABLE_NAME, tableUniversity.COLUMN_UNINAME)) {
-            setNewUniversity("Itä-Suomen Yliopisto");
-        }
-        //TODO: Checks to allow multiple restaurants with the same name!
-        if (!checkStringExistance("Aalef - Meidän ravintola", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
-            String[] newAddress = {"Laserkatu 10", "53850", "Lappeenranta"};
-            setNewRestaurant(newAddress, "Aalef - Meidän ravintola", 1, true);
-        }
-        if (!checkStringExistance("Aalef - Laseri", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
-            String[] newAddress = {"Skinnarilankatu 45", "53850", "Lappeenranta"};
-            setNewRestaurant(newAddress, "Aalef - Laseri", 1, true);
-        }
-        if (!checkStringExistance("LUT Buffet", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
-            String[] newAddress = {"Yliopistonkatu 38", "53850", "Lappeenranta"};
-            setNewRestaurant(newAddress, "LUT Buffet", 1, false);
-        }
-        if (!checkStringExistance("Juvenes - Newton", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
-            String[] newAddress = {"Korkeakoulunkatu 6", "33780", "Tampere"};
-            setNewRestaurant(newAddress, "Juvenes - Newton", 2, true);
-        }
-        if (!checkStringExistance("Opiskelijaravintola Carelia", tableRestaurant.TABLE_NAME, tableRestaurant.COLUMN_RESTAURANTNAME)) {
-            String[] newAddress = {"Yliopistonkatu 4", "80100", "Joensuu"};
-            setNewRestaurant(newAddress, "Opiskelijaravintola Carelia", 3, true);
-        }
-        //Foods from now on:
-        if (!checkIdExistance(1,tableFood.TABLE_NAME, tableFood.COLUMN_FOODID)) {
-            String newFoodName = "Jauhelihapullat ja muusi";
-            float newFoodPrice = 5.40f;
-            int newRestaurantId = 1;
-            String newFoodDate = "08.07.2019";
-            setNewFood(newFoodName, newFoodPrice, newRestaurantId,newFoodDate);
-        }
-        if (!checkIdExistance(2,tableFood.TABLE_NAME, tableFood.COLUMN_FOODID)) {
-            String newFoodName = "Hampurilaisateria";
-            float newFoodPrice = 2.60f;
-            int newRestaurantId = 1;
-            String newFoodDate = "08.07.2019";
-            setNewFood(newFoodName, newFoodPrice, newRestaurantId,newFoodDate);
-        }
-        if (!checkIdExistance(3,tableFood.TABLE_NAME, tableFood.COLUMN_FOODID)) {
-            String newFoodName = "Lehtisalaatti ja keitto";
-            float newFoodPrice = 2.60f;
-            int newRestaurantId = 1;
-            String newFoodDate = "08.07.2019";
-            setNewFood(newFoodName, newFoodPrice, newRestaurantId,newFoodDate);
-        }
-        if (!checkIdExistance(4,tableFood.TABLE_NAME, tableFood.COLUMN_FOODID)) {
-            String newFoodName = "Broileritortillat";
-            float newFoodPrice = 2.60f;
-            int newRestaurantId = 2;
-            String newFoodDate = "08.07.2019";
-            setNewFood(newFoodName, newFoodPrice, newRestaurantId,newFoodDate);
-        }
-        if (!checkIdExistance(5,tableFood.TABLE_NAME, tableFood.COLUMN_FOODID)) {
-            String newFoodName = "Uunilohi ja perunamuusi";
-            float newFoodPrice = 5.40f;
-            int newRestaurantId = 2;
-            String newFoodDate = "08.07.2019";
-            setNewFood(newFoodName, newFoodPrice, newRestaurantId,newFoodDate);
-        }
-        if (!checkIdExistance(6,tableFood.TABLE_NAME, tableFood.COLUMN_FOODID)) {
-            String newFoodName = "Jauhelihakastike ja perunat";
-            float newFoodPrice = 2.20f;
-            int newRestaurantId = 3;
-            String newFoodDate = "08.07.2019";
-            setNewFood(newFoodName, newFoodPrice, newRestaurantId,newFoodDate);
-        }
-        if (!checkIdExistance(7,tableFood.TABLE_NAME, tableFood.COLUMN_FOODID)) {
-            String newFoodName = "Chili con Carne";
-            float newFoodPrice = 2.60f;
-            int newRestaurantId = 3;
-            String newFoodDate = "08.07.2019";
-            setNewFood(newFoodName, newFoodPrice, newRestaurantId,newFoodDate);
+        if (!checkStringExistance("testikayttaja", tableUserIds.TABLE_NAME, tableUserIds.COLUMN_USERNAME)) {
+            addItem("testikayttaja", "salasana", "Testi Kayttaja");
         }
     }
 }

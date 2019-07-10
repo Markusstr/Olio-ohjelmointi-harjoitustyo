@@ -11,9 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:onClick="continueClick"
-        android:text="@string/loginFragment_continue"
+        android:layout_marginTop="16dp"
+        android:onClick="saveEditedFood"
+        android:text="@string/review_save"
         app:layout_constraintStart_toStartOf="@+id/foodEditDate"
         app:layout_constraintTop_toBottomOf="@+id/foodEditDate" />
 
@@ -122,5 +122,15 @@
         android:text="@string/review_cancel"
         app:layout_constraintStart_toEndOf="@+id/continueBtn2"
         app:layout_constraintTop_toTopOf="@+id/continueBtn2" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="dd.mm.yyyy"
+        app:layout_constraintBottom_toBottomOf="@+id/fieldFoodDate"
+        app:layout_constraintStart_toEndOf="@+id/fieldFoodDate"
+        app:layout_constraintTop_toTopOf="@+id/fieldFoodDate" />
 
 </android.support.constraint.ConstraintLayout>

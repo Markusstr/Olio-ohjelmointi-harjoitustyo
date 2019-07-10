@@ -191,9 +191,14 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             @Override
             public void onEditClick(int position) {
                 //currentRestaurant = mRestaurantList.get(position);
+                String[] restaurantAddress = mRestaurantList.get(position).getRawRestaurantAddress();
                 Bundle bundle = new Bundle();
                 bundle.putString("restaurantName", mRestaurantList.get(position).getRestaurantName());
-                bundle.putString("restaurantAddress", mRestaurantList.get(position).getRestaurantAddress());
+                bundle.putString("restaurantAddress", restaurantAddress[0]);
+                bundle.putString("restaurantPC", restaurantAddress[1]);
+                bundle.putString("restaurantCity", restaurantAddress[2]);
+                bundle.putBoolean("restaurantEnabled", mRestaurantList.get(position).getIsEnabled());
+                bundle.putInt("restaurantUni", admin_unispinner.getSelectedItemPosition());
                 Fragment adminEditFragment = new AdminEditFragment();
                 adminEditFragment.setArguments(bundle);
                 frame = findViewById(R.id.adminEditFragmentWindow);
@@ -233,6 +238,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 bundle.putString("foodName", mFoodList.get(position).getFoodName());
                 bundle.putString("foodPrice", foodPrice);
                 bundle.putString("foodDate", mFoodList.get(position).getDate());
+                bundle.putString("foodUni", admin_unispinner.getSelectedItem().toString());
+                bundle.putInt("selectedFood", position);
                 Fragment adminFoodEditFragment = new AdminFoodEditFragment();
                 adminFoodEditFragment.setArguments(bundle);
                 frame = findViewById(R.id.adminEditFragmentWindow);
@@ -247,6 +254,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
     //Actually cancel click in fragments
     public void continueClick(View view) {
+        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
         frame.setVisibility(View.INVISIBLE);
     }
 
@@ -289,13 +297,76 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         String newFoodUni = adminNewFoodFragment.getNewFoodUni();
         String newFoodRest = adminNewFoodFragment.getNewFoodRest();
         int newFoodRestId = universityManager.getUniversity(newFoodUni).getRestaurant(newFoodRest).getRestaurantId();
+        String s = Float.toString(newFoodPrice);
 
-        if (newFoodName.equals("") || newFoodDate.equals("")) {
+        if (newFoodName.equals("") || newFoodDate.equals("") || s.equals("")) {
             Toast.makeText(this, "Fill empty fields", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "New food " + newFoodName, Toast.LENGTH_SHORT).show();
             frame.setVisibility(View.INVISIBLE);
             dbms.setNewFood(newFoodName, newFoodPrice, newFoodRestId, newFoodDate);
+
+            dbms.updateUniversities();
+            ArrayList<University> universityObjects = universityManager.getUniversities();
+            for (int x = 0; x < universityObjects.size(); x++) {
+                dbms.updateCascade(universityObjects.get(x));
+            }
+
+
+            mRestaurantList.clear();
+            mRestaurantList.addAll(universityManager.getUniversity(uniName).getRestaurants());
+        }
+
+        //TODO REPLACE STRINGS WITH STRING VALUES
+    }
+
+    public void saveEditedRestaurant(View view) {
+        AdminEditFragment adminEditFragment = (AdminEditFragment) manager.findFragmentById(R.id.adminEditFragmentWindow);
+        String editRestaurantName = adminEditFragment.getEditRestaurantName();
+        String editRestaurantAddress = adminEditFragment.getEditRestaurantAddress();
+        String editRestaurantPC = adminEditFragment.getEditRestaurantPC();
+        String editRestaurantCity = adminEditFragment.getEditRestaurantCity();
+        String[] newRestaurantAddressArray = {editRestaurantAddress, editRestaurantPC, editRestaurantCity};
+        String editRestaurantUni = adminEditFragment.getEditRestaurantUni();
+        boolean editRestaurantIsEnabled = adminEditFragment.getEditRestaurantIsEnabled();
+        int editRestUniId = universityManager.getUniversity(editRestaurantUni).getUniId();
+        String editRestaurantOldName = adminEditFragment.getEditRestaurantOldName();
+
+        if (editRestaurantName.equals("") || editRestaurantAddress.equals("") || editRestaurantPC.equals("") || editRestaurantCity.equals("")) {
+            Toast.makeText(this, "Fill empty fields", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Edited restaurant " + editRestaurantName, Toast.LENGTH_SHORT).show();
+            frame.setVisibility(View.INVISIBLE);
+            dbms.modifyRestaurantData( universityManager.getUniversity(editRestaurantUni).getRestaurant(editRestaurantOldName), newRestaurantAddressArray, editRestaurantName, editRestUniId, editRestaurantIsEnabled);
+
+            ArrayList<University> universityObjects = universityManager.getUniversities();
+            for (int x = 0; x < universityObjects.size(); x++) {
+                dbms.updateCascade(universityObjects.get(x));
+            }
+
+            mRestaurantList.clear();
+            createRestaurantList();
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    public void saveEditedFood(View view) {
+        AdminFoodEditFragment adminEditFragment = (AdminFoodEditFragment) manager.findFragmentById(R.id.adminEditFragmentWindow);
+        String editFoodName = adminEditFragment.getEditFoodName();
+        float editFoodPrice = adminEditFragment.getEditFoodPrice();
+        String editFoodDate = adminEditFragment.getEditFoodDate();
+        String editFoodUni = adminEditFragment.getFoodUni();
+        String s = Float.toString(editFoodPrice);
+        int k = adminEditFragment.getSelectedFood();
+
+        if (editFoodName.equals("") || editFoodDate.equals("") || s.equals("")) {
+            Toast.makeText(this, "Fill empty fields", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Edited food " + editFoodName, Toast.LENGTH_SHORT).show();
+            frame.setVisibility(View.INVISIBLE);
+
+            dbms.modifyFoodData(universityManager.getUniversity(editFoodUni).getRestaurant(currentRestaurant.getRestaurantName()).getFoods().get(k), editFoodName, editFoodPrice, editFoodDate);
 
             ArrayList<University> universityObjects = universityManager.getUniversities();
             for (int x = 0; x < universityObjects.size(); x++) {
@@ -304,6 +375,9 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
             mRestaurantList.clear();
             mRestaurantList.addAll(universityManager.getUniversity(uniName).getRestaurants());
+            mFoodList.clear();
+            createFoodList(universityManager.getUniversity(uniName).getRestaurant(currentRestaurant.getRestaurantName()));
+            mFoodAdapter.notifyDataSetChanged();
         }
     }
 
@@ -352,5 +426,6 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 }
 

@@ -24,11 +24,12 @@
         android:id="@+id/continueBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="continueClick"
-        android:text="@string/loginFragment_continue"
-        app:layout_constraintStart_toStartOf="@+id/restaurantAddress"
-        app:layout_constraintTop_toBottomOf="@+id/restaurantAddress" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="saveEditedRestaurant"
+        android:text="@string/review_save"
+        app:layout_constraintStart_toStartOf="@+id/restaurantEditUniSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantEditUniSpinner" />
 
     <TextView
         android:id="@+id/restaurantName"
@@ -100,4 +101,67 @@
         android:text="@string/review_cancel"
         app:layout_constraintStart_toEndOf="@+id/continueBtn"
         app:layout_constraintTop_toTopOf="@+id/continueBtn" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Postal Code:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Large"
+        app:layout_constraintStart_toStartOf="@+id/restaurantAddress"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantAddress" />
+
+    <EditText
+        android:id="@+id/fieldRestaurantPC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/fieldRestaurantAddress" />
+
+    <EditText
+        android:id="@+id/fieldRestaurantCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/fieldRestaurantPC" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="City:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Large"
+        app:layout_constraintStart_toStartOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <CheckBox
+        android:id="@+id/restaurantEnabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Enabled"
+        app:layout_constraintStart_toEndOf="@+id/fieldRestaurantCity"
+        app:layout_constraintTop_toBottomOf="@+id/fieldRestaurantPC" />
+
+    <Spinner
+        android:id="@+id/restaurantEditUniSpinner"
+        android:layout_width="197dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/fieldRestaurantCity" />
+
 </android.support.constraint.ConstraintLayout>
