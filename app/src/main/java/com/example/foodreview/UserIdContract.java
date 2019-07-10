@@ -9,6 +9,7 @@ class UserIdContract{
     static final class tableUserIds implements BaseColumns {
         //Contains table names.
         static final String TABLE_NAME = "userIds";
+        static final String COLUMN_NICKNAME = "nickname";
         static final String COLUMN_USERNAME = "username";
         static final String COLUMN_PASSWORD = "password";
         static final String COLUMN_SALT = "salt";

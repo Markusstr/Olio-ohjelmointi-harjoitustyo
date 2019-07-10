@@ -1,9 +1,14 @@
 package com.example.foodreview;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.foodreview.UserIdContract.*;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class LoginDatabaseHelper extends SQLiteOpenHelper {
     // private static final String TAG = "DatabaseManager";
@@ -22,6 +27,7 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_USERID_DATABASE = "CREATE TABLE " +
                 tableUserIds.TABLE_NAME + " (" +
                 tableUserIds.COLUMN_USERNAME + " TEXT PRIMARY KEY NOT NULL, " +
+                tableUserIds.COLUMN_NICKNAME + " TEXT NOT NULL, " +
                 tableUserIds.COLUMN_PASSWORD + " TEXT NOT NULL, " +
                 tableUserIds.COLUMN_SALT + " BLOB NOT NULL, " +
                 tableUserIds.COLUMN_ADMIN + " INTEGER NOT NULL CHECK (" +
@@ -82,10 +88,131 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
                 tableReview.COLUMN_USERNAME+" INTEGER," +
                 tableReview.COLUMN_FOODID+" INTEGER," +
                 "FOREIGN KEY("+tableReview.COLUMN_FOODID+") REFERENCES "+tableFood.TABLE_NAME+"("+tableFood.COLUMN_FOODID+") ON DELETE CASCADE,"+
-                "FOREIGN KEY("+tableReview.COLUMN_USERNAME+") REFERENCES "+tableUserIds.COLUMN_USERNAME+"("+tableUserIds.COLUMN_USERNAME+"));";
+                "FOREIGN KEY("+tableReview.COLUMN_USERNAME+") REFERENCES "+tableUserIds.TABLE_NAME+"("+tableUserIds.COLUMN_USERNAME+"));";
 
         db.execSQL(SQL_CREATE_REVIEW_TABLE);
 
+        /* *** INSERT TEST UNIVERSITIES ***/
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(tableUniversity.COLUMN_UNIID, 1);
+        cv.put(tableUniversity.COLUMN_UNINAME, "LUT-Yliopisto");
+        db.insert(tableUniversity.TABLE_NAME, null, cv);
+        cv.clear();
+
+        cv.put(tableUniversity.COLUMN_UNIID, 2);
+        cv.put(tableUniversity.COLUMN_UNINAME, "Tampereen Teknillinen Yliopisto");
+        db.insert(tableUniversity.TABLE_NAME, null, cv);
+        cv.clear();
+
+        cv.put(tableUniversity.COLUMN_UNIID, 3);
+        cv.put(tableUniversity.COLUMN_UNINAME, "Itä-Suomen Yliopisto");
+        db.insert(tableUniversity.TABLE_NAME, null, cv);
+        cv.clear();
+
+        /* *** INSERT TEST RESTAURANTS *******/
+
+        cv.put(tableAddresses.COLUMN_ADDRESSID, 1);
+        cv.put(tableAddresses.COLUMN_ADDRESS, "Laserkatu 10");
+        cv.put(tableAddresses.COLUMN_POSTALCODE, 53850);
+        cv.put(tableAddresses.COLUMN_CITY, "Lappeenranta");
+        db.insert(tableAddresses.TABLE_NAME, null, cv);
+        cv.clear();
+
+        cv.put(tableRestaurant.COLUMN_RESTAURANTID, 1);
+        cv.put(tableRestaurant.COLUMN_ADDRESSID, 1);
+        cv.put(tableRestaurant.COLUMN_RESTAURANTNAME, "Aalef - Meidän ravintola");
+        cv.put(tableRestaurant.COLUMN_UNIID, 1);
+        cv.put(tableRestaurant.COLUMN_ISENABLED, 1);
+        db.insert(tableRestaurant.TABLE_NAME,null, cv);
+        cv.clear();
+
+
+        cv.put(tableAddresses.COLUMN_ADDRESSID, 2);
+        cv.put(tableAddresses.COLUMN_ADDRESS, "Skinnarilankatu 45");
+        cv.put(tableAddresses.COLUMN_POSTALCODE, 53850);
+        cv.put(tableAddresses.COLUMN_CITY, "Lappeenranta");
+        db.insert(tableAddresses.TABLE_NAME, null, cv);
+        cv.clear();
+
+        cv.put(tableRestaurant.COLUMN_RESTAURANTID, 2);
+        cv.put(tableRestaurant.COLUMN_ADDRESSID, 2);
+        cv.put(tableRestaurant.COLUMN_RESTAURANTNAME, "Aalef - Laseri");
+        cv.put(tableRestaurant.COLUMN_UNIID, 1);
+        cv.put(tableRestaurant.COLUMN_ISENABLED, 1);
+        db.insert(tableRestaurant.TABLE_NAME,null, cv);
+        cv.clear();
+
+
+        cv.put(tableAddresses.COLUMN_ADDRESSID, 3);
+        cv.put(tableAddresses.COLUMN_ADDRESS, "Yliopistonkatu 34");
+        cv.put(tableAddresses.COLUMN_POSTALCODE, 53850);
+        cv.put(tableAddresses.COLUMN_CITY, "Lappeenranta");
+        db.insert(tableAddresses.TABLE_NAME, null, cv);
+        cv.clear();
+
+        cv.put(tableRestaurant.COLUMN_RESTAURANTID, 3);
+        cv.put(tableRestaurant.COLUMN_ADDRESSID, 3);
+        cv.put(tableRestaurant.COLUMN_RESTAURANTNAME, "LUT Buffet");
+        cv.put(tableRestaurant.COLUMN_UNIID, 1);
+        cv.put(tableRestaurant.COLUMN_ISENABLED, 0);
+        db.insert(tableRestaurant.TABLE_NAME,null, cv);
+        cv.clear();
+
+
+        cv.put(tableAddresses.COLUMN_ADDRESSID, 4);
+        cv.put(tableAddresses.COLUMN_ADDRESS, "Korkeakoulunkatu 6");
+        cv.put(tableAddresses.COLUMN_POSTALCODE, 33780);
+        cv.put(tableAddresses.COLUMN_CITY, "Tampere");
+        db.insert(tableAddresses.TABLE_NAME, null, cv);
+        cv.clear();
+
+        cv.put(tableRestaurant.COLUMN_RESTAURANTID, 4);
+        cv.put(tableRestaurant.COLUMN_ADDRESSID, 4);
+        cv.put(tableRestaurant.COLUMN_RESTAURANTNAME, "Juvenes - Newton");
+        cv.put(tableRestaurant.COLUMN_UNIID, 2);
+        cv.put(tableRestaurant.COLUMN_ISENABLED, 1);
+        db.insert(tableRestaurant.TABLE_NAME,null, cv);
+        cv.clear();
+
+
+        cv.put(tableAddresses.COLUMN_ADDRESSID, 5);
+        cv.put(tableAddresses.COLUMN_ADDRESS, "Yliopistonkatu 4");
+        cv.put(tableAddresses.COLUMN_POSTALCODE, 80100);
+        cv.put(tableAddresses.COLUMN_CITY, "Joensuu");
+        db.insert(tableAddresses.TABLE_NAME, null, cv);
+        cv.clear();
+
+        cv.put(tableRestaurant.COLUMN_RESTAURANTID, 5);
+        cv.put(tableRestaurant.COLUMN_ADDRESSID, 5);
+        cv.put(tableRestaurant.COLUMN_RESTAURANTNAME, "Opiskelijaravintola Carelia");
+        cv.put(tableRestaurant.COLUMN_UNIID, 3);
+        cv.put(tableRestaurant.COLUMN_ISENABLED, 1);
+        db.insert(tableRestaurant.TABLE_NAME,null, cv);
+        cv.clear();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = sdf.format(calendar.getTime());
+        System.out.println(currentDate);
+        int foodCounter = 0;
+        for (int x = 0; x < 1; x++) {
+            calendar.add(Calendar.DATE, 1);
+            currentDate = sdf.format(calendar.getTime());
+            System.out.println(currentDate);
+            if ((calendar.get(Calendar.DAY_OF_WEEK) == 1 || (calendar.get(Calendar.DAY_OF_WEEK) == 7))) {
+                continue;
+            }
+            else {
+                ArrayList<ContentValues> contentValues = new ArrayList<>();
+                contentValues = HardCodeFile.hardCodeFoods(foodCounter, currentDate);
+                for (int y = 0; y < contentValues.size(); y++) {
+                    db.insert(tableFood.TABLE_NAME, null, contentValues.get(y));
+                }
+                foodCounter++;
+            }
+        }
     }
 
     //This method is called only when the database version or database schema is changed.
@@ -101,9 +228,9 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-//    @Override
-//    public void onOpen(SQLiteDatabase db) {
-//        super.onOpen(db);
-//        db.execSQL("PRAGMA foreign_keys = ON;");
-//    }
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        db.execSQL("PRAGMA foreign_keys = ON;");
+    }
 }
