@@ -91,7 +91,9 @@ public class AdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminRecycler
         Restaurant currentItem = mRestaurantList.get(i);
 
         adminViewHolder.mName.setText(currentItem.getRestaurantName());
-        adminViewHolder.mAddress.setText(currentItem.getRestaurantAddress() /*TODO: getAddress()*/);
+        adminViewHolder.mAddress.setText(currentItem.getRestaurantAddress());
+
+
 
     }
 

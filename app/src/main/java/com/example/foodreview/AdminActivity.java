@@ -27,18 +27,14 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     private RecyclerView mRecyclerView;
     private AdminRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
     private RecyclerView mFoodRecyclerView;
     private AdminFoodRecyclerViewAdapter mFoodAdapter;
     private RecyclerView.LayoutManager mFoodLayoutManager;
-
     private ArrayList<Restaurant> mRestaurantList;
     private ArrayList<Food> mFoodList;
     private University currentUniversity;
     private UniversityManager universityManager;
-
     private Restaurant currentRestaurant;
-
     private DatabaseManager dbms;
     private Context context;
     FragmentManager manager;
@@ -270,7 +266,18 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             Toast.makeText(this, "New restaurant " + newRestaurantName, Toast.LENGTH_SHORT).show();
             frame.setVisibility(View.INVISIBLE);
             dbms.setNewRestaurant(newRestaurantAddressArray, newRestaurantName, newRestUniId, true);
+
+            ArrayList<University> universityObjects = universityManager.getUniversities();
+            for (int x = 0; x < universityObjects.size(); x++) {
+                dbms.updateCascade(universityObjects.get(x));
+            }
+
+            mRestaurantList.clear();
+            createRestaurantList();
+            mAdapter.notifyDataSetChanged();
         }
+
+        //TODO REPLACE STRINGS WITH STRING VALUES
 
     }
 
@@ -319,23 +326,3 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     }
 }
 
-        //Creating the recyclerView and customizing it
-//        RecyclerView recyclerView = findViewById(R.id.adminRecyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        radapter = new AdminRecyclerViewAdapter(this, names, addresses);
-//        radapter.setClickListener(this);
-//        recyclerView.setAdapter(radapter);
-//        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-//                DividerItemDecoration.VERTICAL));
-//    }
-//
-//    @Override
-//    public void onItemClick(View view, int position) {
-//        final String nimi = radapter.getName(position);
-//        admin_delete = findViewById(R.id.admin_delete);
-//        admin_delete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(AdminActivity.this, "Klikkasit: " + nimi, Toast.LENGTH_SHORT).show();
-//            }
-//        });
