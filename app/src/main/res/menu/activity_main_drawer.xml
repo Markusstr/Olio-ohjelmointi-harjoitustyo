@@ -28,7 +28,7 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"
-            android:title="@string/menu_profile"/>
+            android:title="@string/menu_reviews"/>
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"

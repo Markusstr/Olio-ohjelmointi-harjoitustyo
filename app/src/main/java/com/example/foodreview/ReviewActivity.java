@@ -20,7 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.profileUsernameText);
         usernameText.setText(getIntent().getStringExtra("username"));
 
-        Toolbar toolbar = findViewById(R.id.toolbarprofile);
+        Toolbar toolbar = findViewById(R.id.toolbarreview);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.profile_title));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

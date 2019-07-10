@@ -8,7 +8,7 @@
     <string name="action_settings">Asetukset</string>
 
     <string name="menu_home">Päänäkymä</string>
-    <string name="menu_profile">Profiili</string>
+    <string name="menu_reviews">Arvostelut</string>
     <string name="menu_log_out">Kirjaudu ulos</string>
 
     <string name="login_username">Käyttäjätunnus</string>

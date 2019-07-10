@@ -302,8 +302,6 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 dbms.updateCascade(universityObjects.get(x));
             }
 
-            Restaurant test = universityManager.getUniversity(newFoodUni).getRestaurant(newFoodRest);
-
             mRestaurantList.clear();
             mRestaurantList.addAll(universityManager.getUniversity(uniName).getRestaurants());
         }
