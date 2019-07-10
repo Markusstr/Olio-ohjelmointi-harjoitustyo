@@ -158,9 +158,10 @@ public class SignUpActivity extends AppCompatActivity {
                 else {
                     String newUsername = username.getText().toString().trim();
                     String newPassword = password.getText().toString().trim();
+                    String newNickname = username.getText().toString().trim();
                     //Check if user with this username has already been created
                     if (!dbmsSU.checkExistance(newUsername)) {
-                        dbmsSU.addItem(newUsername, newPassword);
+                        dbmsSU.addItem(newUsername, newPassword, newNickname);
                         closeActivity(1);
                     }
                     else {

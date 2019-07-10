@@ -25,6 +25,7 @@ public class LogInActivity extends AppCompatActivity {
     String authenticatorEditText;
     String authenticatorCheck;
     FragmentManager manager;
+    boolean isLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,10 @@ public class LogInActivity extends AppCompatActivity {
 
         final Button login, signup;
         final DatabaseManager dbms = DatabaseManager.getInstance(context);
+        if (!isLoaded) {
+            dbms.hardCodeDatabaseTestData();
+            isLoaded = true;
+        }
 
 
         login = findViewById(R.id.login);

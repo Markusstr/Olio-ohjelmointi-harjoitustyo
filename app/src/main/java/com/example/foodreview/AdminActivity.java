@@ -271,7 +271,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         } else {
             Toast.makeText(this, "New restaurant " + newRestaurantName, Toast.LENGTH_SHORT).show();
             frame.setVisibility(View.INVISIBLE);
-            dbms.setNewRestaurant(newRestaurantAddressArray, newRestaurantName, newRestUniId, true);
+            dbms.setNewRestaurant(0,newRestaurantAddressArray, newRestaurantName, newRestUniId, true);
 
             ArrayList<University> universityObjects = universityManager.getUniversities();
             for (int x = 0; x < universityObjects.size(); x++) {
@@ -304,12 +304,11 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             frame.setVisibility(View.INVISIBLE);
             dbms.setNewFood(newFoodName, newFoodPrice, newFoodRestId, newFoodDate);
 
+            dbms.updateUniversities();
             ArrayList<University> universityObjects = universityManager.getUniversities();
             for (int x = 0; x < universityObjects.size(); x++) {
                 dbms.updateCascade(universityObjects.get(x));
             }
-
-            Restaurant test = universityManager.getUniversity(newFoodUni).getRestaurant(newFoodRest);
 
             mRestaurantList.clear();
             mRestaurantList.addAll(universityManager.getUniversity(uniName).getRestaurants());
@@ -398,5 +397,6 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 }
 
