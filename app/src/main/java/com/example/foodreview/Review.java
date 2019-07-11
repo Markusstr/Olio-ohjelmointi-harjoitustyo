@@ -40,4 +40,8 @@ class Review {
         return userId;
     }
 
+    String getFoodName() {
+        return foodName;
+    }
+
 }
