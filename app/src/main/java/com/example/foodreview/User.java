@@ -3,8 +3,9 @@ package com.example.foodreview;
 public class User {
     private String username;
     private boolean isAdmin;
+    private int homeUniId;
 
-    User (String newUsername, int newIsAdmin) {
+    User (String newUsername, int newIsAdmin, int newHomeUniId) {
         username = newUsername;
         if (newIsAdmin == 1) {
             isAdmin = true;

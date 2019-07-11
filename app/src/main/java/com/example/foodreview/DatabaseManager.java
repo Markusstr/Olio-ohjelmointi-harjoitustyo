@@ -38,7 +38,7 @@ class DatabaseManager {
 
     // This method takes given username and password to insert one new value to the database.
     // Does not return anything at the moment.
-    void addItem(String username, String password, String nickname) {
+    void addItem(String username, String password, String nickname, int homeUniId) {
 
         byte[] salt = encryptor.getSalt(username);
         String hash = encryptor.encryptor(password, salt);
@@ -49,6 +49,7 @@ class DatabaseManager {
         cv.put(tableUserIds.COLUMN_PASSWORD, hash);
         cv.put(tableUserIds.COLUMN_SALT, salt);
         cv.put(tableUserIds.COLUMN_ADMIN, 0);
+        cv.put(tableUserIds.COLUMN_HOMEUNIID, homeUniId);
 
         if (db.insert(tableUserIds.TABLE_NAME, null, cv) >= 0) {
             System.out.print(username);
@@ -112,8 +113,9 @@ class DatabaseManager {
             databaseCursor.moveToPosition(x);
             String newUsername = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_USERNAME));
             int newIsAdmin = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
+            int newHomeUniId = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_HOMEUNIID));
 
-            User newUser = new User(newUsername, newIsAdmin);
+            User newUser = new User(newUsername, newIsAdmin, newHomeUniId);
             newUsers.add(newUser);
         }
 
@@ -121,7 +123,25 @@ class DatabaseManager {
 
     }
 
-    void modifyUser(String username, boolean isAdmin) {
+    //Returns a user object to a single user
+    User getOwnUser(String username) {
+
+        String whereClause = tableUserIds.COLUMN_USERNAME + " = ?";
+        String[] whereArgs = {username};
+        databaseCursor = getCursorWithWhere(tableUserIds.TABLE_NAME, whereClause, whereArgs);
+
+        databaseCursor.moveToFirst();
+
+        String newUsername = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_USERNAME));
+        int newIsAdmin = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
+        int newHomeUniId = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_HOMEUNIID));
+
+        User newUser = new User(newUsername, newIsAdmin, newHomeUniId);
+
+        return newUser;
+    }
+
+    void modifyUser(String username, boolean isAdmin, int homeUniId) {
 
         ContentValues cv = new ContentValues();
         String whereClause = tableUserIds.COLUMN_USERNAME + " = ?";
@@ -134,6 +154,7 @@ class DatabaseManager {
         else {
             isAdminInt = 0;
         }
+        cv.put(tableUserIds.COLUMN_HOMEUNIID, homeUniId);
         cv.put(tableUserIds.COLUMN_ADMIN, isAdminInt);
 
         if (db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs) <= 0) {
@@ -589,6 +610,7 @@ class DatabaseManager {
         cv.put(tableUserIds.COLUMN_PASSWORD, password);
         cv.put(tableUserIds.COLUMN_SALT, salt);
         cv.put(tableUserIds.COLUMN_ADMIN, 1);
+        cv.put(tableUserIds.COLUMN_HOMEUNIID, 1);
         db.insert(tableUserIds.TABLE_NAME, null, cv);
     }
 
@@ -602,7 +624,7 @@ class DatabaseManager {
             createAdmin();
         }
         if (!checkStringExistance("testikayttaja", tableUserIds.TABLE_NAME, tableUserIds.COLUMN_USERNAME)) {
-            addItem("testikayttaja", "salasana", "Testi Kayttaja");
+            addItem("testikayttaja", "salasana", "Testi Kayttaja", 1);
         }
     }
 }

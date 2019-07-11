@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, AdminActivity.class);
             startActivityForResult(intent, 1);
         } else if (id == R.id.nav_profile) {
-            Intent intent = new Intent(this, ProfileActivity.class);
+            Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("username", username);
             startActivity(intent);
             //TODO: Intent.putExtra(username)

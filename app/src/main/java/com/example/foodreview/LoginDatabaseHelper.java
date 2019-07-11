@@ -30,6 +30,7 @@ public class LoginDatabaseHelper extends SQLiteOpenHelper {
                 tableUserIds.COLUMN_NICKNAME + " TEXT NOT NULL, " +
                 tableUserIds.COLUMN_PASSWORD + " TEXT NOT NULL, " +
                 tableUserIds.COLUMN_SALT + " BLOB NOT NULL, " +
+                tableUserIds.COLUMN_HOMEUNIID + " INTEGER, " +
                 tableUserIds.COLUMN_ADMIN + " INTEGER NOT NULL CHECK (" +
                 tableUserIds.COLUMN_ADMIN + " = 1 or (" +
                 tableUserIds.COLUMN_ADMIN +

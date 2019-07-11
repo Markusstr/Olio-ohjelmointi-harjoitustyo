@@ -14,6 +14,7 @@ class UserIdContract{
         static final String COLUMN_PASSWORD = "password";
         static final String COLUMN_SALT = "salt";
         static final String COLUMN_ADMIN = "admin";
+        static final String COLUMN_HOMEUNIID = "homeUniId";
     }
 
     static final class tableAddresses implements BaseColumns {
