@@ -141,7 +141,16 @@ class DatabaseManager {
         return newUser;
     }
 
-    void modifyUser(String username, boolean isAdmin, int homeUniId) {
+
+    // Admins ability to change other users data. Includes giving admin priviledges and modifying
+    // users home University. Also checks if an admin is trying to remove his own admin rights!
+    String modifyUser(String currentUser, String username, boolean isAdmin) {
+
+
+        if (currentUser.equals(username) && (isAdmin == false)) {
+            System.out.println("adminError");
+            return "adminError";
+        }
 
         ContentValues cv = new ContentValues();
         String whereClause = tableUserIds.COLUMN_USERNAME + " = ?";
@@ -154,9 +163,23 @@ class DatabaseManager {
         else {
             isAdminInt = 0;
         }
-        cv.put(tableUserIds.COLUMN_HOMEUNIID, homeUniId);
         cv.put(tableUserIds.COLUMN_ADMIN, isAdminInt);
 
+        if (db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs) <= 0) {
+            System.out.println("Modifying failed.");
+            return "databaseError";
+        }
+        return "success";
+    }
+
+    // Method for the user himself to update own home university.
+    // Created as an own method to limit bugs or other leaks that might cause unwanted changes in
+    // the user data.
+    void updateNewHomeUni (int newHomeUniId, String username) {
+        ContentValues cv = new ContentValues();
+        String whereClause = tableUserIds.COLUMN_USERNAME + " = ?";
+        String[] whereArgs = {username};
+        cv.put(tableUserIds.COLUMN_HOMEUNIID, newHomeUniId);
         if (db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs) <= 0) {
             System.out.println("Modifying failed.");
         }
