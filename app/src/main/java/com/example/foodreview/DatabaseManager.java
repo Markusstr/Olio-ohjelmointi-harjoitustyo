@@ -331,6 +331,7 @@ class DatabaseManager {
             foodTemp = new Food(newFoodName,newFoodId,newFoodPrice,newDate);
             foods.add(foodTemp);
         }
+
         restaurant.setRestaurantFoods(foods);
 
     }
