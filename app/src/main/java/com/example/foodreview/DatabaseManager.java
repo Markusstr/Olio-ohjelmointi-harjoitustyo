@@ -112,10 +112,11 @@ class DatabaseManager {
         for (int x = 0; x < count; x++) {
             databaseCursor.moveToPosition(x);
             String newUsername = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_USERNAME));
+            String newNickname = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_NICKNAME));
             int newIsAdmin = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
             int newHomeUniId = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_HOMEUNIID));
 
-            User newUser = new User(newUsername, newIsAdmin, newHomeUniId);
+            User newUser = new User(newUsername, newNickname, newIsAdmin, newHomeUniId);
             newUsers.add(newUser);
         }
 
@@ -133,10 +134,11 @@ class DatabaseManager {
         databaseCursor.moveToFirst();
 
         String newUsername = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_USERNAME));
+        String newNickname = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_NICKNAME));
         int newIsAdmin = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
         int newHomeUniId = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_HOMEUNIID));
 
-        return new User(newUsername, newIsAdmin, newHomeUniId);
+        return new User(newUsername, newNickname, newIsAdmin, newHomeUniId);
     }
 
 
@@ -528,6 +530,34 @@ class DatabaseManager {
 
         String[] whereArgs = {username};
         Cursor cursor = getRawCursor(reviewQuery, whereArgs);
+
+        int count = cursor.getCount();
+
+        for (int x = 0; x < count; x++) {
+            cursor.moveToPosition(x);
+            int reviewId = cursor.getInt(cursor.getColumnIndex(tableReview.COLUMN_REVIEWID));
+            int foodId = cursor.getInt(cursor.getColumnIndex(tableFood.COLUMN_FOODID));
+            String review = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_REVIEW));
+            float grade = cursor.getFloat(cursor.getColumnIndex(tableReview.COLUMN_STARS));
+            String userId = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_USERNAME));
+            String foodName = cursor.getString(cursor.getColumnIndex(tableFood.COLUMN_FOODNAME));
+
+            Review newReview = new Review(reviewId, foodId, grade, review, userId);
+            newReview.setFoodName(foodName);
+
+            newReviews.add(newReview);
+        }
+        return newReviews;
+    }
+
+    ArrayList<Review> getAllReviews () {
+        String reviewQuery = "SELECT * FROM "+tableReview.TABLE_NAME+
+                " INNER JOIN "+ tableFood.TABLE_NAME+
+                " ON "+tableReview.TABLE_NAME+"."+tableReview.COLUMN_FOODID+
+                " = "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_FOODID+";";
+        ArrayList<Review> newReviews = new ArrayList<>();
+
+        Cursor cursor = getRawCursor(reviewQuery, null);
 
         int count = cursor.getCount();
 
