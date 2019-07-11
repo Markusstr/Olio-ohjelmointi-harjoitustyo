@@ -273,7 +273,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         } else {
             Toast.makeText(this, "New restaurant " + newRestaurantName, Toast.LENGTH_SHORT).show();
             frame.setVisibility(View.INVISIBLE);
-            dbms.setNewRestaurant(newRestaurantAddressArray, newRestaurantName, newRestUniId, true);
+            dbms.setNewRestaurant(newRestaurantAddressArray, newRestaurantName, newRestUniId);
 
             ArrayList<University> universityObjects = universityManager.getUniversities();
             for (int x = 0; x < universityObjects.size(); x++) {

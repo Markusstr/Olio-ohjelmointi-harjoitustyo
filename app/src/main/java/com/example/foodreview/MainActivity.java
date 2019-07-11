@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -77,20 +76,25 @@ public class MainActivity extends AppCompatActivity
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
+        String temp;
         if ((month + 1) < 10) {
             if (day < 10) {
-                date.setText("0" + day + ".0" + (month + 1) + "." + year);
+                temp = "0" + day + ".0" + (month + 1) + "." + year;
+                date.setText(temp);
                 thisDate = "0" + day + ".0" + (month + 1) + "." + year;
             } else {
-                date.setText(day + ".0" + (month + 1) + "." + year);
+                temp =day + ".0" + (month + 1) + "." + year;
+                date.setText(temp);
                 thisDate = day + ".0" + (month + 1) + "." + year;
             }
         } else {
             if (day < 10) {
-                date.setText("0" + day + "." + (month + 1) + "." + year);
+                temp = "0" + day + "." + (month + 1) + "." + year;
+                date.setText(temp);
                 thisDate = "0" + day + "." + (month + 1) + "." + year;
             } else {
-                date.setText(day + "." + (month + 1) + "." + year);
+                temp = day + "." + (month + 1) + "." + year;
+                date.setText(temp);
                 thisDate = day + "." + (month + 1) + "." + year;
             }
         }
@@ -256,6 +260,7 @@ public class MainActivity extends AppCompatActivity
         RatingBar ratingBar = findViewById(R.id.ratingBar);
 
         String toast = bundle.getString("foodName") + " " + getString(R.string.ratingRated) + " " + ratingBar.getRating();
+
         Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }
 
@@ -316,20 +321,25 @@ public class MainActivity extends AppCompatActivity
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    String temp;
                     if ((month + 1) < 10) {
                         if (dayOfMonth < 10) {
-                            date.setText("0" + dayOfMonth + ".0" + (month + 1) + "." + year);
+                            temp = "0" + dayOfMonth + ".0" + (month + 1) + "." + year;
+                            date.setText(temp);
                             thisDate = "0" + dayOfMonth + ".0" + (month + 1) + "." + year;
                         } else {
-                            date.setText(dayOfMonth + ".0" + (month + 1) + "." + year);
+                            temp = dayOfMonth + ".0" + (month + 1) + "." + year;
+                            date.setText(temp);
                             thisDate = dayOfMonth + ".0" + (month + 1) + "." + year;
                         }
                     } else {
                         if (dayOfMonth < 10) {
-                            date.setText("0" + dayOfMonth + "." + (month + 1) + "." + year);
+                            temp = "0" + dayOfMonth + "." + (month + 1) + "." + year;
+                            date.setText(temp);
                             thisDate = "0" + dayOfMonth + "." + (month + 1) + "." + year;
                         } else {
-                            date.setText(dayOfMonth + "." + (month + 1) + "." + year);
+                            temp = dayOfMonth + "." + (month + 1) + "." + year;
+                            date.setText(temp);
                             thisDate = dayOfMonth + "." + (month + 1) + "." + year;
                         }
                     }

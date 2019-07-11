@@ -1,12 +1,13 @@
 package com.example.foodreview;
 
-public class User {
+class User {
     private String username;
     private boolean isAdmin;
     private int homeUniId;
 
     User (String newUsername, int newIsAdmin, int newHomeUniId) {
         username = newUsername;
+        homeUniId = newHomeUniId;
         if (newIsAdmin == 1) {
             isAdmin = true;
         }
@@ -20,5 +21,8 @@ public class User {
     }
     boolean getIsAdmin (){
         return isAdmin;
+    }
+    int getHomeUniId() {
+        return homeUniId;
     }
 }

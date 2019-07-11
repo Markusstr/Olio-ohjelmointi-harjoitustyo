@@ -70,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String oldPassword = fieldOldPassword.getText().toString().trim();
 
-                if (!checkOldPassword(username, oldPassword)) {
+                if (checkOldPassword(username, oldPassword)) {
                     Snackbar.make(v, getResources().getString(R.string.settings_oldpasswordwrong), Snackbar.LENGTH_LONG).show();
                 } else {
                     fieldUsername.setText("");
@@ -92,7 +92,7 @@ public class SettingsActivity extends AppCompatActivity {
                 String message = pwc.checker(newPassword);
 
                 //Check from the database whether user's old password is correct
-                if (!checkOldPassword(username, oldPassword)) {
+                if (checkOldPassword(username, oldPassword)) {
                     Snackbar.make(v, getResources().getString(R.string.settings_oldpasswordwrong), Snackbar.LENGTH_LONG).show();
                 } else {
                     //If the old password is correct, let's check whether the new password fulfills all the requirements
@@ -292,9 +292,9 @@ public class SettingsActivity extends AppCompatActivity {
                     fieldOldPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, 0, 0);
                 }
             });
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 

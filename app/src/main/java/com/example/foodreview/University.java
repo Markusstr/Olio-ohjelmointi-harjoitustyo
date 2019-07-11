@@ -1,7 +1,5 @@
 package com.example.foodreview;
 
-import android.provider.ContactsContract;
-
 import java.util.ArrayList;
 
 // University is a class that also functions as a manager for all restaurants.
@@ -50,12 +48,5 @@ class University {
             restaurantStrings.add(restaurants.get(x).getRestaurantName());
         }
         return restaurantStrings;
-    }
-
-    void updateRestaurantData () {
-        Restaurant currentRestaurant;
-        for (int x = 0; x < restaurants.size(); x++) {
-            currentRestaurant = restaurants.get(x);
-        }
     }
 }

@@ -136,9 +136,7 @@ class DatabaseManager {
         int newIsAdmin = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
         int newHomeUniId = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_HOMEUNIID));
 
-        User newUser = new User(newUsername, newIsAdmin, newHomeUniId);
-
-        return newUser;
+        return new User(newUsername, newIsAdmin, newHomeUniId);
     }
 
 
@@ -147,7 +145,7 @@ class DatabaseManager {
     String modifyUser(String currentUser, String username, boolean isAdmin) {
 
 
-        if (currentUser.equals(username) && (isAdmin == false)) {
+        if (currentUser.equals(username) && (!isAdmin)) {
             System.out.println("adminError");
             return "adminError";
         }
@@ -225,21 +223,21 @@ class DatabaseManager {
     }
 
     // Looks through the database, checks integer instead of String
-    boolean checkIdExistance (int id, String tableName, String column) {
-        databaseCursor = getCursor(tableName);
-        databaseCursor.moveToFirst();
-        int count = databaseCursor.getCount();
-
-        for (int x = 0; x < count; x++) {
-            databaseCursor.moveToPosition(x);
-            int dbResult = databaseCursor.getInt(databaseCursor.getColumnIndex(column));
-
-            if (dbResult == id) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    boolean checkIdExistance (int id, String tableName, String column) {
+//        databaseCursor = getCursor(tableName);
+//        databaseCursor.moveToFirst();
+//        int count = databaseCursor.getCount();
+//
+//        for (int x = 0; x < count; x++) {
+//            databaseCursor.moveToPosition(x);
+//            int dbResult = databaseCursor.getInt(databaseCursor.getColumnIndex(column));
+//
+//            if (dbResult == id) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     //A simple method to check an admin property from the database.
     boolean isAdmin (String username){
@@ -274,7 +272,7 @@ class DatabaseManager {
     // Update methods use the same principle, and so the principle has only been explained in the first
     // method. Update methods are made to parse database data, and to save the data in the right
     // format to be used by the program.
-    void updateRestaurants (University thisUniversity) {
+    private void updateRestaurants (University thisUniversity) {
 
         //System.out.println("Getting data from university: "+ thisUniversity.getUniName());
 
@@ -313,7 +311,7 @@ class DatabaseManager {
         thisUniversity.setRestaurants(restaurants);
     }
 
-    void updateFoods (Restaurant restaurant) {
+    private void updateFoods (Restaurant restaurant) {
 
         String whereClause = tableFood.COLUMN_RESTAURANTID + " = ?";
         String[] arguments = {Integer.toString(restaurant.getRestaurantId())};
@@ -336,7 +334,7 @@ class DatabaseManager {
 
     }
 
-    void updateReviews (Food food) {
+    private void updateReviews (Food food) {
 
         ArrayList<Review> reviews = new ArrayList<>();
         Review reviewTemp;
@@ -359,6 +357,8 @@ class DatabaseManager {
         }
         food.setReviews(reviews);
     }
+
+
 
     // Method to update every item related to selected university.
     // Called every time when some data related to the university has been changed (or university deleted).
@@ -386,19 +386,19 @@ class DatabaseManager {
     }
 
     // Method sets a new university directly to database.
-    void setNewUniversity (String newUniName) {
-
-        ContentValues cv = new ContentValues();
-
-        cv.put(tableUniversity.COLUMN_UNINAME, newUniName);
-        long insertedId = db.insert(tableUniversity.TABLE_NAME, null, cv);
-        updateUniversities();
-
-        System.out.println("New university id is: "+insertedId);
-    }
+//    void setNewUniversity (String newUniName) {
+//
+//        ContentValues cv = new ContentValues();
+//
+//        cv.put(tableUniversity.COLUMN_UNINAME, newUniName);
+//        long insertedId = db.insert(tableUniversity.TABLE_NAME, null, cv);
+//        updateUniversities();
+//
+//        System.out.println("New university id is: "+insertedId);
+//    }
 
     // Method sets a new restaurant directly to database.
-    void setNewRestaurant (String[] newAddress, String newRestaurantName, int whichUni, boolean isEnabled) {
+    void setNewRestaurant (String[] newAddress, String newRestaurantName, int whichUni) {
 
         ContentValues cvAddress = new ContentValues();
         cvAddress.put(tableAddresses.COLUMN_ADDRESS,newAddress[0]);
@@ -407,13 +407,7 @@ class DatabaseManager {
         long newAddressId = db.insert(tableAddresses.TABLE_NAME, null, cvAddress);
         System.out.println("New address id is: "+newAddressId);
 
-        int isEnabledInt;
-        if (isEnabled) {
-            isEnabledInt = 1;
-        }
-        else {
-            isEnabledInt = 0;
-        }
+        int isEnabledInt = 1;
 
         ContentValues cvRestaurant = new ContentValues();
         cvRestaurant.put(tableRestaurant.COLUMN_ADDRESSID, newAddressId);
@@ -484,10 +478,7 @@ class DatabaseManager {
             String whereClauseRestaurant = tableRestaurant.COLUMN_RESTAURANTID + " = ?";
             String[] whereArgsRestaurant = {Integer.toString(restaurant.getRestaurantId())};
 
-            if (db.update(tableRestaurant.TABLE_NAME, cvRestaurant, whereClauseRestaurant, whereArgsRestaurant) > 0) {
-                return true;
-        }
-        return false;
+        return db.update(tableRestaurant.TABLE_NAME, cvRestaurant, whereClauseRestaurant, whereArgsRestaurant) > 0;
     }
 
     // Modify food's data in the database. Again, use unmodified strings as null and other values as -1
@@ -506,10 +497,7 @@ class DatabaseManager {
             cv.put(tableFood.COLUMN_DATE, foodDate);
         }
 
-        if (db.update(tableFood.TABLE_NAME, cv, whereClause, whereArgs) > 0) {
-            return true;
-        }
-        return false;
+        return db.update(tableFood.TABLE_NAME, cv, whereClause, whereArgs) > 0;
     }
 
     ArrayList<Review> getReviewsForUser (String username) {
@@ -541,13 +529,13 @@ class DatabaseManager {
     // removes the corresponding row from the database. Runs update -methods afterwards to
     // keep program's object
 
-    void deleteUniversity(University university) {
-        String whereClause = tableUniversity.COLUMN_UNIID +" = ?";
-        String[] whereArgs = {Integer.toString(university.getUniId())};
-        db.delete(tableUniversity.TABLE_NAME, whereClause, whereArgs);
-
-        updateUniversities();
-    }
+//    void deleteUniversity(University university) {
+//        String whereClause = tableUniversity.COLUMN_UNIID +" = ?";
+//        String[] whereArgs = {Integer.toString(university.getUniId())};
+//        db.delete(tableUniversity.TABLE_NAME, whereClause, whereArgs);
+//
+//        updateUniversities();
+//    }
 
     void deleteRestaurant(Restaurant restaurant, University university) {
         String pragma = "PRAGMA foreign_keys = ON;";
