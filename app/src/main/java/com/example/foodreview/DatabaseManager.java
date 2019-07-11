@@ -503,6 +503,19 @@ class DatabaseManager {
         return db.update(tableFood.TABLE_NAME, cv, whereClause, whereArgs) > 0;
     }
 
+    boolean modifyReviewData (Review reviewObject, String writtenReview, float newStars) {
+
+        ContentValues cv = new ContentValues();
+        String whereClause = tableReview.COLUMN_REVIEWID + " = ?";
+        String[] whereArgs = {Integer.toString(reviewObject.getReviewId())};
+
+        cv.put(tableReview.COLUMN_REVIEW, writtenReview);
+        cv.put(tableReview.COLUMN_STARS, newStars);
+
+
+        return db.update(tableReview.TABLE_NAME, cv, whereClause, whereArgs) > 0;
+    }
+
     ArrayList<Review> getReviewsForUser (String username) {
 
         String reviewQuery = "SELECT * FROM "+tableReview.TABLE_NAME+
