@@ -112,10 +112,11 @@ class DatabaseManager {
         for (int x = 0; x < count; x++) {
             databaseCursor.moveToPosition(x);
             String newUsername = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_USERNAME));
+            String newNickname = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_NICKNAME));
             int newIsAdmin = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
             int newHomeUniId = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_HOMEUNIID));
 
-            User newUser = new User(newUsername, newIsAdmin, newHomeUniId);
+            User newUser = new User(newUsername, newNickname, newIsAdmin, newHomeUniId);
             newUsers.add(newUser);
         }
 
@@ -133,10 +134,11 @@ class DatabaseManager {
         databaseCursor.moveToFirst();
 
         String newUsername = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_USERNAME));
+        String newNickname = databaseCursor.getString(databaseCursor.getColumnIndex(tableUserIds.COLUMN_NICKNAME));
         int newIsAdmin = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_ADMIN));
         int newHomeUniId = databaseCursor.getInt(databaseCursor.getColumnIndex(tableUserIds.COLUMN_HOMEUNIID));
 
-        return new User(newUsername, newIsAdmin, newHomeUniId);
+        return new User(newUsername, newNickname, newIsAdmin, newHomeUniId);
     }
 
 
