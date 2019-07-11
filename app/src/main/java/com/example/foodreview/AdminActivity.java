@@ -315,6 +315,9 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
             mRestaurantList.clear();
             mRestaurantList.addAll(universityManager.getUniversity(uniName).getRestaurants());
+            mFoodList.clear();
+            mFoodList.addAll(universityManager.getUniversity(uniName).getRestaurant(newFoodRest).getFoods());
+            mFoodAdapter.notifyDataSetChanged();
         }
 
         //TODO REPLACE STRINGS WITH STRING VALUES
