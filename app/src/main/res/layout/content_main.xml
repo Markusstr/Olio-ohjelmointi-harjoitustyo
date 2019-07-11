@@ -8,6 +8,21 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <FrameLayout
+        android:id="@+id/reviewFragmentWindow"
+        android:layout_width="410dp"
+        android:layout_height="379dp"
+        android:layout_marginTop="32dp"
+        android:background="#2196F3"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/foodListView"
+        app:layout_constraintStart_toStartOf="@+id/foodListView"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
     <TextView
         android:id="@+id/universityTextView"
         android:layout_width="wrap_content"
@@ -51,24 +66,9 @@
         android:id="@+id/foodListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_divider2" />
-
-    <FrameLayout
-        android:id="@+id/reviewFragmentWindow"
-        android:layout_width="0dp"
-        android:layout_height="250sp"
-        android:layout_marginTop="8dp"
-        android:background="#2196F3"
-        android:clickable="true"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/foodListView"
-        app:layout_constraintStart_toStartOf="@+id/foodListView"
-        app:layout_constraintTop_toTopOf="@+id/foodListView">
-
-    </FrameLayout>
 
     <EditText
         android:id="@+id/dateText"
