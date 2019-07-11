@@ -6,14 +6,14 @@ class Review {
     private int foodId;
     private String review;
     private float grade;
-    private String userId;
+    private String username;
     private String foodName;
 
-    Review(int newReviewId, int newFoodId, float newStars, String newReview, String newUserId) {
+    Review(int newReviewId, int newFoodId, float newStars, String newReview, String newUsername) {
         reviewId = newReviewId;
         foodId = newFoodId;
         grade = newStars;
-        userId = newUserId;
+        username = newUsername;
         review = newReview;
         foodName = null;
     }
@@ -37,7 +37,7 @@ class Review {
     }
 
     String getUserId() {
-        return userId;
+        return username;
     }
 
     String getFoodName() {
