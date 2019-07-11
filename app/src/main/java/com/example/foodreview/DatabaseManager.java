@@ -332,13 +332,6 @@ class DatabaseManager {
             foods.add(foodTemp);
         }
 
-        for (int x = 0; x < foods.size(); x++) {
-            String thisFoodDate = foods.get(x).getDate();
-            int month = Integer.parseInt(thisFoodDate.split(".")[1]);
-            int day = Integer.parseInt(thisFoodDate.split(".")[0]);
-
-
-        }
         restaurant.setRestaurantFoods(foods);
 
     }

@@ -282,7 +282,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
 
             mRestaurantList.clear();
             createRestaurantList();
-            mAdapter.notifyItemInserted(mRestaurantList.size() - 1);
+            mAdapter.notifyDataSetChanged();
         }
 
         //TODO REPLACE STRINGS WITH STRING VALUES
