@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class SignUpActivity extends AppCompatActivity {
-    private EditText username, password, passwordagain;
+    private EditText username, nickname, password, passwordagain;
     private Context context = this;
 
     @Override
@@ -26,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         final Button create, cancel;
         username = findViewById(R.id.username);
+        nickname = findViewById(R.id.nickname);
         password = findViewById(R.id.newPassword);
         passwordagain = findViewById(R.id.newPasswordAgain);
 
@@ -154,6 +155,36 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     });
                 }
+                else if (nickname.getText().toString().length() < 1 || nickname.getText().toString().length() > 16) {
+                    Snackbar.make(v, getResources().getString(R.string.signup_wrongnickname), Snackbar.LENGTH_LONG).show();
+                    nickname.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.error));
+                    nickname.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, R.drawable.ic_error, 0);
+                    nickname.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            if (nickname.getText().toString().length() < 1 || nickname.getText().toString().length() > 16) {
+                                nickname.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.error));
+                                nickname.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, R.drawable.ic_error, 0);
+
+                            }
+                            else {
+                                nickname.setBackgroundTintList(ContextCompat.getColorStateList(SignUpActivity.this, R.color.colorAccent));
+                                nickname.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0,0, 0);
+                            }
+
+                        }
+                    });
+                }
                 //If the password fulfills all the requirements (error message is empty), we will create new user
                 else {
                     String newUsername = username.getText().toString().trim();
@@ -187,10 +218,10 @@ public class SignUpActivity extends AppCompatActivity {
                                 username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0,0, 0);
                             }
                         });
-                        InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(v.getWindowToken(),0);
                     }
                 }
+                InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
 

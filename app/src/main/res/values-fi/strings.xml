@@ -84,12 +84,16 @@
     <string name="adminusermanager_adminrow">Ylläpitäjä</string>
     <string name="admin_fragment_newrestaurant">Ylläpitäjän uusi ravintola -näkymä</string>
     <string name="admin_fragment_newfood">Ylläpitäjän uusi ruoka -näkymä</string>
-    <string name="settings_changenickname">Vaihda lempinimeä</string>
+    <string name="settings_changenickname">Vaihda nimimerkkiä</string>
     <string name="settings_cancel">Peruuta</string>
     <string name="settings_changesettings">Tallenna asetukset</string>
-    <string name="settings_usernamesuccessful">Lempinimi vaihdettu</string>
+    <string name="settings_nicknamesuccessful">Nimimerkki vaihdettu</string>
     <string name="settings_nonewchanges">Ei uusia asetuksia tallennettavaksi</string>
-    <string name="settings_hintnickname">Lempinimi</string>
+    <string name="settings_hintnickname">Nimimerkki</string>
     <string name="main_price">Hinta:</string>
     <string name="main_avg_grade">Keskimääräinen arvosana:</string>
+    <string name="review_grade">Arvosana:</string>
+    <string name="signup_nickname">Nimimerkki</string>
+    <string name="signup_homeUni">Kotiyliopisto:</string>
+    <string name="signup_wrongnickname">Nimimerkissä pitää olla vähintään 1 merkki ja maksimissaan 16 merkkiä</string>
 </resources>

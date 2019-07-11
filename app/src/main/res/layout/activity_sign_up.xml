@@ -8,8 +8,8 @@
     tools:context=".LogInActivity">
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="310dp"
-        android:layout_height="278dp"
+        android:layout_width="315dp"
+        android:layout_height="391dp"
         android:background="@drawable/layout_round"
         android:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,6 +35,20 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
+            android:id="@+id/nickname"
+            android:layout_width="245dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/ic_person"
+            android:ems="10"
+            android:hint="@string/signup_nickname"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+
+        <EditText
             android:id="@+id/newPassword"
             android:layout_width="245dp"
             android:layout_height="41dp"
@@ -44,8 +58,8 @@
             android:hint="@string/signup_password"
             android:inputType="textPassword"
             android:padding="8dp"
-            app:layout_constraintStart_toStartOf="@+id/username"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            app:layout_constraintStart_toStartOf="@+id/nickname"
+            app:layout_constraintTop_toBottomOf="@+id/nickname" />
 
         <EditText
             android:id="@+id/newPasswordAgain"
@@ -65,10 +79,10 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="16dp"
             android:text="@string/signup_createaccount"
-            app:layout_constraintStart_toStartOf="@+id/newPasswordAgain"
-            app:layout_constraintTop_toBottomOf="@+id/newPasswordAgain" />
+            app:layout_constraintStart_toStartOf="@+id/spinner"
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
         <Button
             android:id="@+id/cancel"
@@ -80,6 +94,22 @@
             android:text="@string/signup_cancel"
             app:layout_constraintStart_toEndOf="@+id/create"
             app:layout_constraintTop_toTopOf="@+id/create" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="245dp"
+            android:layout_height="27dp"
+            app:layout_constraintStart_toStartOf="@+id/homeUni"
+            app:layout_constraintTop_toBottomOf="@+id/homeUni" />
+
+        <TextView
+            android:id="@+id/homeUni"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/signup_homeUni"
+            app:layout_constraintStart_toStartOf="@+id/newPasswordAgain"
+            app:layout_constraintTop_toBottomOf="@+id/newPasswordAgain" />
 
     </android.support.constraint.ConstraintLayout>
 
