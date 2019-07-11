@@ -315,7 +315,7 @@ class DatabaseManager {
 
         String whereClause = tableFood.COLUMN_RESTAURANTID + " = ?";
         String[] arguments = {Integer.toString(restaurant.getRestaurantId())};
-        String orderBy = tableFood.COLUMN_DATE;
+        String orderBy = "SUBSTR("+tableFood.COLUMN_DATE+", 4, 2), SUBSTR("+tableFood.COLUMN_DATE+", 1, 2)";
 
         Cursor newCursor = getCursorWithWhereAndOrder(tableFood.TABLE_NAME, whereClause, arguments, orderBy);
         ArrayList<Food> foods = new ArrayList<>();
@@ -330,14 +330,6 @@ class DatabaseManager {
 
             foodTemp = new Food(newFoodName,newFoodId,newFoodPrice,newDate);
             foods.add(foodTemp);
-        }
-
-        for (int x = 0; x < foods.size(); x++) {
-            String thisFoodDate = foods.get(x).getDate();
-            int month = Integer.parseInt(thisFoodDate.split(".")[1]);
-            int day = Integer.parseInt(thisFoodDate.split(".")[0]);
-
-
         }
         restaurant.setRestaurantFoods(foods);
 
