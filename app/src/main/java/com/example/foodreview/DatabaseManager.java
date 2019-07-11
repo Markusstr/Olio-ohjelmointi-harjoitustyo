@@ -548,6 +548,34 @@ class DatabaseManager {
         return newReviews;
     }
 
+    ArrayList<Review> getAllReviews () {
+        String reviewQuery = "SELECT * FROM "+tableReview.TABLE_NAME+
+                " INNER JOIN "+ tableFood.TABLE_NAME+
+                " ON "+tableReview.TABLE_NAME+"."+tableReview.COLUMN_FOODID+
+                " = "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_FOODID+";";
+        ArrayList<Review> newReviews = new ArrayList<>();
+
+        Cursor cursor = getRawCursor(reviewQuery, null);
+
+        int count = cursor.getCount();
+
+        for (int x = 0; x < count; x++) {
+            cursor.moveToPosition(x);
+            int reviewId = cursor.getInt(cursor.getColumnIndex(tableReview.COLUMN_REVIEWID));
+            int foodId = cursor.getInt(cursor.getColumnIndex(tableFood.COLUMN_FOODID));
+            String review = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_REVIEW));
+            float grade = cursor.getFloat(cursor.getColumnIndex(tableReview.COLUMN_STARS));
+            String userId = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_USERNAME));
+            String foodName = cursor.getString(cursor.getColumnIndex(tableFood.COLUMN_FOODNAME));
+
+            Review newReview = new Review(reviewId, foodId, grade, review, userId);
+            newReview.setFoodName(foodName);
+
+            newReviews.add(newReview);
+        }
+        return newReviews;
+    }
+
 
     // Methods to remove items from database:
     // All methods take in the corresponding object. Method takes it's id from the object and
