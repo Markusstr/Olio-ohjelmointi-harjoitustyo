@@ -32,7 +32,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
+//TODO doge is wow
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Spinner.OnItemSelectedListener {
 
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     UniversityManager universityManager;
     University currentUniversity;
     Restaurant currentRestaurant;
+    Food reviewedFood;
     ArrayAdapter<String> adapterRestaurant;
     RecyclerView mRecyclerView;
     RecyclerViewAdapter mAdapter;
@@ -49,11 +50,11 @@ public class MainActivity extends AppCompatActivity
     ArrayList<Float> mFoodPrices;
     FrameLayout frame;
     Fragment reviewFragment;
-    Bundle bundle;
     String thisDate;
     DatabaseManager dbms;
     Button datePicker;
     TextView date;
+    ArrayList<String> restaurantStrings;
     private int year, month, day;
     final Calendar c = Calendar.getInstance();
 
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_home);
 
 
-        ArrayList<String> uniNames;
+        final ArrayList<String> uniNames;
         uniNames = universityManager.getUniNames();
 
         ArrayAdapter<String> adapterUni = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
@@ -167,8 +168,11 @@ public class MainActivity extends AppCompatActivity
             public void onReviewClick(int position) {
                 reviewFragment = new ReviewFragment();
 
-                bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("foodName", mFoodNames.get(position));
+                reviewedFood = universityManager.getUniversity(uniNames.get
+                        (universities.getSelectedItemPosition())).getRestaurant
+                        (restaurantStrings.get(restaurants.getSelectedItemPosition())).getFoods().get(position);
                 reviewFragment.setArguments(bundle);
                 frame = findViewById(R.id.reviewFragmentWindow);
                 frame.setVisibility(View.VISIBLE);
@@ -252,21 +256,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void reviewSave(View view) {
-        frame.setVisibility(View.INVISIBLE);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.detach(reviewFragment);
-        transaction.commit();
-        RatingBar ratingBar = findViewById(R.id.ratingBar);
 
-        String toast = bundle.getString("foodName") + " " + getString(R.string.ratingRated) + " " + ratingBar.getRating();
 
-        Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+        ReviewFragment reviewFragment = (ReviewFragment) manager.findFragmentById(R.id.reviewFragmentWindow);
+        String newReviewString = reviewFragment.getReviewString();
+        float newReviewGrade = reviewFragment.getReviewGrade();
+        String newReviewFood = reviewFragment.getReviewFoodName();
+
+        if (!newReviewString.equals("")) {
+            frame.setVisibility(View.INVISIBLE);
+            transaction.detach(reviewFragment);
+            transaction.commit();
+            Toast.makeText(this, "reviewed " + newReviewFood, Toast.LENGTH_SHORT).show();
+            dbms.setNewReview(newReviewString, newReviewGrade, username, reviewedFood.getFoodId());
+        } else {
+            Toast.makeText(this, "Come on, write a few words as well!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void makeRestaurantSpinner(String uniName) {
         currentUniversity = universityManager.getUniversity(uniName);
-        ArrayList<String> restaurantStrings = currentUniversity.getRestaurantStrings();
+        restaurantStrings = currentUniversity.getRestaurantStrings();
         adapterRestaurant = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, restaurantStrings);
         adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         restaurants.setAdapter(adapterRestaurant);
