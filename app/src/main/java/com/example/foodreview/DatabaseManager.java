@@ -315,8 +315,9 @@ class DatabaseManager {
 
         String whereClause = tableFood.COLUMN_RESTAURANTID + " = ?";
         String[] arguments = {Integer.toString(restaurant.getRestaurantId())};
+        String orderBy = tableFood.COLUMN_DATE;
 
-        Cursor newCursor = getCursorWithWhere(tableFood.TABLE_NAME, whereClause, arguments);
+        Cursor newCursor = getCursorWithWhereAndOrder(tableFood.TABLE_NAME, whereClause, arguments, orderBy);
         ArrayList<Food> foods = new ArrayList<>();
         Food foodTemp;
 
@@ -329,6 +330,14 @@ class DatabaseManager {
 
             foodTemp = new Food(newFoodName,newFoodId,newFoodPrice,newDate);
             foods.add(foodTemp);
+        }
+
+        for (int x = 0; x < foods.size(); x++) {
+            String thisFoodDate = foods.get(x).getDate();
+            int month = Integer.parseInt(thisFoodDate.split(".")[1]);
+            int day = Integer.parseInt(thisFoodDate.split(".")[0]);
+
+
         }
         restaurant.setRestaurantFoods(foods);
 
@@ -348,11 +357,12 @@ class DatabaseManager {
         for (int x = 0; x < newCursor.getCount(); x++) {
             newCursor.moveToPosition(x);
             int reviewId = newCursor.getInt(newCursor.getColumnIndex(tableReview.COLUMN_REVIEWID));
+            int foodId = newCursor.getInt(newCursor.getColumnIndex(tableReview.COLUMN_FOODID));
             String review = newCursor.getString(newCursor.getColumnIndex(tableReview.COLUMN_REVIEW));
             float stars = newCursor.getFloat(newCursor.getColumnIndex(tableReview.COLUMN_STARS));
             String username = newCursor.getString(newCursor.getColumnIndex(tableReview.COLUMN_USERNAME));
 
-            reviewTemp = new Review(reviewId , stars, review, username);
+            reviewTemp = new Review(reviewId ,foodId, stars, review, username);
             reviews.add(reviewTemp);
         }
         food.setReviews(reviews);
@@ -502,22 +512,31 @@ class DatabaseManager {
 
     ArrayList<Review> getReviewsForUser (String username) {
 
+        String reviewQuery = "SELECT * FROM "+tableReview.TABLE_NAME+
+                " INNER JOIN "+ tableFood.TABLE_NAME+
+                " ON "+tableReview.TABLE_NAME+"."+tableReview.COLUMN_FOODID+
+                " = "+tableFood.TABLE_NAME+"."+tableFood.COLUMN_FOODID+
+                " WHERE "+tableReview.COLUMN_USERNAME+" = ?;";
+
         ArrayList<Review> newReviews = new ArrayList<>();
 
-        String whereClause = tableReview.COLUMN_USERNAME + " = ?";
         String[] whereArgs = {username};
-        Cursor cursor = getCursorWithWhere(tableReview.TABLE_NAME, whereClause, whereArgs);
+        Cursor cursor = getRawCursor(reviewQuery, whereArgs);
 
         int count = cursor.getCount();
 
         for (int x = 0; x < count; x++) {
             cursor.moveToPosition(x);
             int reviewId = cursor.getInt(cursor.getColumnIndex(tableReview.COLUMN_REVIEWID));
+            int foodId = cursor.getInt(cursor.getColumnIndex(tableFood.COLUMN_FOODID));
             String review = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_REVIEW));
             float grade = cursor.getFloat(cursor.getColumnIndex(tableReview.COLUMN_STARS));
             String userId = cursor.getString(cursor.getColumnIndex(tableReview.COLUMN_USERNAME));
+            String foodName = cursor.getString(cursor.getColumnIndex(tableFood.COLUMN_FOODNAME));
 
-            Review newReview = new Review(reviewId, grade, review, userId);
+            Review newReview = new Review(reviewId, foodId, grade, review, userId);
+            newReview.setFoodName(foodName);
+
             newReviews.add(newReview);
         }
         return newReviews;
@@ -601,6 +620,16 @@ class DatabaseManager {
                 null,
                 null,
                 null);
+    }
+
+    private Cursor getCursorWithWhereAndOrder(String whatTable, String whereClause, String[] whereArgs, String orderBy) {
+        return db.query(whatTable,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                orderBy);
     }
 
     // This method fetches a cursor using a raw SQL select -clause.
