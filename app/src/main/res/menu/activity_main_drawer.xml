@@ -26,7 +26,7 @@
         android:checkableBehavior="none"
         android:id="@+id/menu_bottom" >
         <item
-            android:id="@+id/nav_profile"
+            android:id="@+id/nav_review"
             android:icon="@drawable/ic_person"
             android:title="@string/menu_reviews"/>
         <item

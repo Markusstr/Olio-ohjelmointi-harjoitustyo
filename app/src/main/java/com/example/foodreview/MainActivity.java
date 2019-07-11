@@ -221,8 +221,9 @@ public class MainActivity extends AppCompatActivity
             //TODO Handle the main menu action
         } else if (id == R.id.nav_admin){
             Intent intent = new Intent(this, AdminActivity.class);
+            intent.putExtra("username", username);
             startActivityForResult(intent, 1);
-        } else if (id == R.id.nav_profile) {
+        } else if (id == R.id.nav_review) {
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("username", username);
             startActivity(intent);

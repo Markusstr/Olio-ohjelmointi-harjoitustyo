@@ -54,6 +54,14 @@
             app:layout_constraintStart_toStartOf="@+id/profileUsernameText"
             app:layout_constraintTop_toBottomOf="@+id/profileUsernameText" />
 
+        <TextView
+            android:id="@+id/ownReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextWhite"
+            app:layout_constraintStart_toEndOf="@+id/profileReviewText"
+            app:layout_constraintTop_toTopOf="@+id/profileReviewText" />
+
     </android.support.constraint.ConstraintLayout>
 
     <include
@@ -64,6 +72,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/review_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         tools:layout_editor_absoluteX="0dp" />
 
 

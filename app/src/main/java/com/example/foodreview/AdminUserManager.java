@@ -20,6 +20,8 @@ public class AdminUserManager extends AppCompatActivity {
     private ArrayList<User> mUserList;
     private DatabaseManager dbms;
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,8 @@ public class AdminUserManager extends AppCompatActivity {
 
         UserManager userManager = UserManager.getInstance();
         mUserList = userManager.getUsers();
+
+        username = getIntent().getStringExtra("usernameUserManager");
 
 
         Toolbar toolbar = findViewById(R.id.toolbaradmin);
@@ -57,6 +61,7 @@ public class AdminUserManager extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
 
+                Toast.makeText(AdminUserManager.this, username, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -64,7 +69,7 @@ public class AdminUserManager extends AppCompatActivity {
                 if (isChecked) {
                     //TODO: Incorporate this method to accept value from recyclerView which is the users homeuni?
                     int newHomeUniId = 1;
-                    String tempError = dbms.modifyUser("admin",mUserList.get(position).getUsername(), true);
+                    String tempError = dbms.modifyUser(username,mUserList.get(position).getUsername(), true);
 
                     if (tempError.equals("databaseError")) {
                         //TODO: Database error to user
@@ -72,7 +77,7 @@ public class AdminUserManager extends AppCompatActivity {
 
                 }
                 else {
-                    String tempError = dbms.modifyUser("admin",mUserList.get(position).getUsername(), false);
+                    String tempError = dbms.modifyUser(username,mUserList.get(position).getUsername(), false);
                     if (tempError.equals("adminError")) {
                         //TODO: Error message which implies own rights cannot be changed!
                     }

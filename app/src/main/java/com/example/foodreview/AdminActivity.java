@@ -106,6 +106,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         switch(id) {
             case R.id.admin_action_users:
                 Intent intent = new Intent(this, AdminUserManager.class);
+                intent.putExtra("usernameUserManager", getIntent().getStringExtra("username"));
                 startActivity(intent);
                 break;
             case R.id.admin_action_newrestaurant:
