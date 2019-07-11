@@ -590,12 +590,11 @@ class DatabaseManager {
         }
     }
 
-    void deleteReview(Review review, Food food) {
+    void deleteReview(Review review) {
         String whereClause = tableReview.COLUMN_REVIEWID +" = ?";
         String[] whereArgs = {Integer.toString(review.getReviewId())};
         db.delete(tableReview.TABLE_NAME, whereClause, whereArgs);
 
-        updateReviews(food);
     }
 
     void deleteUser(String username) {
