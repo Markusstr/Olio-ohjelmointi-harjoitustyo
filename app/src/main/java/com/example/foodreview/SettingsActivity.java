@@ -33,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
     Spinner settingsUniSpinner;
     UniversityManager universityManager;
     ArrayList<String> uniNames;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Set the username from another activity
         fieldUsernameText = findViewById(R.id.fieldUsernameText);
-        final String username = getIntent().getStringExtra("username");
+        username = getIntent().getStringExtra("username");
         fieldUsernameText.setText(username);
 
         fieldOldPassword = findViewById(R.id.oldPassword);
@@ -303,7 +304,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (!fieldOldPassword.getText().toString().equals("") ||
                 !fieldNewPassword.getText().toString().equals("") ||
                 !fieldNewPasswordAgain.getText().toString().equals("") ||
-                !fieldUsername.getText().toString().equals("")){
+                !fieldUsername.getText().toString().equals(dbms.getOwnUser(username).getNickname())) {
             new AlertDialog.Builder(SettingsActivity.this)
                     .setTitle(R.string.settings_alertdialog_notsaved)
                     .setMessage(R.string.signup_alertdialog_confirm)

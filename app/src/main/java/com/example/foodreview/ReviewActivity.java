@@ -61,7 +61,7 @@ public class ReviewActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                closeActivity();
             }
         });
 
@@ -104,11 +104,12 @@ public class ReviewActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        closeActivity();
+    }
 
+    private void closeActivity() {
         Intent intent = new Intent();
         setResult(RESULT_OK,intent);
         finish();
-
     }
 }
