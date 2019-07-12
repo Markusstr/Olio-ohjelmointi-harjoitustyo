@@ -352,7 +352,7 @@ class DatabaseManager {
 
     }
 
-    private void updateReviews (Food food) {
+    void updateReviews (Food food) {
 
         ArrayList<Review> reviews = new ArrayList<>();
         Review reviewTemp;
