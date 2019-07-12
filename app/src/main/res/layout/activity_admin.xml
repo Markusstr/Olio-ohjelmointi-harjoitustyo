@@ -49,22 +49,21 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/adminRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="632dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         android:scrollbars="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/admintoolbar"
-        app:layout_constraintStart_toEndOf="@+id/admintoolbar"
-        app:layout_constraintTop_toBottomOf="@+id/admin_unispinner" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view3"
+        tools:layout_editor_absoluteX="0dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/adminFoodRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="632dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         android:scrollbars="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/admintoolbar"
-        app:layout_constraintStart_toEndOf="@+id/admintoolbar"
-        app:layout_constraintTop_toBottomOf="@+id/admin_unispinner" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view3" />
 
 
 </android.support.constraint.ConstraintLayout>
