@@ -55,10 +55,12 @@ public class MainActivity extends AppCompatActivity
     Button datePicker;
     TextView date;
     ArrayList<String> restaurantStrings;
+    TextView nav_header_username;
     private int year, month, day;
     final Calendar c = Calendar.getInstance();
 
     private String username;
+    String nickname;
     protected NavigationView navigationView;
 
     @Override
@@ -100,15 +102,16 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-
-        username = getIntent().getStringExtra("username");
-        View headerView = navigationView.getHeaderView(0);
-        TextView nav_header_username = headerView.findViewById(R.id.nav_header_username);
-        nav_header_username.setText(username);
-
         dbms = DatabaseManager.getInstance(this);
         universityManager = UniversityManager.getInstance();
         dbms.updateUniversities();
+
+        username = getIntent().getStringExtra("username");
+        nickname = dbms.getOwnUser(username).getNickname();
+        View headerView = navigationView.getHeaderView(0);
+        nav_header_username = headerView.findViewById(R.id.nav_header_username);
+        nav_header_username.setText(nickname);
+
 
         if (dbms.isAdmin(username)) {
             navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, true);
@@ -197,6 +200,11 @@ public class MainActivity extends AppCompatActivity
                 makeRestaurantSpinner(currentUniversityName);
 
             }
+        } else if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                nickname = dbms.getOwnUser(username).getNickname();
+                nav_header_username.setText(nickname);
+            }
         }
 
     }
@@ -232,7 +240,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             intent.putExtra("username", username);
-            startActivity(intent);
+            startActivityForResult(intent, 2);
 
         } else if (id == R.id.nav_log_out) {
             //TODO Handle logging out properly

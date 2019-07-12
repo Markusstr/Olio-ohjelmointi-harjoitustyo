@@ -55,8 +55,8 @@
 
     <EditText
         android:id="@+id/fieldUsername"
-        android:layout_width="245dp"
-        android:layout_height="41dp"
+        android:layout_width="197dp"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:drawableLeft="@drawable/ic_person"
         android:ems="10"
@@ -76,6 +76,17 @@
         android:text="@string/settings_changenickname"
         app:layout_constraintStart_toStartOf="@+id/fieldUsername"
         app:layout_constraintTop_toBottomOf="@+id/fieldUsername" />
+
+    <Button
+        android:id="@+id/changeUni"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Change uni"
+        app:layout_constraintBottom_toBottomOf="@+id/changeNickname"
+        app:layout_constraintStart_toStartOf="@+id/settingsUniSpinner"
+        app:layout_constraintTop_toTopOf="@+id/changeNickname" />
 
     <View
         android:id="@+id/settings_divider2"
@@ -145,6 +156,25 @@
         android:text="@string/settings_changepassword"
         app:layout_constraintStart_toStartOf="@+id/newPasswordAgain"
         app:layout_constraintTop_toBottomOf="@+id/newPasswordAgain" />
+
+    <Spinner
+        android:id="@+id/settingsUniSpinner"
+        android:layout_width="173dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fieldUsername"
+        app:layout_constraintStart_toEndOf="@+id/fieldUsername"
+        app:layout_constraintTop_toTopOf="@+id/fieldUsername" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Change home uni"
+        app:layout_constraintBottom_toTopOf="@+id/settingsUniSpinner"
+        app:layout_constraintStart_toStartOf="@+id/settingsUniSpinner" />
 
 
 </android.support.constraint.ConstraintLayout>

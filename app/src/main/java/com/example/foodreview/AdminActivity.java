@@ -284,6 +284,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             mRestaurantList.clear();
             createRestaurantList();
             mAdapter.notifyDataSetChanged();
+            dataChanged = true;
         }
 
         //TODO REPLACE STRINGS WITH STRING VALUES
@@ -319,6 +320,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             mFoodList.clear();
             mFoodList.addAll(universityManager.getUniversity(uniName).getRestaurant(newFoodRest).getFoods());
             mFoodAdapter.notifyDataSetChanged();
+            dataChanged = true;
         }
 
         //TODO REPLACE STRINGS WITH STRING VALUES
@@ -351,6 +353,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             mRestaurantList.clear();
             createRestaurantList();
             mAdapter.notifyDataSetChanged();
+            dataChanged = true;
         }
 
     }
@@ -382,6 +385,7 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
             mFoodList.clear();
             createFoodList(universityManager.getUniversity(uniName).getRestaurant(currentRestaurant.getRestaurantName()));
             mFoodAdapter.notifyDataSetChanged();
+            dataChanged = true;
         }
     }
 

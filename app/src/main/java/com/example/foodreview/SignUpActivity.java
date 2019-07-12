@@ -12,12 +12,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText username, nickname, password, passwordagain;
     private Context context = this;
+    Spinner uniSpinner;
+    UniversityManager universityManager;
+    ArrayList<String> uniNames;
+    DatabaseManager dbms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +37,23 @@ public class SignUpActivity extends AppCompatActivity {
         nickname = findViewById(R.id.nickname);
         password = findViewById(R.id.newPassword);
         passwordagain = findViewById(R.id.newPasswordAgain);
+        uniSpinner = findViewById(R.id.uniSpinner);
+        dbms = DatabaseManager.getInstance(this);
+        universityManager = UniversityManager.getInstance();
+        dbms.updateUniversities();
+        uniNames = universityManager.getUniNames();
 
         create = findViewById(R.id.create);
         cancel = findViewById(R.id.cancel);
 
         final DatabaseManager dbmsSU = DatabaseManager.getInstance(context);
         final PasswordChecker pwc = PasswordChecker.getInstance(context);
+
+        ArrayAdapter<String> adapterUni = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
+        adapterUni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        uniSpinner.setAdapter(adapterUni);
+
+        System.out.println("size " + uniNames.size());
 
         passwordagain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -189,9 +208,8 @@ public class SignUpActivity extends AppCompatActivity {
                 else {
                     String newUsername = username.getText().toString().trim();
                     String newPassword = password.getText().toString().trim();
-                    String newNickname = username.getText().toString().trim();
-                    //TODO: This has to be fetched from the activity!
-                    int newHomeUniId = 1;
+                    String newNickname = nickname.getText().toString().trim();
+                    int newHomeUniId = universityManager.getUniversity(uniNames.get(uniSpinner.getSelectedItemPosition())).getUniId();
                     //Check if user with this username has already been created
                     if (!dbmsSU.checkExistance(newUsername)) {
                         dbmsSU.addItem(newUsername, newPassword, newNickname, newHomeUniId);

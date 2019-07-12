@@ -81,8 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/signup_createaccount"
-            app:layout_constraintStart_toStartOf="@+id/spinner"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintStart_toStartOf="@+id/uniSpinner"
+            app:layout_constraintTop_toBottomOf="@+id/uniSpinner" />
 
         <Button
             android:id="@+id/cancel"
@@ -96,7 +96,7 @@
             app:layout_constraintTop_toTopOf="@+id/create" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/uniSpinner"
             android:layout_width="245dp"
             android:layout_height="27dp"
             app:layout_constraintStart_toStartOf="@+id/homeUni"

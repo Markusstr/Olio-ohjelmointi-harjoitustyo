@@ -2,6 +2,7 @@ package com.example.foodreview;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -12,20 +13,26 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
     TextView fieldUsernameText;
     EditText fieldOldPassword, fieldNewPassword,fieldNewPasswordAgain, fieldUsername;
-    Button changeNickname, changePassword;
+    Button changeNickname, changePassword, changeUni;
     DatabaseManager dbms;
     Context context;
+    Spinner settingsUniSpinner;
+    UniversityManager universityManager;
+    ArrayList<String> uniNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +50,14 @@ public class SettingsActivity extends AppCompatActivity {
         fieldUsername = findViewById(R.id.fieldUsername);
         changeNickname = findViewById(R.id.changeNickname);
         changePassword = findViewById(R.id.changePassword);
+        changeUni = findViewById(R.id.changeUni);
+        settingsUniSpinner = findViewById(R.id.settingsUniSpinner);
 //        cancel = findViewById(R.id.settings_cancel);
         context = this;
         dbms = DatabaseManager.getInstance(context);
+        universityManager = UniversityManager.getInstance();
         final PasswordChecker pwc = PasswordChecker.getInstance(context);
+        uniNames = universityManager.getUniNames();
 
         Toolbar toolbar = findViewById(R.id.toolbarsettings);
         setSupportActionBar(toolbar);
@@ -58,12 +69,21 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        fieldUsername.setText(dbms.getOwnUser(username).getNickname());
+
 //        cancel.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                closeActivityCheck();
 //            }
 //        });
+
+        ArrayAdapter<String> adapterUni = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, uniNames);
+        adapterUni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        settingsUniSpinner.setAdapter(adapterUni);
+
+        int homeUni = dbms.getOwnUser(username).getHomeUniId() - 1;
+        settingsUniSpinner.setSelection(homeUni);
 
         changeNickname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,13 +93,31 @@ public class SettingsActivity extends AppCompatActivity {
                 if (checkOldPassword(username, oldPassword)) {
                     Snackbar.make(v, getResources().getString(R.string.settings_oldpasswordwrong), Snackbar.LENGTH_LONG).show();
                 } else {
-                    fieldUsername.setText("");
+                    dbms.modifyNickname(username, fieldUsername.getText().toString().trim());
                     fieldOldPassword.setText("");
                     Toast.makeText(context, "Username changed", Toast.LENGTH_SHORT).show();
                 }
                 //TODO: Change username
                 InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
+
+        changeUni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String oldPassword = fieldOldPassword.getText().toString().trim();
+
+                if (checkOldPassword(username, oldPassword)) {
+                    Snackbar.make(v, getResources().getString(R.string.settings_oldpasswordwrong), Snackbar.LENGTH_LONG).show();
+                } else {
+                    dbms.updateNewHomeUni(universityManager.getUniversity(uniNames.get(settingsUniSpinner.getSelectedItemPosition())).getUniId(), username);
+                    fieldOldPassword.setText("");
+                    Toast.makeText(context, "Home university changed", Toast.LENGTH_SHORT).show();
+                }
+                InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
             }
         });
 
@@ -233,8 +271,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void closeActivityCheck() {
         if (!fieldOldPassword.getText().toString().equals("") ||
                 !fieldNewPassword.getText().toString().equals("") ||
-                !fieldNewPasswordAgain.getText().toString().equals("") ||
-                !fieldUsername.getText().toString().equals("")) {
+                !fieldNewPasswordAgain.getText().toString().equals("")) {
             new AlertDialog.Builder(SettingsActivity.this)
                     .setTitle(R.string.settings_alertdialog_notsaved)
                     .setMessage(R.string.signup_alertdialog_confirm)
@@ -257,15 +294,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void closeActivity() {
-//        Intent intent = new Intent();
-        //Activity can be ended two different ways: user creates new account successfully or user presses cancel
-        //If cancel is pressed endResult equals -1 and activity is ended with RESULT_CANCELLED, otherwise with RESULT_OK
-//        if (endResult == -1) {
-//            setResult(RESULT_CANCELED, intent);
-//        }
-//        else {
-//            setResult(RESULT_OK, intent);
-//        }
+
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
         finish();
     }
 
