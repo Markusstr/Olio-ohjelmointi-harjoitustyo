@@ -1,9 +1,6 @@
 package com.example.foodreview;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private ArrayList<String> mFoodNames;
-    private ArrayList<Float> mFoodPrices;
+    private ArrayList<Food> mFoodList;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -66,9 +65,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    RecyclerViewAdapter(ArrayList<String> foodNames, ArrayList<Float> foodPrices) {
-        mFoodNames = foodNames;
-        mFoodPrices = foodPrices;
+    RecyclerViewAdapter(ArrayList<Food> foodList) {
+        mFoodList = foodList;
     }
 
     @NonNull
@@ -80,12 +78,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        Food currentItem = mFoodList.get(i);
+
         DecimalFormat df = new DecimalFormat("0.00");
         df.setMaximumFractionDigits(2);
 
-        String name = mFoodNames.get(i);
-        viewHolder.mName.setText(name);
-        String price = " " + df.format(mFoodPrices.get(i)) + "€";
+        String time = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
+        System.out.println(currentItem.getDate() + "->" + time);
+        if (currentItem.getDate().equals(time)) {
+            viewHolder.mReview.setVisibility(View.VISIBLE);
+        }
+        else {
+            viewHolder.mReview.setVisibility(View.INVISIBLE);
+        }
+        viewHolder.mName.setText(currentItem.getFoodName());
+        String price = " " + df.format(currentItem.getFoodPrice()) + "€";
         viewHolder.mPrice.setText(price);
         viewHolder.mAvgGrade.setText("4.2/5.0");
         //TODO: Average grade => viewHolder.mAvgGrade.setText();
@@ -94,7 +101,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mFoodNames.size();
+        return mFoodList.size();
     }
 }
 
