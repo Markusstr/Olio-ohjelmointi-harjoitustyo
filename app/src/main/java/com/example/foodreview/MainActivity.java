@@ -25,7 +25,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
-import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     RecyclerView.LayoutManager mLayoutManager;
     ArrayList<String> mFoodNames;
     ArrayList<Float> mFoodPrices;
+    ArrayList<Food> mFoodList;
     FrameLayout frame;
     Fragment reviewFragment;
     String thisDate;
@@ -151,12 +151,13 @@ public class MainActivity extends AppCompatActivity
 
         mFoodNames = new ArrayList<>();
         mFoodPrices = new ArrayList<>();
+        mFoodList = new ArrayList<>();
 
 
         mRecyclerView = findViewById(R.id.foodListView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new RecyclerViewAdapter(mFoodNames, mFoodPrices);
+        mAdapter = new RecyclerViewAdapter(mFoodList);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity
                 reviewFragment = new ReviewFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("foodName", mFoodNames.get(position));
+                bundle.putString("foodName", mFoodList.get(position).getFoodName());
                 reviewedFood = universityManager.getUniversity(uniNames.get
                         (universities.getSelectedItemPosition())).getRestaurant
                         (restaurantStrings.get(restaurants.getSelectedItemPosition())).getFoods().get(position);
@@ -318,10 +319,12 @@ public class MainActivity extends AppCompatActivity
                 if (currentRestaurant == null) {
                     return;
                 }
-                mFoodPrices.clear();
-                mFoodNames.clear();
-                mFoodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
-                mFoodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
+//                mFoodPrices.clear();
+//                mFoodNames.clear();
+                mFoodList.clear();
+//                mFoodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
+//                mFoodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
+                mFoodList.addAll(currentRestaurant.getRestaurantFoods(thisDate));
                 mAdapter.notifyDataSetChanged();
                 break;
         }
@@ -364,10 +367,12 @@ public class MainActivity extends AppCompatActivity
                             thisDate = dayOfMonth + "." + (month + 1) + "." + year;
                         }
                     }
-                    mFoodPrices.clear();
-                    mFoodNames.clear();
-                    mFoodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
-                    mFoodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
+//                    mFoodPrices.clear();
+//                    mFoodNames.clear();
+                    mFoodList.clear();
+//                    mFoodNames.addAll(currentRestaurant.getRestaurantFoodStrings(thisDate));
+//                    mFoodPrices.addAll(currentRestaurant.getRestaurantFoodFloats(thisDate));
+                    mFoodList.addAll(currentRestaurant.getRestaurantFoods(thisDate));
                     mAdapter.notifyDataSetChanged();
                 }
             }, year, month, day);

@@ -36,15 +36,23 @@ public class ReviewActivity extends AppCompatActivity {
 
         mReviewList = new ArrayList<>();
 
+        TextView reviewText = findViewById(R.id.profileReviewText);
+
+
+
+        dbms = DatabaseManager.getInstance(this);
         if (dbms.isAdmin(username)) {
             mReviewList = dbms.getAllReviews();
+            reviewText.setText(getResources().getString(R.string.review_reviewadmintext));
         }
         else {
             mReviewList = dbms.getReviewsForUser(username);
+            reviewText.setText(getResources().getString(R.string.review_reviewtext));
         }
 
-//        TextView ownReviews = findViewById(R.id.ownReviews);
-//        ownReviews.setText(mReviewList.size());
+        TextView ownReviews = findViewById(R.id.ownReviews);
+        String reviews = " " + mReviewList.size();
+        ownReviews.setText(reviews);
 
         Toolbar toolbar = findViewById(R.id.toolbarreview);
         setSupportActionBar(toolbar);
