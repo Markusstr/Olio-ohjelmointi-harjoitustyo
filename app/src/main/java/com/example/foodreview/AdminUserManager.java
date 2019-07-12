@@ -52,7 +52,7 @@ public class AdminUserManager extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.adminUserManagerRecyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new AdminUserManagerRecyclerViewAdapter(mUserList);
+        mAdapter = new AdminUserManagerRecyclerViewAdapter(mUserList, username);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -68,7 +68,6 @@ public class AdminUserManager extends AppCompatActivity {
             public void onCheckboxClick(int position, boolean isChecked) {
                 if (isChecked) {
                     //TODO: Incorporate this method to accept value from recyclerView which is the users homeuni?
-                    int newHomeUniId = 1;
                     String tempError = dbms.modifyUser(username,mUserList.get(position).getUsername(), true);
 
                     if (tempError.equals("databaseError")) {
@@ -79,7 +78,6 @@ public class AdminUserManager extends AppCompatActivity {
                 else {
                     String tempError = dbms.modifyUser(username,mUserList.get(position).getUsername(), false);
                     if (tempError.equals("adminError")) {
-                        //TODO: Error message which implies own rights cannot be changed!
                     }
                     else if (tempError.equals("databaseError")) {
                         //TODO: Database error to user

@@ -17,6 +17,7 @@ import java.util.Locale;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private ArrayList<Food> mFoodList;
     private OnItemClickListener mListener;
+    private String username;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -65,8 +66,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    RecyclerViewAdapter(ArrayList<Food> foodList) {
+    RecyclerViewAdapter(ArrayList<Food> foodList, String newUsername) {
         mFoodList = foodList;
+        username = newUsername;
     }
 
     @NonNull
@@ -87,6 +89,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         System.out.println(currentItem.getDate() + "->" + time);
         if (currentItem.getDate().equals(time)) {
             viewHolder.mReview.setVisibility(View.VISIBLE);
+            //TODO: Get this method working
+            ArrayList<Review> reviews = currentItem.getReviews();
+            for (int x = 0; x < reviews.size(); x++) {
+                if (reviews.get(x).getUserId().equals(username)){
+                    viewHolder.mReview.setEnabled(false);
+                    viewHolder.mReview.setAlpha(0.3f);
+                }
+            }
         }
         else {
             viewHolder.mReview.setVisibility(View.INVISIBLE);

@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView = findViewById(R.id.foodListView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new RecyclerViewAdapter(mFoodList);
+        mAdapter = new RecyclerViewAdapter(mFoodList, username);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -200,10 +200,18 @@ public class MainActivity extends AppCompatActivity
                 makeRestaurantSpinner(currentUniversityName);
 
             }
-        } else if (requestCode == 2) {
+        }
+        else if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 nickname = dbms.getOwnUser(username).getNickname();
                 nav_header_username.setText(nickname);
+            }
+        }
+        //TODO: This code catches resultCode of review screen
+        else if (requestCode == 3) {
+            if (resultCode == RESULT_OK) {
+                dbms.updateCascade(currentUniversity);
+                mAdapter.notifyDataSetChanged();
             }
         }
 
@@ -235,7 +243,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_review) {
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("username", username);
-            startActivity(intent);
+            startActivityForResult(intent, 3);
             //TODO: Intent.putExtra(username)
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
@@ -281,6 +289,9 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
             Toast.makeText(this, "reviewed " + newReviewFood, Toast.LENGTH_SHORT).show();
             dbms.setNewReview(newReviewString, newReviewGrade, username, reviewedFood.getFoodId());
+            dbms.updateReviews(reviewedFood);
+
+            mAdapter.notifyDataSetChanged();
         } else {
             Toast.makeText(this, "Come on, write a few words as well!", Toast.LENGTH_SHORT).show();
         }
@@ -288,7 +299,13 @@ public class MainActivity extends AppCompatActivity
 
     public void makeRestaurantSpinner(String uniName) {
         currentUniversity = universityManager.getUniversity(uniName);
-        restaurantStrings = currentUniversity.getRestaurantStrings();
+        ArrayList<Restaurant> restaurantObjects = currentUniversity.getRestaurants();
+        restaurantStrings = new ArrayList<>();
+        for (int x = 0; x < restaurantObjects.size(); x++) {
+            if (restaurantObjects.get(x).getIsEnabled()) {
+                restaurantStrings.add(restaurantObjects.get(x).getRestaurantName());
+            }
+        }
         adapterRestaurant = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, restaurantStrings);
         adapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         restaurants.setAdapter(adapterRestaurant);

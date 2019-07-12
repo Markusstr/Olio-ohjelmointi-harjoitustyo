@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class AdminUserManagerRecyclerViewAdapter extends RecyclerView.Adapter<AdminUserManagerRecyclerViewAdapter.AdminUserManagerViewHolder>{
     private ArrayList<User> mUserList;
     private OnItemClickListener mListener;
+    private String currentAdmin;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -57,8 +58,9 @@ public class AdminUserManagerRecyclerViewAdapter extends RecyclerView.Adapter<Ad
         }
     }
 
-    AdminUserManagerRecyclerViewAdapter(ArrayList<User> userList) {
+    AdminUserManagerRecyclerViewAdapter(ArrayList<User> userList, String username) {
         mUserList = userList;
+        currentAdmin = username;
     }
 
     @NonNull
@@ -74,6 +76,9 @@ public class AdminUserManagerRecyclerViewAdapter extends RecyclerView.Adapter<Ad
 
         if (currentItem.getIsAdmin()) {
             adminUserManagerViewHolder.mCheckbox.setChecked(true);
+        }
+        if (currentItem.getUsername().equals(currentAdmin)) {
+            adminUserManagerViewHolder.mCheckbox.setEnabled(false);
         }
 
         adminUserManagerViewHolder.mUsername.setText(currentItem.getUsername());
