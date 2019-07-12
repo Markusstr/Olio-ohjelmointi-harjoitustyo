@@ -130,8 +130,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 frame.setVisibility(View.VISIBLE);
                 break;
             case R.id.admin_action_save:
-                Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
-                //TODO: Save to file
+                PrintToFile csvWriter = PrintToFile.getInstance();
+                csvWriter.executePrint(this, universityManager.getUniversity(uniName));
         }
         return true;
     }
@@ -420,7 +420,6 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
         mRestaurantList.clear();
         uniName = parent.getItemAtPosition(position).toString();
         currentUniversity = universityManager.getUniversity(uniName);
-        //TODO !! \/
         mRestaurantList.clear();
         createRestaurantList();
         mAdapter.notifyDataSetChanged();
