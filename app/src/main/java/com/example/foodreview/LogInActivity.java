@@ -13,7 +13,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -62,7 +65,7 @@ public class LogInActivity extends AppCompatActivity {
                     transaction.replace(R.id.authenticatorframe, authenticatorFragment);
                     transaction.commit();
 
-                    //TODO REMOVE THIS WHEN PROJECT DONE
+                    //TODO REMOVE THIS WHEN PROJECT BE DONE
                     //*******************************************************************************
                     Intent mainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
                     setResult(RESULT_OK, mainActivityIntent);

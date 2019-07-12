@@ -19,21 +19,23 @@ public class ReviewActivity extends AppCompatActivity {
     private ArrayList<Review> mReviewList;
 
     private String username;
+    String nickname;
     private DatabaseManager dbms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        dbms = DatabaseManager.getInstance(this);
 
         username = getIntent().getStringExtra("username");
+        nickname = dbms.getOwnUser(username).getNickname();
 
         TextView usernameText = findViewById(R.id.profileUsernameText);
-        usernameText.setText(username);
+        usernameText.setText(nickname);
 
         mReviewList = new ArrayList<>();
 
-        dbms = DatabaseManager.getInstance(this);
         if (dbms.isAdmin(username)) {
             mReviewList = dbms.getAllReviews();
         }
