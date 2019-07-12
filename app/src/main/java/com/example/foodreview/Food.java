@@ -35,4 +35,8 @@ class Food {
     void setReviews(ArrayList<Review> newReviews) {
         reviews = newReviews;
     }
+
+    ArrayList<Review> getReviews() {
+        return reviews;
+    }
 }
