@@ -81,6 +81,16 @@ class Restaurant {
         return foodPrices;
     }
 
+    ArrayList<Food> getRestaurantFoods(String date) {
+        ArrayList<Food> newFoods = new ArrayList<>();
+        for (int x = 0; x < foods.size(); x++) {
+            if (date.equals(foods.get(x).getDate())) {
+                newFoods.add(foods.get(x));
+            }
+        }
+        return newFoods;
+    }
+
     ArrayList<Food> getFoods () {
         return foods;
     }
