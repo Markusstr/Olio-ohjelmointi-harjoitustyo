@@ -141,6 +141,20 @@ class DatabaseManager {
         return new User(newUsername, newNickname, newIsAdmin, newHomeUniId);
     }
 
+    // Method to update nickname for the given username
+    void modifyNickname (String username, String nickname) {
+
+        ContentValues cv = new ContentValues();
+        String whereClause = tableUserIds.COLUMN_USERNAME + " = ?";
+        String[] whereArgs = {username};
+
+        cv.put(tableUserIds.COLUMN_NICKNAME, nickname);
+
+        if (db.update(tableUserIds.TABLE_NAME, cv, whereClause, whereArgs) <= 0) {
+            System.out.println("Modifying failed.");
+        }
+    }
+
 
     // Admins ability to change other users data. Includes giving admin priviledges and modifying
     // users home University. Also checks if an admin is trying to remove his own admin rights!

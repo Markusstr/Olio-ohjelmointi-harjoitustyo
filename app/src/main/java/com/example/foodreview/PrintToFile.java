@@ -25,24 +25,35 @@ public class PrintToFile {
     void executePrint(Context context, University university) {
         try {
             FileWriter csvWriter = new FileWriter(context.getFilesDir() + university.getUniName() + "Data.csv");
-            csvWriter.append(university.getUniName());
+            csvWriter.append("Restaurant Name, Restaurant Address, Food name, Food price, Review grade, Written review;\n");
+            //csvWriter.append(university.getUniName());
             for (Restaurant restaurant : university.getRestaurants()) {
-                String restaurantName = restaurant.getRestaurantName() + ",";
-                csvWriter.append(restaurantName);
-                String restaurantAddress = restaurant.getRestaurantAddress() + ",";
-                csvWriter.append(restaurantAddress);
-                csvWriter.append(";");
+
+                String restaurantName = restaurant.getRestaurantName() + ";";
+                String restaurantAddress = restaurant.getRestaurantAddress() + ";";
+
                 for (Food food : restaurant.getFoods()) {
-                    String foodName = food.getFoodName() + ",";
+                    String foodName = food.getFoodName() + ";";
+
+                    String price = food.getFoodPrice() + "€;";
+
+                    csvWriter.append(restaurantName);
+                    csvWriter.append(restaurantAddress);
                     csvWriter.append(foodName);
-                    String price = food.getFoodPrice() + "€";
                     csvWriter.append(price);
-                    csvWriter.append(";");
-                    for (Review review : food.getReviews()) {
-                        String grade = review.getGrade() + " / 5.0,";
-                        csvWriter.append(grade);
-                        csvWriter.append(review.getReview());
+
+                    if (food.getReviews().size() > 0) {
+                        for (Review review : food.getReviews()) {
+
+                            String grade = review.getGrade() + " / 5.0;";
+                            csvWriter.append(grade);
+                            csvWriter.append(review.getReview());
+                            csvWriter.append(";\n");
+                        }
+                    }
+                    else {
                         csvWriter.append(";");
+                        csvWriter.append(";\n");
                     }
 
                 }
