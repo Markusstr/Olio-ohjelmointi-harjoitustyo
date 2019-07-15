@@ -26,12 +26,12 @@ public class ReviewActivity extends AppCompatActivity {
     private String username;
     String nickname;
     private DatabaseManager dbms;
+    private TextView ownReviews;
     UniversityManager universityManager;
     FrameLayout frame;
     int reviewedFoodId;
     Review currentReview;
     TextView reviewText;
-    TextView ownReviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
