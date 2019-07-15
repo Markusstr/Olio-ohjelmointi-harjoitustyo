@@ -33,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
     Spinner settingsUniSpinner;
     UniversityManager universityManager;
     ArrayList<String> uniNames;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Set the username from another activity
         fieldUsernameText = findViewById(R.id.fieldUsernameText);
-        final String username = getIntent().getStringExtra("username");
+        username = getIntent().getStringExtra("username");
         fieldUsernameText.setText(username);
 
         fieldOldPassword = findViewById(R.id.oldPassword);
@@ -93,11 +94,42 @@ public class SettingsActivity extends AppCompatActivity {
                 if (checkOldPassword(username, oldPassword)) {
                     Snackbar.make(v, getResources().getString(R.string.settings_oldpasswordwrong), Snackbar.LENGTH_LONG).show();
                 } else {
-                    dbms.modifyNickname(username, fieldUsername.getText().toString().trim());
-                    fieldOldPassword.setText("");
-                    Toast.makeText(context, "Username changed", Toast.LENGTH_SHORT).show();
+                    if (fieldUsername.getText().toString().length() < 1 || fieldUsername.getText().toString().length() > 16) {
+                        Snackbar.make(v, getResources().getString(R.string.signup_wrongnickname), Snackbar.LENGTH_LONG).show();
+                        fieldUsername.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.error));
+                        fieldUsername.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, R.drawable.ic_error, 0);
+                        fieldUsername.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                if (fieldUsername.getText().toString().length() < 1 || fieldUsername.getText().toString().length() > 16) {
+                                    fieldUsername.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.error));
+                                    fieldUsername.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, R.drawable.ic_error, 0);
+
+                                }
+                                else {
+                                    fieldUsername.setBackgroundTintList(ContextCompat.getColorStateList(SettingsActivity.this, R.color.colorAccent));
+                                    fieldUsername.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0,0, 0);
+                                }
+
+                            }
+                        });
+                    } else {
+                        dbms.modifyNickname(username, fieldUsername.getText().toString().trim());
+                        fieldOldPassword.setText("");
+                        Toast.makeText(context, "Nickname changed", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
-                //TODO: Change username
                 InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
@@ -271,7 +303,8 @@ public class SettingsActivity extends AppCompatActivity {
     private void closeActivityCheck() {
         if (!fieldOldPassword.getText().toString().equals("") ||
                 !fieldNewPassword.getText().toString().equals("") ||
-                !fieldNewPasswordAgain.getText().toString().equals("")) {
+                !fieldNewPasswordAgain.getText().toString().equals("") ||
+                !fieldUsername.getText().toString().equals(dbms.getOwnUser(username).getNickname())) {
             new AlertDialog.Builder(SettingsActivity.this)
                     .setTitle(R.string.settings_alertdialog_notsaved)
                     .setMessage(R.string.signup_alertdialog_confirm)

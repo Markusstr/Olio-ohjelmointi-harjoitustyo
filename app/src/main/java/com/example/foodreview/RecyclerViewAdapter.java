@@ -86,7 +86,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         df.setMaximumFractionDigits(2);
 
         String time = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
-        System.out.println(currentItem.getDate() + "->" + time);
         if (currentItem.getDate().equals(time)) {
             viewHolder.mReview.setVisibility(View.VISIBLE);
             //TODO: Get this method working

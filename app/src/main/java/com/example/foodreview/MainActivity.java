@@ -243,8 +243,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_review) {
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("username", username);
+            startActivity(intent);
             startActivityForResult(intent, 3);
-            //TODO: Intent.putExtra(username)
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             intent.putExtra("username", username);
@@ -279,20 +279,24 @@ public class MainActivity extends AppCompatActivity
 
 
         ReviewFragment reviewFragment = (ReviewFragment) manager.findFragmentById(R.id.reviewFragmentWindow);
+        assert reviewFragment != null;
         String newReviewString = reviewFragment.getReviewString();
         float newReviewGrade = reviewFragment.getReviewGrade();
         String newReviewFood = reviewFragment.getReviewFoodName();
 
+
+        //TODO: Can user submit a review without text?
         if (!newReviewString.equals("")) {
             frame.setVisibility(View.INVISIBLE);
             transaction.detach(reviewFragment);
             transaction.commit();
-            Toast.makeText(this, "reviewed " + newReviewFood, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.main_foodreviewed) + " " + newReviewFood, Toast.LENGTH_SHORT).show();
             dbms.setNewReview(newReviewString, newReviewGrade, username, reviewedFood.getFoodId());
             dbms.updateReviews(reviewedFood);
 
             mAdapter.notifyDataSetChanged();
         } else {
+            //TODO: String hardcoded
             Toast.makeText(this, "Come on, write a few words as well!", Toast.LENGTH_SHORT).show();
         }
     }
