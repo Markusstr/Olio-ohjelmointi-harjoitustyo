@@ -281,6 +281,7 @@ class DatabaseManager {
             uniName = newCursor.getString(newCursor.getColumnIndex(tableUniversity.COLUMN_UNINAME));
             universities.add(new University(uniId, uniName));
         }
+        newCursor.close();
         uniMan.setUniversities(universities);
     }
 
@@ -324,6 +325,7 @@ class DatabaseManager {
             Restaurant newRestaurant = new Restaurant(newId, newName, newAddressArray, newAddressId, newIsEnabled);
             restaurants.add(newRestaurant);
         }
+        newCursor.close();
         thisUniversity.setRestaurants(restaurants);
     }
 
@@ -347,7 +349,7 @@ class DatabaseManager {
             foodTemp = new Food(newFoodName,newFoodId,newFoodPrice,newDate);
             foods.add(foodTemp);
         }
-
+        newCursor.close();
         restaurant.setRestaurantFoods(foods);
 
     }
@@ -374,6 +376,7 @@ class DatabaseManager {
             reviewTemp = new Review(reviewId ,foodId, stars, review, username);
             reviews.add(reviewTemp);
         }
+        newCursor.close();
         food.setReviews(reviews);
     }
 
