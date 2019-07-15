@@ -42,10 +42,9 @@ public class PasswordChecker {
         if (!password.matches(".*\\d.*")) {
             message = message.concat(context.getResources().getString(R.string.signup_password_nonumbers) + "\n");
         }
-        if (!Pattern.compile("(?=.*[@#$%^&+=]).*").matcher(password).matches()) {
+        if (!Pattern.compile("(?=.*[@#$%^&+=€/()_]).*").matcher(password).matches()) {
             message = message.concat(context.getResources().getString(R.string.signup_password_nospecialchar));
         }
-//        TODO: Check if password contains special letter
 
         return message;
     }
