@@ -86,25 +86,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         df.setMaximumFractionDigits(2);
 
         String time = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
-        if (currentItem.getDate().equals(time)) {
-            viewHolder.mReview.setVisibility(View.VISIBLE);
-            //TODO: Get this method working
-            ArrayList<Review> reviews = currentItem.getReviews();
-            for (int x = 0; x < reviews.size(); x++) {
-                if (reviews.get(x).getUserId().equals(username)){
-                    viewHolder.mReview.setEnabled(false);
-                    viewHolder.mReview.setAlpha(0.3f);
-                }
-            }
-        }
-        else {
-            viewHolder.mReview.setVisibility(View.INVISIBLE);
-        }
         viewHolder.mName.setText(currentItem.getFoodName());
         String price = " " + df.format(currentItem.getFoodPrice()) + "€";
         viewHolder.mPrice.setText(price);
         viewHolder.mAvgGrade.setText("4.2/5.0");
         //TODO: Average grade => viewHolder.mAvgGrade.setText();
+        if (currentItem.getDate().equals(time)) {
+            viewHolder.mReview.setVisibility(View.VISIBLE);
+            //TODO: Get this method working
+            ArrayList<Review> reviews = currentItem.getReviews();
+            if (reviews.size() > 0) {
+                for (int x = 0; x < reviews.size(); x++) {
+                    if (reviews.get(x).getUserId().equals(username)) {
+                        if (currentItem.getFoodId() == reviews.get(x).getFoodId()) {
+                            viewHolder.mReview.setEnabled(false);
+                            viewHolder.mReview.setAlpha(0.3f);
+                        }
+                    }
+                }
+            } else {
+                viewHolder.mReview.setEnabled(true);
+                viewHolder.mReview.setAlpha(1.0f);
+            }
+        }
+        else {
+            viewHolder.mReview.setVisibility(View.INVISIBLE);
+        }
 
     }
 

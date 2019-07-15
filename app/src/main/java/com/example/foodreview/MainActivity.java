@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     TextView nav_header_username;
     private int year, month, day;
     final Calendar c = Calendar.getInstance();
+    String restaurantName;
 
     private String username;
     String nickname;
@@ -173,10 +174,8 @@ public class MainActivity extends AppCompatActivity
                 reviewFragment = new ReviewFragment();
 
                 Bundle bundle = new Bundle();
+                reviewedFood = mFoodList.get(position);
                 bundle.putString("foodName", mFoodList.get(position).getFoodName());
-                reviewedFood = universityManager.getUniversity(uniNames.get
-                        (universities.getSelectedItemPosition())).getRestaurant
-                        (restaurantStrings.get(restaurants.getSelectedItemPosition())).getFoods().get(position);
                 reviewFragment.setArguments(bundle);
                 frame = findViewById(R.id.reviewFragmentWindow);
                 frame.setVisibility(View.VISIBLE);
@@ -210,7 +209,10 @@ public class MainActivity extends AppCompatActivity
         //TODO: This code catches resultCode of review screen
         else if (requestCode == 3) {
             if (resultCode == RESULT_OK) {
+                mFoodList.clear();
                 dbms.updateCascade(currentUniversity);
+                currentRestaurant = currentUniversity.getRestaurant(restaurantName);
+                mFoodList.addAll(currentRestaurant.getRestaurantFoods(thisDate));
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -235,7 +237,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            //TODO Handle the main menu action
+            //Nothing to do here
         } else if (id == R.id.nav_admin){
             Intent intent = new Intent(this, AdminActivity.class);
             intent.putExtra("username", username);
@@ -243,7 +245,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_review) {
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("username", username);
-            startActivity(intent);
             startActivityForResult(intent, 3);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
@@ -251,7 +252,6 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent, 2);
 
         } else if (id == R.id.nav_log_out) {
-            //TODO Handle logging out properly
             Intent intent = new Intent(this, LogInActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.restaurantSpinner:
-                String restaurantName = parent.getItemAtPosition(position).toString();
+                restaurantName = parent.getItemAtPosition(position).toString();
                 System.out.println(restaurantName);
                 currentRestaurant = currentUniversity.getRestaurant(restaurantName);
                 if (currentRestaurant == null) {

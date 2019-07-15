@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ReviewActivity">
 
+    <FrameLayout
+        android:id="@+id/editReviewFragmentWindow"
+        android:layout_width="410dp"
+        android:layout_height="379dp"
+        android:layout_marginTop="32dp"
+        android:background="#2196F3"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/foodListView"
+        app:layout_constraintStart_toStartOf="@+id/foodListView"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
