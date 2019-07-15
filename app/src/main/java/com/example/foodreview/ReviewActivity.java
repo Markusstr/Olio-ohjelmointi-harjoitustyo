@@ -85,6 +85,8 @@ public class ReviewActivity extends AppCompatActivity {
         mReviewList.remove(position);
         mAdapter.notifyItemRemoved(position);
         dbms.deleteReview(review);
+        String reviews = " " + mReviewList.size();
+        ownReviews.setText(reviews);
     }
 
     public void buildRecyclerView() {
