@@ -22,6 +22,7 @@ public class ReviewActivity extends AppCompatActivity {
     private String username;
     String nickname;
     private DatabaseManager dbms;
+    private TextView ownReviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class ReviewActivity extends AppCompatActivity {
             reviewText.setText(getResources().getString(R.string.review_reviewtext));
         }
 
-        TextView ownReviews = findViewById(R.id.ownReviews);
+        ownReviews = findViewById(R.id.ownReviews);
         String reviews = " " + mReviewList.size();
         ownReviews.setText(reviews);
 
@@ -73,6 +74,8 @@ public class ReviewActivity extends AppCompatActivity {
         mReviewList.remove(position);
         mAdapter.notifyItemRemoved(position);
         dbms.deleteReview(review);
+        String reviews = " " + mReviewList.size();
+        ownReviews.setText(reviews);
     }
 
     public void buildRecyclerView() {
