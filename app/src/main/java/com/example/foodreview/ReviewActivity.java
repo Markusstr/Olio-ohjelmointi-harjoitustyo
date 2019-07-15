@@ -124,8 +124,6 @@ public class ReviewActivity extends AppCompatActivity {
             public void onDeleteClick(int position) {
                 Review review = mReviewList.get(position);
                 deleteItem(position, review);
-                String reviews = " " + mReviewList.size();
-                ownReviews.setText(reviews);
             }
         });
     }
