@@ -1,13 +1,17 @@
 package com.example.foodreview;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -23,12 +27,19 @@ public class ReviewActivity extends AppCompatActivity {
     String nickname;
     private DatabaseManager dbms;
     private TextView ownReviews;
+    UniversityManager universityManager;
+    FrameLayout frame;
+    int reviewedFoodId;
+    Review currentReview;
+    TextView reviewText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         dbms = DatabaseManager.getInstance(this);
+        universityManager = UniversityManager.getInstance();
+
 
         username = getIntent().getStringExtra("username");
         nickname = dbms.getOwnUser(username).getNickname();
@@ -38,7 +49,7 @@ public class ReviewActivity extends AppCompatActivity {
 
         mReviewList = new ArrayList<>();
 
-        TextView reviewText = findViewById(R.id.profileReviewText);
+        reviewText = findViewById(R.id.profileReviewText);
 
 
 
@@ -95,6 +106,18 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onEditClick(int position) {
                 //TODO: Edit fragment
+                frame = findViewById(R.id.editReviewFragmentWindow);
+                frame.setVisibility(View.VISIBLE);
+                ReviewEditReviewFragment reviewEditReviewFragment = new ReviewEditReviewFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("reviewString", mReviewList.get(position).getReview());
+                reviewEditReviewFragment.setArguments(bundle);
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.editReviewFragmentWindow, reviewEditReviewFragment);
+                transaction.commit();
+                reviewedFoodId = mReviewList.get(position).getFoodId();
+                currentReview = mReviewList.get(position);
             }
 
             @Override
@@ -114,5 +137,46 @@ public class ReviewActivity extends AppCompatActivity {
         Intent intent = new Intent();
         setResult(RESULT_OK,intent);
         finish();
+    }
+
+    public void cancelEdit(View view) {
+        frame.setVisibility(View.INVISIBLE);
+    }
+
+    public void saveEdit(View view) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+
+        ReviewEditReviewFragment revieweditReviewFragment = (ReviewEditReviewFragment) manager.findFragmentById(R.id.editReviewFragmentWindow);
+        assert revieweditReviewFragment != null;
+        String newReviewString = revieweditReviewFragment.getReviewString();
+        float newReviewGrade = revieweditReviewFragment.getReviewGrade();
+        String newReviewFood = revieweditReviewFragment.getReviewFoodName();
+
+
+        //TODO: Can user submit a review without text?
+        if (!newReviewString.equals("")) {
+            frame.setVisibility(View.INVISIBLE);
+            transaction.detach(revieweditReviewFragment);
+            transaction.commit();
+            Toast.makeText(this, getResources().getString(R.string.main_foodreviewed) + " " + newReviewFood, Toast.LENGTH_SHORT).show();
+            dbms.modifyReviewData(currentReview, newReviewString, newReviewGrade);
+
+            mAdapter.notifyDataSetChanged();
+        } else {
+            //TODO: String hardcoded
+            Toast.makeText(this, "Come on, write a few words as well!", Toast.LENGTH_SHORT).show();
+        }
+
+        mReviewList.clear();
+        if (dbms.isAdmin(username)) {
+            mReviewList.addAll(dbms.getAllReviews());
+        }
+        else {
+            mReviewList.addAll(dbms.getReviewsForUser(username));
+        }
+        mAdapter.notifyDataSetChanged();
+
     }
 }
