@@ -98,4 +98,11 @@
     <string name="signup_wrongnickname">Nimimerkissä pitää olla vähintään 1 merkki ja maksimissaan 16 merkkiä</string>
     <string name="review_reviewadmintext">Kaikki arvostelut:</string>
     <string name="main_foodreviewed">Arvosteltu</string>
+    <string name="admin_fillempty">Täytä tyhjät kentät</string>
+    <string name="cancelled">Peruutettu</string>
+    <string name="newrestaurant">"Uusi ravintola "</string>
+    <string name="newfood">"Uusi ruoka "</string>
+    <string name="editfood">"Muutettu ruokaa "</string>
+    <string name="editrestaurant">"Muutettu ravintolaa "</string>
+    <string name="review_writeafewwords">Äläs nyt, kirjoitathan pari sanaa myös!</string>
 </resources>

@@ -25,7 +25,7 @@ public class AdminEditFragment extends Fragment {
     Spinner restaurantEditUniSpinner;
     UniversityManager universityManager;
     ArrayList<String> uniNames;
-    String arg;
+    String name;
 
     @Nullable
     @Override
@@ -39,12 +39,12 @@ public class AdminEditFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         assert getArguments() != null;
-        arg = getArguments().getString("restaurantName");//Sets the admin edit fragment's textviews to correspond the correct information
-        String arg2 = getArguments().getString("restaurantAddress");
-        String arg3 = getArguments().getString("restaurantPC");
-        String arg4 = getArguments().getString("restaurantCity");
-        boolean arg5 = getArguments().getBoolean("restaurantEnabled");
-        int arg6 = getArguments().getInt("restaurantUni");
+        name = getArguments().getString("restaurantName");//Sets the admin edit fragment's textviews to correspond the correct information
+        String address = getArguments().getString("restaurantAddress");
+        String postalcode = getArguments().getString("restaurantPC");
+        String city = getArguments().getString("restaurantCity");
+        boolean isEnabled = getArguments().getBoolean("restaurantEnabled");
+        int uni = getArguments().getInt("restaurantUni");
         fieldRestaurantName = this.view.findViewById(R.id.fieldRestaurantName);
         fieldRestaurantAddress = this.view.findViewById(R.id.fieldRestaurantAddress);
         fieldRestaurantPC = this.view.findViewById(R.id.fieldRestaurantPC);
@@ -54,17 +54,17 @@ public class AdminEditFragment extends Fragment {
         universityManager = UniversityManager.getInstance();
         uniNames = universityManager.getUniNames();
 
-        fieldRestaurantName.setText(arg);
-        fieldRestaurantAddress.setText(arg2);
-        fieldRestaurantPC.setText(arg3);
-        fieldRestaurantCity.setText(arg4);
-        restaurantEnabled.setChecked(arg5);
+        fieldRestaurantName.setText(name);
+        fieldRestaurantAddress.setText(address);
+        fieldRestaurantPC.setText(postalcode);
+        fieldRestaurantCity.setText(city);
+        restaurantEnabled.setChecked(isEnabled);
 
         ArrayAdapter<String> adapterUni = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, uniNames);
         adapterUni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         restaurantEditUniSpinner.setAdapter(adapterUni);
 
-        restaurantEditUniSpinner.setSelection(arg6);
+        restaurantEditUniSpinner.setSelection(uni);
     }
 
     public String getEditRestaurantName() {
@@ -98,7 +98,7 @@ public class AdminEditFragment extends Fragment {
     }
 
     public String getEditRestaurantOldName() {
-        String oldName = arg;
+        String oldName = name;
         return oldName;
     }
 

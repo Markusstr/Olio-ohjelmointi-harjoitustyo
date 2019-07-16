@@ -18,8 +18,7 @@ public class ReviewEditReviewFragment extends Fragment {
     TextView foodTitleName;
     TextView reviewLetters;
     int letters;
-    String arg;
-    float arg2;
+    String review;
     RatingBar ratingBar;
 
     @Nullable
@@ -34,12 +33,12 @@ public class ReviewEditReviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         try {
             assert getArguments() != null;
-            arg = getArguments().getString("reviewString"); //Sets the edit review fragment's data to correspond the correct data
+            review = getArguments().getString("reviewString"); //Sets the edit review fragment's data to correspond the correct data
             foodTitleName = this.view.findViewById(R.id.editFoodTitleName);
             reviewWords = this.view.findViewById(R.id.editReviewWords);
             reviewLetters = this.view.findViewById(R.id.editReviewLetters);
             ratingBar = this.view.findViewById(R.id.editRatingBar);
-            reviewWords.setText(arg + "");
+            reviewWords.setText(review + "");
             letters = reviewWords.getText().length();
             reviewLetters.setText(letters + "");
         } catch (Exception e) {
@@ -67,7 +66,7 @@ public class ReviewEditReviewFragment extends Fragment {
     }
 
     public String getReviewFoodName() {
-        return arg;
+        return review;
     }
 
     public float getReviewGrade() {

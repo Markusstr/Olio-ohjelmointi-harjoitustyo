@@ -98,4 +98,11 @@
     <string name="signup_wrongnickname">Nickname must contain atleast 1 character and max 16 characters</string>
     <string name="review_reviewadmintext">All reviews:</string>
     <string name="main_foodreviewed">Reviewed</string>
+    <string name="admin_fillempty">Fill empty fields</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="newrestaurant">New restaurant</string>
+    <string name="newfood">New food</string>
+    <string name="editrestaurant">"Edited restaurant "</string>
+    <string name="editfood">"Edited food "</string>
+    <string name="review_writeafewwords">Come on, write a few words as well!</string>
 </resources>

@@ -282,6 +282,7 @@ class DatabaseManager {
             universities.add(new University(uniId, uniName));
         }
         uniMan.setUniversities(universities);
+        newCursor.close();
     }
 
     // Update Methods:
@@ -325,6 +326,7 @@ class DatabaseManager {
             restaurants.add(newRestaurant);
         }
         thisUniversity.setRestaurants(restaurants);
+        newCursor.close();
     }
 
     private void updateFoods (Restaurant restaurant) {
@@ -349,6 +351,7 @@ class DatabaseManager {
         }
 
         restaurant.setRestaurantFoods(foods);
+        newCursor.close();
 
     }
 
@@ -375,6 +378,7 @@ class DatabaseManager {
             reviews.add(reviewTemp);
         }
         food.setReviews(reviews);
+        newCursor.close();
     }
 
 

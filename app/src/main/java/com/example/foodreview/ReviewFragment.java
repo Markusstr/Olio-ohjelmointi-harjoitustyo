@@ -19,7 +19,7 @@ public class ReviewFragment extends Fragment {
     TextView foodTitleName;
     TextView reviewLetters;
     int letters;
-    String arg;
+    String name;
     RatingBar ratingBar;
 
     @Nullable
@@ -34,12 +34,12 @@ public class ReviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         try {
             assert getArguments() != null;
-            arg = getArguments().getString("foodName"); //Sets the review fragment's title to correspond the correct food
+            name = getArguments().getString("foodName"); //Sets the review fragment's title to correspond the correct food
             foodTitleName = this.view.findViewById(R.id.foodTitleName);
             reviewWords = this.view.findViewById(R.id.reviewWords);
             reviewLetters = this.view.findViewById(R.id.reviewLetters);
             ratingBar = this.view.findViewById(R.id.ratingBar);
-            foodTitleName.setText(arg);
+            foodTitleName.setText(name);
             letters = reviewWords.getText().length();
             reviewLetters.setText(letters + "");
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class ReviewFragment extends Fragment {
     }
 
     public String getReviewFoodName() {
-        return arg;
+        return name;
     }
 
     public float getReviewGrade() {

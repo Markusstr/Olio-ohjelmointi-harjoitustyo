@@ -24,7 +24,6 @@ public class PasswordChecker {
     }
 
     //This method takes a password and runs checks. Returns string of error messages.
-    //TODO: this method!
     String checker (String password) {
         String message = "";
         if (password.length() < 12) {

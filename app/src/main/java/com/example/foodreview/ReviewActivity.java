@@ -105,7 +105,6 @@ public class ReviewActivity extends AppCompatActivity {
 
             @Override
             public void onEditClick(int position) {
-                //TODO: Edit fragment
                 frame = findViewById(R.id.editReviewFragmentWindow);
                 frame.setVisibility(View.VISIBLE);
                 ReviewEditReviewFragment reviewEditReviewFragment = new ReviewEditReviewFragment();
@@ -155,7 +154,6 @@ public class ReviewActivity extends AppCompatActivity {
         String newReviewFood = revieweditReviewFragment.getReviewFoodName();
 
 
-        //TODO: Can user submit a review without text?
         if (!newReviewString.equals("")) {
             frame.setVisibility(View.INVISIBLE);
             transaction.detach(revieweditReviewFragment);
@@ -165,8 +163,7 @@ public class ReviewActivity extends AppCompatActivity {
 
             mAdapter.notifyDataSetChanged();
         } else {
-            //TODO: String hardcoded
-            Toast.makeText(this, "Come on, write a few words as well!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getText(R.string.review_writeafewwords), Toast.LENGTH_SHORT).show();
         }
 
         mReviewList.clear();

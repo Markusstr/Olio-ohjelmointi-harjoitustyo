@@ -31,7 +31,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-//TODO doge is wow
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Spinner.OnItemSelectedListener {
 
@@ -116,12 +115,12 @@ public class MainActivity extends AppCompatActivity
 
         if (dbms.isAdmin(username)) {
             navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, true);
-//            navigationView.getMenu().setGroupEnabled(R.id.menu_admingroup, false);
         }
         else {
             navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, false);
         }
 
+        //TODO doge is wow
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -199,15 +198,12 @@ public class MainActivity extends AppCompatActivity
                 makeRestaurantSpinner(currentUniversityName);
 
             }
-        }
-        else if (requestCode == 2) {
+        } else if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 nickname = dbms.getOwnUser(username).getNickname();
                 nav_header_username.setText(nickname);
             }
-        }
-        //TODO: This code catches resultCode of review screen
-        else if (requestCode == 3) {
+        } else if (requestCode == 3) {
             if (resultCode == RESULT_OK) {
                 mFoodList.clear();
                 dbms.updateCascade(currentUniversity);
@@ -285,7 +281,6 @@ public class MainActivity extends AppCompatActivity
         String newReviewFood = reviewFragment.getReviewFoodName();
 
 
-        //TODO: Can user submit a review without text?
         if (!newReviewString.equals("")) {
             frame.setVisibility(View.INVISIBLE);
             transaction.detach(reviewFragment);
@@ -296,8 +291,7 @@ public class MainActivity extends AppCompatActivity
 
             mAdapter.notifyDataSetChanged();
         } else {
-            //TODO: String hardcoded
-            Toast.makeText(this, "Come on, write a few words as well!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getText(R.string.review_writeafewwords), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -318,12 +312,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        System.out.println("Going to item selected." + parent.getId());
-
         switch (parent.getId()) {
             case R.id.universitySpinner:
                 String uniName = parent.getItemAtPosition(position).toString();
-                System.out.println(uniName);
                 dbms.updateUniversities();
                 currentUniversity = universityManager.getUniversity(uniName);
                 if (currentUniversity == null) {
@@ -335,7 +326,6 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.restaurantSpinner:
                 restaurantName = parent.getItemAtPosition(position).toString();
-                System.out.println(restaurantName);
                 currentRestaurant = currentUniversity.getRestaurant(restaurantName);
                 if (currentRestaurant == null) {
                     return;
