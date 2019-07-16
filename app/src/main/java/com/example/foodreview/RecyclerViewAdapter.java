@@ -84,13 +84,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         DecimalFormat df = new DecimalFormat("0.00");
         df.setMaximumFractionDigits(2);
+        DecimalFormat df2 = new DecimalFormat("0.00");
+        df2.setMaximumFractionDigits(1);
 
         String time = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
         viewHolder.mName.setText(currentItem.getFoodName());
         String price = " " + df.format(currentItem.getFoodPrice()) + "€";
         viewHolder.mPrice.setText(price);
-        viewHolder.mAvgGrade.setText("4.2/5.0");
-        //TODO: Average grade => viewHolder.mAvgGrade.setText();
+        String gradeText;
+        if (currentItem.getReviews().size() != 0) {
+            float grade = 0;
+            for (Review review : currentItem.getReviews()) {
+                grade += review.getGrade();
+            }
+            grade /= currentItem.getReviews().size();
+            gradeText = " " + df2.format(grade) + " / 5.0";
+        } else {
+            gradeText = " - / 5.0";
+        }
+        viewHolder.mAvgGrade.setText(gradeText);
         if (currentItem.getDate().equals(time)) {
             viewHolder.mReview.setVisibility(View.VISIBLE);
             ArrayList<Review> reviews = currentItem.getReviews();
