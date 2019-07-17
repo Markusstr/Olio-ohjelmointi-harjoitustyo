@@ -129,9 +129,14 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 transactionNewFood.commit();
                 frame.setVisibility(View.VISIBLE);
                 break;
-            case R.id.admin_action_save:
+            case R.id.admin_action_savecsv:
                 PrintToFile csvWriter = PrintToFile.getInstance();
                 csvWriter.executePrint(this, universityManager.getUniversity(uniName));
+                break;
+            case R.id.admin_action_savejson:
+                //TODO: Save to JSON
+                Toast.makeText(context, "JSON", Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }

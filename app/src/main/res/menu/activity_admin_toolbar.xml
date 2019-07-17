@@ -24,8 +24,15 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/admin_action_save"
+        android:id="@+id/admin_action_savecsv"
         android:orderInCategory="3"
-        android:title="@string/admin_menu_save"
+        android:title="@string/admin_menu_savecsv"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/admin_action_savejson"
+        android:orderInCategory="4"
+        android:title="@string/admin_menu_savejson"
+        app:showAsAction="never" />
+
 </menu>

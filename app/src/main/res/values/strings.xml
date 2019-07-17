@@ -80,7 +80,7 @@
     <string name="adminusermanager_menu_main">Manage restaurants and foods</string>
     <string name="admin_menu_usermanager">Manage users</string>
     <string name="adminusermanager_title">User manager</string>
-    <string name="admin_menu_save">Save to file</string>
+    <string name="admin_menu_savecsv">Save to CSV</string>
     <string name="adminusermanager_adminrow">Admin</string>
     <string name="admin_fragment_newrestaurant">Admin\'s new restaurant view</string>
     <string name="admin_fragment_newfood">Admin\'s new food view</string>
@@ -105,4 +105,5 @@
     <string name="editrestaurant">"Edited restaurant "</string>
     <string name="editfood">"Edited food "</string>
     <string name="review_writeafewwords">Come on, write a few words as well!</string>
+    <string name="admin_menu_savejson">Save to JSON</string>
 </resources>

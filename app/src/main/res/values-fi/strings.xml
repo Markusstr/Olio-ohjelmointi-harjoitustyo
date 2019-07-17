@@ -80,7 +80,7 @@
     <string name="adminusermanager_menu_main">Hallitse ravintoloita ja ruokia</string>
     <string name="admin_menu_usermanager">Hallitse käyttäjiä</string>
     <string name="adminusermanager_title">Käyttäjien hallinta</string>
-    <string name="admin_menu_save">Tallenna tiedostoon</string>
+    <string name="admin_menu_savecsv">Tallenna CSV-tiedostoon</string>
     <string name="adminusermanager_adminrow">Ylläpitäjä</string>
     <string name="admin_fragment_newrestaurant">Ylläpitäjän uusi ravintola -näkymä</string>
     <string name="admin_fragment_newfood">Ylläpitäjän uusi ruoka -näkymä</string>
@@ -105,4 +105,5 @@
     <string name="editfood">"Muutettu ruokaa "</string>
     <string name="editrestaurant">"Muutettu ravintolaa "</string>
     <string name="review_writeafewwords">Äläs nyt, kirjoitathan pari sanaa myös!</string>
+    <string name="admin_menu_savejson">Tallenna JSON-tiedostoon</string>
 </resources>
