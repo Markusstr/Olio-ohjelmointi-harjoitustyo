@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         mAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(MainActivity.this, "ItemClick", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

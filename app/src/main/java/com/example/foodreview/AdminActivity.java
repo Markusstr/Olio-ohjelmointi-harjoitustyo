@@ -134,8 +134,8 @@ public class AdminActivity extends AppCompatActivity implements Spinner.OnItemSe
                 csvWriter.executePrint(this, universityManager.getUniversity(uniName));
                 break;
             case R.id.admin_action_savejson:
-                //TODO: Save to JSON
-                Toast.makeText(context, "JSON", Toast.LENGTH_SHORT).show();
+                PrintToFile jsonWriter = PrintToFile.getInstance();
+                jsonWriter.writeJSON(this);
                 break;
         }
         return true;
