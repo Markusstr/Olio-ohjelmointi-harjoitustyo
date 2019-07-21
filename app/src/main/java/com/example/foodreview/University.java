@@ -2,31 +2,51 @@ package com.example.foodreview;
 
 import java.util.ArrayList;
 
-public class University {
+// University is a class that also functions as a manager for all restaurants.
+class University {
     private String name;
-    private String id;
-    ArrayList<University> uniList = new ArrayList<>();
+    private int id;
+    private ArrayList<Restaurant> restaurants;
 
-    private static University university = new University();
-
-    public static University getInstance() { return university; }
-
-    private University() {
+    University(int uniId, String uniName) {
+        name = uniName;
+        id = uniId;
 
     }
 
-    public String getUniName() {
+    String getUniName() {
         return name;
     }
 
-    public String getUniId() {
+    int getUniId() {
         return id;
     }
 
-    public void newUni(String newName, String newId) {
-        University newUni = new University();
-        newUni.name = newName;
-        newUni.id = newId;
-        uniList.add(newUni);
+    ArrayList<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    void setRestaurants(ArrayList<Restaurant> newRestaurants) {
+
+        System.out.println("Onnistuneesti tämän pituinen newRestaurants " + newRestaurants.size());
+        restaurants = newRestaurants;
+    }
+
+    Restaurant getRestaurant (String name) {
+
+        for (int x = 0; x < restaurants.size(); x++) {
+            if (name.equals(restaurants.get(x).getRestaurantName())) {
+                return restaurants.get(x);
+            }
+        }
+        //System.out.println("Null returned");
+        return null;
+    }
+    ArrayList<String> getRestaurantStrings () {
+        ArrayList<String> restaurantStrings = new ArrayList<>();
+        for (int x = 0; x < restaurants.size(); x++) {
+            restaurantStrings.add(restaurants.get(x).getRestaurantName());
+        }
+        return restaurantStrings;
     }
 }

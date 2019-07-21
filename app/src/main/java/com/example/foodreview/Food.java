@@ -1,25 +1,42 @@
 package com.example.foodreview;
 
-public class Food {
-    private String name;
-    private String id;
-    private double price;
+import java.util.ArrayList;
 
-    public Food(String newName, String newId, double newPrice) {
+class Food {
+    private String name;
+    private int id;
+    private float price;
+    private String date;
+    private ArrayList<Review> reviews;
+
+    Food(String newName, int newId, float newPrice, String newDate) {
         name = newName;
         id = newId;
         price = newPrice;
+        date = newDate;
     }
 
-    public String getFoodName() {
+    String getFoodName() {
         return name;
     }
 
-    public String getFoodId() {
+    int getFoodId() {
         return id;
     }
 
-    public double getFoodPrice() {
+    float getFoodPrice() {
         return price;
+    }
+
+    String getDate() {
+        return date;
+    }
+
+    void setReviews(ArrayList<Review> newReviews) {
+        reviews = newReviews;
+    }
+
+    ArrayList<Review> getReviews() {
+        return reviews;
     }
 }

@@ -1,31 +1,47 @@
 package com.example.foodreview;
 
-public class Review {
-    private String id;
-    private String review;
-    private int grade;
-    private String reviewer;
 
-    public Review(String newId, String newReview, int newGrade, String newReviewer) {
-        id = newId;
+class Review {
+    private int reviewId;
+    private int foodId;
+    private String review;
+    private float grade;
+    private String username;
+    private String foodName;
+
+    Review(int newReviewId, int newFoodId, float newStars, String newReview, String newUsername) {
+        reviewId = newReviewId;
+        foodId = newFoodId;
+        grade = newStars;
+        username = newUsername;
         review = newReview;
-        grade = newGrade;
-        reviewer = newReviewer;
+        foodName = null;
     }
 
-    public String getReview() {
+    String getReview() {
         return review;
     }
 
-    public String getReviewId() {
-        return id;
+    void setFoodName(String newFoodName) {
+        foodName = newFoodName;
     }
 
-    public int getGrade() {
+    int getFoodId() { return foodId; }
+
+    int getReviewId() {
+        return reviewId;
+    }
+
+    float getGrade() {
         return grade;
     }
 
-    public String getReviewer() {
-        return reviewer;
+    String getUserId() {
+        return username;
     }
+
+    String getFoodName() {
+        return foodName;
+    }
+
 }
