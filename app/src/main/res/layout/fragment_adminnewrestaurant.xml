@@ -61,7 +61,7 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="65dp"
+        android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_marginStart="8dp"
         android:onClick="saveNewRestaurant"
@@ -71,7 +71,7 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:onClick="continueClick"
