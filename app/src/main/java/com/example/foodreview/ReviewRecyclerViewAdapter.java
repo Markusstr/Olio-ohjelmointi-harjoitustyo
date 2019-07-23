@@ -99,7 +99,6 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecycl
         reviewViewHolder.mGrade.setText(grade);
         reviewViewHolder.mText.setText(currentItem.getReview());
 
-        //TODO: Set text views
 
     }
 

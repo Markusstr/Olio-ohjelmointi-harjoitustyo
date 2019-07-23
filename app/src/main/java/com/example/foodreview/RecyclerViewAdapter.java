@@ -84,27 +84,45 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         DecimalFormat df = new DecimalFormat("0.00");
         df.setMaximumFractionDigits(2);
+        DecimalFormat df2 = new DecimalFormat("0.00");
+        df2.setMaximumFractionDigits(1);
 
         String time = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
+        viewHolder.mName.setText(currentItem.getFoodName());
+        String price = " " + df.format(currentItem.getFoodPrice()) + "€";
+        viewHolder.mPrice.setText(price);
+        String gradeText;
+        if (currentItem.getReviews().size() != 0) {
+            float grade = 0;
+            for (Review review : currentItem.getReviews()) {
+                grade += review.getGrade();
+            }
+            grade /= currentItem.getReviews().size();
+            gradeText = " " + df2.format(grade) + " / 5.0";
+        } else {
+            gradeText = " - / 5.0";
+        }
+        viewHolder.mAvgGrade.setText(gradeText);
         if (currentItem.getDate().equals(time)) {
             viewHolder.mReview.setVisibility(View.VISIBLE);
-            //TODO: Get this method working
             ArrayList<Review> reviews = currentItem.getReviews();
-            for (int x = 0; x < reviews.size(); x++) {
-                if (reviews.get(x).getUserId().equals(username)){
-                    viewHolder.mReview.setEnabled(false);
-                    viewHolder.mReview.setAlpha(0.3f);
+            if (reviews.size() > 0) {
+                for (int x = 0; x < reviews.size(); x++) {
+                    if (reviews.get(x).getUserId().equals(username)) {
+                        if (currentItem.getFoodId() == reviews.get(x).getFoodId()) {
+                            viewHolder.mReview.setEnabled(false);
+                            viewHolder.mReview.setAlpha(0.3f);
+                        }
+                    }
                 }
+            } else {
+                viewHolder.mReview.setEnabled(true);
+                viewHolder.mReview.setAlpha(1.0f);
             }
         }
         else {
             viewHolder.mReview.setVisibility(View.INVISIBLE);
         }
-        viewHolder.mName.setText(currentItem.getFoodName());
-        String price = " " + df.format(currentItem.getFoodPrice()) + "€";
-        viewHolder.mPrice.setText(price);
-        viewHolder.mAvgGrade.setText("4.2/5.0");
-        //TODO: Average grade => viewHolder.mAvgGrade.setText();
 
     }
 
@@ -113,78 +131,3 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mFoodList.size();
     }
 }
-
-
-    // data is passed into the constructor
-//    RecyclerViewAdapter(Context context, ArrayList<String> dataNames, ArrayList<Float> dataPrices) {
-//        this.mInflater = LayoutInflater.from(context);
-//        this.mDataNames = dataNames;
-//        this.mDataPrices = dataPrices;
-//    }
-//    // inflates the row layout from xml when needed
-//    @NonNull
-//    @Override
-//    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
-//        return new ViewHolder(view);
-//    }
-//
-//    // binds the data to the TextView in each row
-//    @SuppressLint("SetTextI18n")
-//    @Override
-//    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//
-//        DecimalFormat df = new DecimalFormat("0.00");
-//        df.setMaximumFractionDigits(2);
-//
-//        String food = mDataNames.get(position);
-//        holder.foodName.setText(food);
-//        float price = mDataPrices.get(position);
-//        String priceToString = df.format(price);
-//
-//        holder.foodPrice.setText(priceToString + " €");
-//    }
-//
-//    // total number of rows
-//    @Override
-//    public int getItemCount() {
-//        return mDataNames.size();
-//    }
-//
-//
-//    // stores and recycles views as they are scrolled off screen
-//    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-//        TextView foodName;
-//        TextView foodPrice;
-//        TextView review;
-//
-//        ViewHolder(View itemView) {
-//            super(itemView);
-//            foodName = itemView.findViewById(R.id.foodName);
-//            foodPrice = itemView.findViewById(R.id.foodPrice);
-//            review = itemView.findViewById(R.id.TextView);
-//            itemView.setOnClickListener(this);
-//        }
-//
-//        @Override
-//        public void onClick(View view) {
-//            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-//        }
-//    }
-//
-//    // convenience method for getting data at click position
-//    String getName(int id) {
-//        return mDataNames.get(id);
-//    }
-//
-//    // allows clicks events to be caught
-//    void setClickListener(ItemClickListener itemClickListener) {
-//        this.mClickListener = itemClickListener;
-//    }
-//
-//    // parent activity will implement this method to respond to click events
-//    public interface ItemClickListener {
-//        void onItemClick(View view, int position);
-//    }
-//
-//}

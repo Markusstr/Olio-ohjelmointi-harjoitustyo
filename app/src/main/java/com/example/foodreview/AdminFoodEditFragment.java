@@ -20,8 +20,8 @@ public class AdminFoodEditFragment extends Fragment {
     EditText fieldFoodName;
     EditText fieldFoodPrice;
     EditText fieldFoodDate;
-    int arg5;
-    String arg4;
+    int selection;
+    String uni;
 
     @Nullable
     @Override
@@ -35,18 +35,18 @@ public class AdminFoodEditFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         try {
             assert getArguments() != null;
-            String arg = getArguments().getString("foodName");//Sets the admin edit fragment's textviews to correspond the correct information
-            String arg2 = getArguments().getString("foodPrice");
-            String arg3 = getArguments().getString("foodDate");
-            arg4 = getArguments().getString("foodUni");
-            arg5 = getArguments().getInt("selectedFood");
+            String name = getArguments().getString("foodName");//Sets the admin edit fragment's textviews to correspond the correct information
+            String price = getArguments().getString("foodPrice");
+            String date = getArguments().getString("foodDate");
+            uni = getArguments().getString("foodUni");
+            selection = getArguments().getInt("selectedFood");
             fieldFoodName = this.view.findViewById(R.id.fieldFoodName);
             fieldFoodPrice = this.view.findViewById(R.id.fieldFoodPrice);
             fieldFoodDate = this.view.findViewById(R.id.fieldFoodDate);
 
-            fieldFoodName.setText(arg);
-            fieldFoodPrice.setText(arg2);
-            fieldFoodDate.setText(arg3);
+            fieldFoodName.setText(name);
+            fieldFoodPrice.setText(price);
+            fieldFoodDate.setText(date);
         } catch (Exception e) {
         }
     }
@@ -67,11 +67,11 @@ public class AdminFoodEditFragment extends Fragment {
     }
 
     public String getFoodUni() {
-        return arg4;
+        return uni;
     }
 
     public int getSelectedFood() {
-        return arg5;
+        return selection;
     }
 
 

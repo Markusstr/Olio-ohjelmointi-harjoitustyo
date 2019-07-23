@@ -296,7 +296,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-        //TODO: Make this activity seem nicer and add an Old password -screen!
     }
 
     //If user has typed something in the text fields and tries to leave, alert dialog shows up

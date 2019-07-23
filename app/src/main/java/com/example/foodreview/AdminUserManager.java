@@ -61,7 +61,6 @@ public class AdminUserManager extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
 
-                Toast.makeText(AdminUserManager.this, username, Toast.LENGTH_SHORT).show();
             }
 
             @Override

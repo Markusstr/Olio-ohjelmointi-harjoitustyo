@@ -31,7 +31,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-//TODO doge is wow
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Spinner.OnItemSelectedListener {
 
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     TextView nav_header_username;
     private int year, month, day;
     final Calendar c = Calendar.getInstance();
+    String restaurantName;
 
     private String username;
     String nickname;
@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity
 
         if (dbms.isAdmin(username)) {
             navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, true);
-//            navigationView.getMenu().setGroupEnabled(R.id.menu_admingroup, false);
         }
         else {
             navigationView.getMenu().setGroupVisible(R.id.menu_admingroup, false);
         }
 
+        //TODO doge is wow
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         mAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(MainActivity.this, "ItemClick", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -173,10 +173,8 @@ public class MainActivity extends AppCompatActivity
                 reviewFragment = new ReviewFragment();
 
                 Bundle bundle = new Bundle();
+                reviewedFood = mFoodList.get(position);
                 bundle.putString("foodName", mFoodList.get(position).getFoodName());
-                reviewedFood = universityManager.getUniversity(uniNames.get
-                        (universities.getSelectedItemPosition())).getRestaurant
-                        (restaurantStrings.get(restaurants.getSelectedItemPosition())).getFoods().get(position);
                 reviewFragment.setArguments(bundle);
                 frame = findViewById(R.id.reviewFragmentWindow);
                 frame.setVisibility(View.VISIBLE);
@@ -200,17 +198,17 @@ public class MainActivity extends AppCompatActivity
                 makeRestaurantSpinner(currentUniversityName);
 
             }
-        }
-        else if (requestCode == 2) {
+        } else if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 nickname = dbms.getOwnUser(username).getNickname();
                 nav_header_username.setText(nickname);
             }
-        }
-        //TODO: This code catches resultCode of review screen
-        else if (requestCode == 3) {
+        } else if (requestCode == 3) {
             if (resultCode == RESULT_OK) {
+                mFoodList.clear();
                 dbms.updateCascade(currentUniversity);
+                currentRestaurant = currentUniversity.getRestaurant(restaurantName);
+                mFoodList.addAll(currentRestaurant.getRestaurantFoods(thisDate));
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -235,7 +233,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            //TODO Handle the main menu action
+            //Nothing to do here
         } else if (id == R.id.nav_admin){
             Intent intent = new Intent(this, AdminActivity.class);
             intent.putExtra("username", username);
@@ -243,7 +241,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_review) {
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("username", username);
-            startActivity(intent);
             startActivityForResult(intent, 3);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
@@ -251,7 +248,6 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent, 2);
 
         } else if (id == R.id.nav_log_out) {
-            //TODO Handle logging out properly
             Intent intent = new Intent(this, LogInActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -285,7 +281,6 @@ public class MainActivity extends AppCompatActivity
         String newReviewFood = reviewFragment.getReviewFoodName();
 
 
-        //TODO: Can user submit a review without text?
         if (!newReviewString.equals("")) {
             frame.setVisibility(View.INVISIBLE);
             transaction.detach(reviewFragment);
@@ -296,8 +291,7 @@ public class MainActivity extends AppCompatActivity
 
             mAdapter.notifyDataSetChanged();
         } else {
-            //TODO: String hardcoded
-            Toast.makeText(this, "Come on, write a few words as well!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getText(R.string.review_writeafewwords), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -318,12 +312,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        System.out.println("Going to item selected." + parent.getId());
-
         switch (parent.getId()) {
             case R.id.universitySpinner:
                 String uniName = parent.getItemAtPosition(position).toString();
-                System.out.println(uniName);
                 dbms.updateUniversities();
                 currentUniversity = universityManager.getUniversity(uniName);
                 if (currentUniversity == null) {
@@ -334,8 +325,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.restaurantSpinner:
-                String restaurantName = parent.getItemAtPosition(position).toString();
-                System.out.println(restaurantName);
+                restaurantName = parent.getItemAtPosition(position).toString();
                 currentRestaurant = currentUniversity.getRestaurant(restaurantName);
                 if (currentRestaurant == null) {
                     return;

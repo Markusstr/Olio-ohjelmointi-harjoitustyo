@@ -2,6 +2,8 @@ package com.example.foodreview;
 
 import android.content.Context;
 
+import java.util.regex.Pattern;
+
 public class PasswordChecker {
 
     private static PasswordChecker instance = null;
@@ -22,7 +24,6 @@ public class PasswordChecker {
     }
 
     //This method takes a password and runs checks. Returns string of error messages.
-    //TODO: this method!
     String checker (String password) {
         String message = "";
         if (password.length() < 12) {
@@ -40,11 +41,9 @@ public class PasswordChecker {
         if (!password.matches(".*\\d.*")) {
             message = message.concat(context.getResources().getString(R.string.signup_password_nonumbers) + "\n");
         }
-
-//        if (!Pattern.compile("(?=.*[@#$%^&+=])").matcher(password.matches()) {
-//            message = message.concat(getResources().getString(R.string.signup_password_nospecialchar));
-//        }
-//        TODO: Check if password contains special letter
+        if (!Pattern.compile("(?=.*[@#$%^&+=€/()_]).*").matcher(password).matches()) {
+            message = message.concat(context.getResources().getString(R.string.signup_password_nospecialchar));
+        }
 
         return message;
     }
